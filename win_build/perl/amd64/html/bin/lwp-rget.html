@@ -1,0 +1,210 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>lwp-rget - Retrieve web documents recursively</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>lwp-rget - Retrieve web documents recursively</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>lwp-rget - Retrieve web documents recursively</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ lwp-rget [--verbose] [--auth=USER:PASS] [--depth=N] [--hier] [--iis]
+          [--keepext=mime/type[,mime/type]] [--limit=N] [--nospace]
+          [--prefix=URL] [--referer=URL] [--sleep=N] [--tolower] &lt;URL&gt;
+ lwp-rget --version</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This program will retrieve a document and store it in a local file.  It
+will follow any links found in the document and store these documents
+as well, patching links so that they refer to these local copies.
+This process continues until there are no more unvisited links or the
+process is stopped by the one or more of the limits which can be
+controlled by the command line arguments.</p>
+<p>This program is useful if you want to make a local copy of a
+collection of documents or want to do web reading off-line.</p>
+<p>All documents are stored as plain files in the current directory. The
+file names chosen are derived from the last component of URL paths.</p>
+<p>The options are:</p>
+<dl>
+<dt><strong><a name="auth_user_pasn" class="item">--auth=USER:PASn</a></strong>
+
+<dd>
+<p>Set the authentication credentials to user &quot;USER&quot; and password &quot;PASS&quot; if
+any restricted parts of the web site are hit.  If there are restricted
+parts of the web site and authentication credentials are not available,
+those pages will not be downloaded.</p>
+</dd>
+</li>
+<dt><strong><a name="depth_n" class="item">--depth=<em>n</em></a></strong>
+
+<dd>
+<p>Limit the recursive level. Embedded images are always loaded, even if
+they fall outside the <em>--depth</em>. This means that one can use
+<em>--depth=0</em> in order to fetch a single document together with all
+inline graphics.</p>
+</dd>
+<dd>
+<p>The default depth is 5.</p>
+</dd>
+</li>
+<dt><strong><a name="hier" class="item">--hier</a></strong>
+
+<dd>
+<p>Download files into a hierarchy that mimics the web site structure.
+The default is to put all files in the current directory.</p>
+</dd>
+</li>
+<dt><strong><a name="referer_uri" class="item">--referer=<em>URI</em></a></strong>
+
+<dd>
+<p>Set the value of the Referer header for the initial request.  The
+special value <code>&quot;NONE&quot;</code> can be used to suppress the Referer header in
+any of subsequent requests.  The Referer header will always be suppressed
+in all normal <code>http</code> requests if the referring page was transmitted over
+<code>https</code> as recommended in <a href="http://www.ietf.org/rfc/rfc2616.txt" class="rfc">RFC 2616</a>.</p>
+</dd>
+</li>
+<dt><strong><a name="iis" class="item">--iis</a></strong>
+
+<dd>
+<p>Sends an &quot;Accept: */*&quot; on all URL requests as a workaround for a bug in
+IIS 2.0.  If no Accept MIME header is present, IIS 2.0 returns with a
+&quot;406 No acceptable objects were found&quot; error.  Also converts any back
+slashes (\\) in URLs to forward slashes (/).</p>
+</dd>
+</li>
+<dt><strong><a name="keepext_mime_type_mime_type" class="item">--keepext=<em>mime/type[,mime/type]</em></a></strong>
+
+<dd>
+<p>Keeps the current extension for the list MIME types.  Useful when
+downloading text/plain documents that shouldn't all be translated to
+*.txt files.</p>
+</dd>
+</li>
+<dt><strong><a name="limit_n" class="item">--limit=<em>n</em></a></strong>
+
+<dd>
+<p>Limit the number of documents to get.  The default limit is 50.</p>
+</dd>
+</li>
+<dt><strong><a name="nospace" class="item">--nospace</a></strong>
+
+<dd>
+<p>Changes spaces in all URLs to underscore characters (_).  Useful when
+downloading files from sites serving URLs with spaces in them.	Does not
+remove spaces from fragments, e.g., &quot;file.html#somewhere in here&quot;.</p>
+</dd>
+</li>
+<dt><strong><a name="prefix_url_prefix" class="item">--prefix=<em>url_prefix</em></a></strong>
+
+<dd>
+<p>Limit the links to follow. Only URLs that start the prefix string are
+followed.</p>
+</dd>
+<dd>
+<p>The default prefix is set as the &quot;directory&quot; of the initial URL to
+follow.	 For instance if we start lwp-rget with the URL
+<code>http://www.sn.no/foo/bar.html</code>, then prefix will be set to
+<code>http://www.sn.no/foo/</code>.</p>
+</dd>
+<dd>
+<p>Use <code>--prefix=''</code> if you don't want the fetching to be limited by any
+prefix.</p>
+</dd>
+</li>
+<dt><strong><a name="sleep_n" class="item">--sleep=<em>n</em></a></strong>
+
+<dd>
+<p>Sleep <em>n</em> seconds before retrieving each document. This options allows
+you to go slowly, not loading the server you visiting too much.</p>
+</dd>
+</li>
+<dt><strong><a name="tolower" class="item">--tolower</a></strong>
+
+<dd>
+<p>Translates all links to lowercase.  Useful when downloading files from
+IIS since it does not serve files in a case sensitive manner.</p>
+</dd>
+</li>
+<dt><strong><a name="verbose2" class="item">--verbose</a></strong>
+
+<dd>
+<p>Make more noise while running.</p>
+</dd>
+</li>
+<dt><strong><a name="quiet" class="item">--quiet</a></strong>
+
+<dd>
+<p>Don't make any noise.</p>
+</dd>
+</li>
+<dt><strong><a name="version3" class="item">--version</a></strong>
+
+<dd>
+<p>Print program version number and quit.</p>
+</dd>
+</li>
+<dt><strong><a name="help" class="item">--help</a></strong>
+
+<dd>
+<p>Print the usage message and quit.</p>
+</dd>
+</li>
+</dl>
+<p>Before the program exits the name of the file, where the initial URL
+is stored, is printed on stdout.  All used filenames are also printed
+on stderr as they are loaded.  This printing can be suppressed with
+the <em>--quiet</em> option.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../bin/lwp-request.html">the lwp-request manpage</a>, <a href="../lib/LWP.html">the LWP manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Gisle Aas &lt;<a href="mailto:aas@sn.no">aas@sn.no</a>&gt;</p>
+
+</body>
+
+</html>

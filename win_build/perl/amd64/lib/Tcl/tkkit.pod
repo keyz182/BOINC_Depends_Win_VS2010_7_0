@@ -1,0 +1,110 @@
+=head1 NAME
+
+tkkit - Single-file dynamic library bundle for Tcl/Tk functionality
+
+=head1 DESCRIPTION
+
+I<tkkit> is a single-file dynamic library that bundles Tcl, Tk and several
+related extensions together for use by the I<Tcl> module.
+
+I<Tk> is a toolkit for creating applications with graphical interfaces on
+Windows, Mac OS X and X11.  The Tk toolkit is native to the I<Tcl>
+programming language, but its ease of use and cross-platform availability
+has made it the GUI toolkit of choice for many other dynamic languages.
+
+I<Tcl::Tk> and I<Tkx> are Perl modules that makes the Tk toolkit available
+to Perl programs.  By loading one of these modules, Perl programs can
+create windows and fill them with text, images, buttons and other controls
+that make up the user interface of the application.  See the
+I<Tkx::Tutorial> docs for an example.
+
+=head2 Packages
+
+I<tkkit> includes the following packages from the ActiveTcl
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/at.pkg_index.html>
+distribution:
+
+=over
+
+=item Tcl 8.4 (core)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tcl/tcl_contents.htm>
+
+=item Tk 8.4 (core)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tcl/tk_contents.htm>
+
+=item TclX 8.4 (eXtended command set for Tcl)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tclx/TclX.n.html>
+
+=item vfs 1.3 (script level virtual file system access) 
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tclvfs/toc.html>
+
+=item tile 0.7 (themed widgets)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tile/index.html>
+
+=item bwidget 1.8 (extra megawidgets)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/bwidget/contents.html>
+
+=item Tktable 2.9 (2D table widget)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tktable/tkTable.html>
+
+=item treectrl 2.1 (multi-column hierarchical tree/list widget)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tktreectrl/toc.html>
+
+=item img::png (PNG image format)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/img/doc/img-png.html>
+
+=item img::ico (ICO image format)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/img/doc/img-ico.html>
+
+=item img::xpm (XPM image format)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/img/doc/img-xpm.html>
+
+=item ico (Windows ICO manipulation)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tklib/ico/ico.html>
+
+=item ctext (enhanced text widget)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tklib/ctext/ctext.html>
+
+=item tooltip (balloon help)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tklib/tooltip/tooltip.html>
+
+=item widget (megawidgets)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tklib/widget/widget.html>
+
+=item comm (remote interpreter communication)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tcllib/comm/comm.html>
+
+=item snit (object-oriented framework)
+
+L<http://aspn.activestate.com/ASPN/docs/ActiveTcl/tcllib/snit/snit.html>
+
+=back
+
+
+=head1 LICENSE
+
+This library is a component of ActivePerl and is covered under the same
+terms as ActivePerl.
+
+Copyright 2007 ActiveState.  All rights reserved.
+
+=head1 SEE ALSO
+
+L<Tkx>
+L<Tcl>

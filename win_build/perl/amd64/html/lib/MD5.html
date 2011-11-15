@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>MD5 - Perl interface to the MD5 Message-Digest Algorithm</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>MD5 - Perl interface to the MD5 Message-Digest Algorithm</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MD5 - Perl interface to the MD5 Message-Digest Algorithm</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">MD5</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">$context</span> <span class="operator">=</span> <span class="variable">new</span> <span class="variable">MD5</span><span class="operator">;</span>
+ <span class="variable">$context</span><span class="operator">-&gt;</span><span class="variable">reset</span><span class="operator">();</span>
+</pre>
+<pre>
+ <span class="variable">$context</span><span class="operator">-&gt;</span><span class="variable">add</span><span class="operator">(</span><span class="variable">LIST</span><span class="operator">);</span>
+ <span class="variable">$context</span><span class="operator">-&gt;</span><span class="variable">addfile</span><span class="operator">(</span><span class="variable">HANDLE</span><span class="operator">);</span>
+</pre>
+<pre>
+ <span class="variable">$digest</span> <span class="operator">=</span> <span class="variable">$context</span><span class="operator">-&gt;</span><span class="variable">digest</span><span class="operator">();</span>
+ <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">$context</span><span class="operator">-&gt;</span><span class="variable">hexdigest</span><span class="operator">();</span>
+</pre>
+<pre>
+ <span class="variable">$digest</span> <span class="operator">=</span> <span class="variable">MD5</span><span class="operator">-&gt;</span><span class="variable">hash</span><span class="operator">(</span><span class="variable">SCALAR</span><span class="operator">);</span>
+ <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">MD5</span><span class="operator">-&gt;</span><span class="variable">hexhash</span><span class="operator">(</span><span class="variable">SCALAR</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <code>MD5</code> module is <strong>depreciated</strong>.  Use <code>Digest::MD5</code> instead.</p>
+<p>The current <code>MD5</code> module is just a wrapper around the <code>Digest::MD5</code>
+module.  It is provided so that legacy code that rely on the old
+interface still work and get the speed benefit of the new module.</p>
+<p>In addition to the methods provided for <code>Digest::MD5</code> objects, this
+module provide the class methods MD5-&gt;<code>hash()</code> and MD5-&gt;<code>hexhash()</code> that
+do the same as the md5() and md5_hex() functions provided by
+<code>Digest::MD5</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../lib/Digest/MD5.html">the Digest::MD5 manpage</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Pod::Simple::SimpleTree -- parse Pod into a simple parse tree</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Pod::Simple::SimpleTree -- parse Pod into a simple parse tree</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#tree_contents">Tree Contents</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright_and_disclaimers">COPYRIGHT AND DISCLAIMERS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Pod::Simple::SimpleTree -- parse Pod into a simple parse tree</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="operator">% </span><span class="variable">cat</span> <span class="variable">ptest</span><span class="operator">.</span><span class="variable">pod</span>
+  
+  <span class="comment">=head1 PIE
+  
+  I like B&lt;pie&gt;!
+  
+  % perl -MPod::Simple::SimpleTree -MData::Dumper -e \
+     "print Dumper(Pod::Simple::SimpleTree-&gt;new-&gt;parse_file(shift)-&gt;root)" \
+     ptest.pod
+  
+  $VAR1 = [
+            'Document',
+            { 'start_line' =&gt; 1 },
+            [
+              'head1',
+              { 'start_line' =&gt; 1 },
+              'PIE'
+            ],
+            [
+              'Para',
+              { 'start_line' =&gt; 3 },
+              'I like ',
+              [
+                'B',
+                {},
+                'pie'
+              ],
+              '!'
+            ]
+          ];
+  </span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This class is of interest to people writing a Pod processor/formatter.</p>
+<p>This class takes Pod and parses it, returning a parse tree made just
+of arrayrefs, and hashrefs, and strings.</p>
+<p>This is a subclass of <a href="../../../lib/Pod/Simple.html">the Pod::Simple manpage</a> and inherits all its methods.</p>
+<p>This class is inspired by XML::Parser's &quot;Tree&quot; parsing-style, although
+it doesn't use exactly the same LoL format.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>At the end of the parse, call <code>$parser-&gt;root</code> to get the
+tree's top node.</p>
+<p>
+</p>
+<hr />
+<h1><a name="tree_contents">Tree Contents</a></h1>
+<p>Every element node in the parse tree is represented by an arrayref of
+the form: <code>[ elementname, \%attributes, ...subnodes... ]</code>.
+See the example tree dump in the Synopsis, above.</p>
+<p>Every text node in the tree is represented by a simple (non-ref)
+string scalar.  So you can test <a href="../../../lib/pods/perlfunc.html#ref"><code>ref($node)</code></a> to see whather you have
+an element node or just a text node.</p>
+<p>The top node in the tree is <code>[ 'Document', \%attributes,
+...subnodes... ]</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/Pod/Simple.html">the Pod::Simple manpage</a></p>
+<p><a href="../../../lib/pods/perllol.html">the perllol manpage</a></p>
+<p><a href="../../../lib/XML/Parser.html#tree">The &quot;Tree&quot; subsubsection in XML::Parser</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_disclaimers">COPYRIGHT AND DISCLAIMERS</a></h1>
+<p>Copyright (c) 2002 Sean M. Burke.  All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+<p>This program is distributed in the hope that it will be useful, but
+without any warranty; without even the implied warranty of
+merchantability or fitness for a particular purpose.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Sean M. Burke <code>sburke@cpan.org</code></p>
+
+</body>
+
+</html>

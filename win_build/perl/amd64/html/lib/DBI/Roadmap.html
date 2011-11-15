@@ -1,0 +1,391 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>DBI::Roadmap - Planned Enhancements for the DBI</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>DBI::Roadmap - Planned Enhancements for the DBI</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#scope">SCOPE</a></li>
+	<li><a href="#changes_and_enhancements">CHANGES AND ENHANCEMENTS</a></li>
+	<ul>
+
+		<li><a href="#performance">Performance</a></li>
+		<li><a href="#testing">Testing</a></li>
+		<li><a href="#high_availability_and_load_balancing">High Availability and Load Balancing</a></li>
+		<li><a href="#unicode">Unicode</a></li>
+		<li><a href="#batch_statements">Batch Statements</a></li>
+		<li><a href="#introspection">Introspection</a></li>
+		<li><a href="#extensibility">Extensibility</a></li>
+		<li><a href="#debugability">Debugability</a></li>
+		<li><a href="#database_portability">Database Portability</a></li>
+		<li><a href="#intellectual_property">Intellectual Property</a></li>
+		<li><a href="#other_enhancements">Other Enhancements</a></li>
+		<li><a href="#parrot_and_perl_6">Parrot and Perl 6</a></li>
+	</ul>
+
+	<li><a href="#priorities">PRIORITIES</a></li>
+	<ul>
+
+		<li><a href="#transition_drivers">Transition Drivers</a></li>
+		<li><a href="#transition_applications">Transition Applications</a></li>
+		<li><a href="#incremental_developments">Incremental Developments</a></li>
+		<li><a href="#dbi_v1">DBI v1</a></li>
+	</ul>
+
+	<li><a href="#resources_and_contributions">RESOURCES AND CONTRIBUTIONS</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>DBI::Roadmap - Planned Enhancements for the DBI</p>
+<p>Tim Bunce - 12th November 2004</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>This document gives a high level overview of the future of the Perl
+DBI module.</p>
+<p>The DBI module is the standard database interface for Perl applications.
+It is used worldwide in countless applications, in every kind of
+business, and on platforms from clustered super-computers to PDAs.
+Database interface drivers are available for all common databases
+and many not-so-common ones.</p>
+<p>The planned enhancements cover testing, performance, high availability
+and load balancing, batch statements, Unicode, database portability,
+and more.</p>
+<p>Addressing these issues together, in coordinated way, will help
+ensure maximum future functionality with minimal disruptive
+(incompatible) upgrades.</p>
+<p>
+</p>
+<hr />
+<h1><a name="scope">SCOPE</a></h1>
+<p>Broad categories of changes are outlined here along with some
+rationale, but implementation details and minor planned enhancements
+are omitted.  More details can be found in:
+<a href="http://svn.perl.org/modules/dbi/trunk/ToDo">http://svn.perl.org/modules/dbi/trunk/ToDo</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="changes_and_enhancements">CHANGES AND ENHANCEMENTS</a></h1>
+<p>These are grouped into categories and are not listed in any particular order.</p>
+<p>
+</p>
+<h2><a name="performance">Performance</a></h2>
+<p>The DBI has always treated performance as a priority. Some parts
+of the implementation, however, remain unoptimized, especially in
+relation to threads.</p>
+<p>* When the DBI is used with a Perl built with thread support enabled
+(such as for Apache mod_perl 2, and some common Linux distributions)
+it runs significantly slower. There are two reasons for this and
+both can be fixed but require non-trivial changes to both the DBI
+and drivers.</p>
+<p>* Connection pooling in a threaded application, such as mod_perl,
+is difficult because DBI handles cannot be passed between threads.
+An alternative mechanism for passing connections between threads
+has been defined, and an experimental connection pool module
+implemented using it, but development has stalled.</p>
+<p>* The majority of DBI handle creation code is implemented in Perl.
+Moving most of this to C will speed up handle creation significantly.</p>
+<p>* The popular <code>fetchrow_hashref()</code> method is many times slower than
+<code>fetchrow_arrayref()</code>. It has to get the names of the columns, then
+create and load a new hash each time. A $h-&gt;{FetchHashReuse} attribute
+would allow the same hash to be reused each time making <code>fetchrow_hashref()</code>
+about the same speed as <code>fetchrow_arrayref()</code>.</p>
+<p>* Support for asynchronous (non-blocking) DBI method calls would
+enable applications to continue processing in parallel with database
+activity.  This is also relevant for GUI and other event-driven
+applications.  The DBI needs to define a standard interface for
+this so drivers can implement it in a portable way, where possible.</p>
+<p>These changes would significantly enhance the performance of the
+DBI and many applications which use the DBI.</p>
+<p>
+</p>
+<h2><a name="testing">Testing</a></h2>
+<p>The DBI has a test suite. Every driver has a test suite.  Each is
+limited in its scope.  The driver test suite is testing for behavior
+that the driver author <em>thinks</em> the DBI specifies, but may be
+subtly incorrect.  These test suites are poorly maintained because
+the return on investment for a single driver is too low to provide
+sufficient incentive.</p>
+<p>A common test suite that can be reused by all the drivers is needed.
+It would:</p>
+<p>* Improve the quality of the DBI and drivers.</p>
+<p>* Ensure all drivers conform to the DBI specification.  Easing the
+porting of applications between databases, and the implementation
+of database independent modules layered over the DBI.</p>
+<p>* Improve the DBI specification by clarifying unclear issues in
+order to implement test cases.</p>
+<p>* Encourage expansion of the test suite as driver authors and others
+will be motivated by the greater benefits of their contributions.</p>
+<p>* Detect and record optional functionality that a driver has not
+yet implemented.</p>
+<p>* Improve the testing of DBI subclassing, DBI::PurePerl and the
+various &quot;transparent&quot; drivers, such as DBD::Proxy and DBD::Multiplex,
+by automatically running the test suite through them.</p>
+<p>These changes would improve the quality of all applications using
+the DBI.</p>
+<p>
+</p>
+<h2><a name="high_availability_and_load_balancing">High Availability and Load Balancing</a></h2>
+<p>* The DBD::Multiplex driver provides a framework to enable a wide
+range of dynamic functionality, including support for high-availability,
+failover, load-balancing, caching, and access to distributed data.
+It is currently being enhanced but development has stalled.</p>
+<p>* The DBD::Proxy module is complex and relatively inefficient because
+it's trying to be a complete proxy for most DBI method calls.  For
+many applications a simpler proxy architecture that operates with
+a single round-trip to the server would be simpler, faster, and more
+flexible.</p>
+<p>New proxy client and server classes are needed, which could be
+subclassed to support specific client to server transport mechanisms
+(such as HTTP and Spread::Queue).  Apart from the efficiency gains,
+this would also enable the use of a load-balanced pool of stateless
+servers for greater scalability and reliability.</p>
+<p>* The DBI currently offers no support for distributed transactions.
+The most useful elements of the standard XA distributed transaction
+interface standard could be included in the DBI specification.
+Drivers for databases which support distributed transactions could
+then be extended to support it.</p>
+<p>These changes would enable new kinds of DBI applications for critical
+environments.</p>
+<p>
+</p>
+<h2><a name="unicode">Unicode</a></h2>
+<p>Use of Unicode with the DBI is growing rapidly. The DBI should do
+more to help drivers support Unicode and help applications work
+with drivers that don't yet support Unicode directly.</p>
+<p>* Define expected behavior for fetching data and binding parameters.</p>
+<p>* Provide interfaces to support Unicode issues for XS and pure Perl
+drivers and applications.</p>
+<p>* Provide functions for applications to help diagnose inconsistencies
+between byte string contents and setting of the SvUTF8 flag.</p>
+<p>These changes would smooth the transition to Unicode for many
+applications and drivers.</p>
+<p>
+</p>
+<h2><a name="batch_statements">Batch Statements</a></h2>
+<p>Batch statements are a sequence of SQL statements, or a stored
+procedure containing a sequence of SQL statements, which can be
+executed as a whole.</p>
+<p>Currently the DBI has no standard interface for dealing with multiple
+results from batch statements.  After considerable discussion, an
+interface design has been agreed upon with driver authors, but has
+not yet been implemented.</p>
+<p>These changes would enable greater application portability between
+databases, and greater performance for databases that directly
+support batch statements.</p>
+<p>
+</p>
+<h2><a name="introspection">Introspection</a></h2>
+<p>* The methods of the DBI API are installed dynamically when the DBI
+is loaded.  The data structure used to define the methods and their
+dispatch behavior should be made part of the DBI API. This would
+enable more flexible and correct behavior by modules subclassing
+the DBI and by dynamic drivers such as DBD::Proxy and DBD::Multiplex.</p>
+<p>* Handle attribute information should also be made available, for
+the same reasons.</p>
+<p>* Currently is it not possible to discover all the child statement
+handles that belong to a database handle (or all database handles
+that belong to a driver handle).  This makes certain tasks more
+difficult, especially some debugging scenarios.  A cache of weak
+references to child handles would solve the problem without creating
+reference loops.</p>
+<p>* It is often useful to know which handle attributes have been
+changed since the handle was created (e.g., in mod_perl where a
+handle needs to be reset or cloned). This will become more important
+as developers start exploring use of the newly added
+$h1-&gt;<code>swap_inner_handle($h2)</code> method.</p>
+<p>These changes would simplify and improve the stability of many
+advanced uses of the DBI.</p>
+<p>
+</p>
+<h2><a name="extensibility">Extensibility</a></h2>
+<p>The DBI can be extended in three main dimensions: subclassing the
+DBI, subclassing a driver, and callback hooks. Each has different
+pros and cons, each is applicable in different situations, and
+all need enhancing.</p>
+<p>* Subclassing the DBI is functional but not well defined and some
+key elements are incomplete, particularly the DbTypeSubclass mechanism
+(that automatically subclasses to a class tree according to the
+type of database being used).  It also needs more thorough testing.</p>
+<p>* Subclassing a driver is undocumented, poorly tested and very
+probably incomplete. However it's a powerful way to embed certain
+kinds of functionality 'below' applications while avoiding some of
+the side-effects of subclassing the DBI (especially in relation to
+error handling).</p>
+<p>* Callbacks are currently limited to error handling (the HandleError
+and HandleSetError attributes).  Providing callback hooks for more
+events, such as a row being fetched, would enable utility modules,
+for example, to modify the behavior of a handle independent of any
+subclassing in use.</p>
+<p>These changes would enable cleaner and more powerful integration
+between applications, layered modules, and the DBI.</p>
+<p>
+</p>
+<h2><a name="debugability">Debugability</a></h2>
+<p>* Enabling DBI trace output at a high level of detail causes a large
+volume of output, much of it probably unrelated to the problem being
+investigated. Trace output should be controlled by the new named-topic
+mechanism instead of just the trace level.</p>
+<p>* Calls to XS functions (such as many DBI and driver methods) don't
+normally appear in the call stack.  Optionally enabling that would
+enable more useful diagnostics to be produced.</p>
+<p>* Integration with the Perl debugger would make it simpler to perform
+actions on a per-handle basis (such as breakpoint on execute,
+breakpoint on error).</p>
+<p>These changes would enable more rapid application development and
+fault finding.</p>
+<p>
+</p>
+<h2><a name="database_portability">Database Portability</a></h2>
+<p>* The DBI has not yet addressed the issue of portability among SQL
+dialects.  This is the main hurdle limiting database portability
+for DBI applications.</p>
+<p>The goal is <em>not</em> to fully parse the SQL and rewrite it in a
+different dialect.  That's well beyond the scope of the DBI and
+should be left to layered modules.  A simple token rewriting mechanism
+for five comment styles, two quoting styles, four placeholder styles,
+plus the ODBC &quot;{foo ...}&quot; escape syntax, is sufficient to significantly
+raise the level of SQL portability.</p>
+<p>* Another problem area is date/time formatting.  Since version 1.41
+the DBI has defined a way to express that dates should be fetched
+in SQL standard date format (YYYY-MM-DD).  This is one example of
+the more general case where <code>bind_col()</code> needs to be called with
+particular attributes on all columns of a particular type.</p>
+<p>A mechanism is needed whereby an application can specify default
+<code>bind_col()</code> attributes to be applied automatically for each column
+type. With a single step, all DATE type columns, for example, can
+be set to be returned in the standard format.</p>
+<p>These changes would enable greater database portability for
+applications and greater functionality for layered modules.</p>
+<p>
+</p>
+<h2><a name="intellectual_property">Intellectual Property</a></h2>
+<p>* Clarify current intellectual property status, including a review
+  of past contributions to ensure the DBI is unemcumbered.</p>
+<p>* Establish a procedure for vetting future contributions for any
+  intellectual property issues.</p>
+<p>These changes are important for companies taking a formal approach
+to assessing their risks in using Open Source software.</p>
+<p>
+</p>
+<h2><a name="other_enhancements">Other Enhancements</a></h2>
+<p>* Reduce the work needed to create new database interface drivers.</p>
+<p>* Definition of an interface to support scrollable cursors.</p>
+<p>
+</p>
+<h2><a name="parrot_and_perl_6">Parrot and Perl 6</a></h2>
+<p>The current DBI implementation in C code is unlikely to run on Perl 6.
+Perl 6 will target the Parrot virtual machine and so the internal
+architecture will be radically different from Perl 5.</p>
+<p>One of the goals of the Parrot project is to be a platform for many
+dynamic languages (including Python, PHP, Ruby, etc) and to enable
+those languages to reuse each others modules. A database interface
+for Parrot is also a database interface for any and all languages
+that run on Parrot.</p>
+<p>The Perl DBI would make an excellent base for a Parrot database
+interface because it has more functionality, and is more mature and
+extensible, than the database interfaces of the other dynamic
+languages.</p>
+<p>I plan to better define the API between the DBI and the drivers and
+use that API as the primary API for the 'raw' Parrot database
+interface.  This project is known a Parrot DBDI (for &quot;DataBase
+Driver Interface&quot;).  The announcement can be read in
+&lt;<a href="mailto:http://groups.google.com/groups?selm=20040127225639.GF38394@dansat.data-plan.com">http://groups.google.com/groups?selm=20040127225639.GF38394@dansat.data-plan.com</a>&gt;</p>
+<p>The bulk of the work will be translating the DBI C and Perl base
+class code into Parrot PIR, or a suitable language that generates
+PIR.  The project stalled, due to Parrot not having key functionality
+at the time.  That has been resolved but the project has not yet
+restarted.</p>
+<p>Each language targeting Parrot would implement their own small
+'thin' language-specific method dispatcher (a &quot;Perl6 DBI&quot;, &quot;Python
+DBI&quot;, &quot;PHP DBI&quot; etc) layered over the common Parrot DBDI interface
+and drivers.</p>
+<p>The major benefit of the DBDI project is that a much wider community
+of developers share the same database drivers. There would be more
+developers maintaining less code so the benefits of the Open Source
+model are magnified.</p>
+<p>
+</p>
+<hr />
+<h1><a name="priorities">PRIORITIES</a></h1>
+<p>
+</p>
+<h2><a name="transition_drivers">Transition Drivers</a></h2>
+<p>The first priority is to make all the infrastructure changes that
+impact drivers and make an alpha release available for driver authors.</p>
+<p>As far as possible, the changes will be implemented in a way that
+enables driver authors use the same code base for DBI v1 and DBI v2.</p>
+<p>The main changes required by driver authors are:</p>
+<p>* Code changes for PERL_NO_GET_CONTEXT, plus removing PERL_POLLUTE
+and DBIS</p>
+<p>* Code changes in DBI/DBD interface (new way to create handles, new
+callbacks etc)</p>
+<p>* Common test suite infrastructure (driver-specific test base class)</p>
+<p>
+</p>
+<h2><a name="transition_applications">Transition Applications</a></h2>
+<p>A small set of incompatible changes that may impact some applications
+will also be made in v2.0. See <a href="http://svn.perl.org/modules/dbi/trunk/ToDo">http://svn.perl.org/modules/dbi/trunk/ToDo</a></p>
+<p>
+</p>
+<h2><a name="incremental_developments">Incremental Developments</a></h2>
+<p>Once DBI v2.0 is available, the other enhancements can be implemented
+incrementally on the updated foundations. Priorities for those
+changes have not been set.</p>
+<p>
+</p>
+<h2><a name="dbi_v1">DBI v1</a></h2>
+<p>DBI v1 will continue to be maintained on a separate branch for
+bug fixes and any enhancements that ease the transition to DBI v2.</p>
+<p>
+</p>
+<hr />
+<h1><a name="resources_and_contributions">RESOURCES AND CONTRIBUTIONS</a></h1>
+<p>See <a href="http://dbi.perl.org/contributing">http://dbi.perl.org/contributing</a> for <em>how you can help</em>.</p>
+<p>If your company has benefited from the DBI, please consider if
+it could make a donation to The Perl Foundation &quot;DBI Development&quot;
+fund at <a href="http://dbi.perl.org/donate">http://dbi.perl.org/donate</a> to secure future development.</p>
+<p>Alternatively, if your company would benefit from a specific new
+DBI feature, please consider sponsoring its development through my
+consulting company, Data Plan Services. Work is performed rapidly
+on a fixed-price payment-on-delivery basis. Contact me for details.</p>
+<p>Using such targeted financing allows you to contribute to DBI
+development and rapidly get something specific and directly valuable
+to you in return.</p>
+<p>My company also offers annual support contracts for the DBI, which
+provide another way to support the DBI and get something specific
+in return. Contact me for details.</p>
+<p>Thank you.</p>
+
+</body>
+
+</html>

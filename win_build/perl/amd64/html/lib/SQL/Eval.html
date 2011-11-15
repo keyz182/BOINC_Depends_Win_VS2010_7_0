@@ -1,0 +1,370 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>SQL::Eval - Base for deriving evalution objects for SQL::Statement</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>SQL::Eval - Base for deriving evalution objects for SQL::Statement</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#method_interface_of_sql__eval">Method interface of SQL::Eval</a></li>
+		<li><a href="#method_interface_of_sql__eval__table">Method interface of SQL::Eval::Table</a></li>
+	</ul>
+
+	<li><a href="#internals">INTERNALS</a></li>
+	<li><a href="#multithreading">MULTITHREADING</a></li>
+	<li><a href="#author_and_copyright">AUTHOR AND COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SQL::Eval - Base for deriving evalution objects for SQL::Statement</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">require</span> <span class="variable">SQL::Statement</span><span class="operator">;</span>
+    <span class="keyword">require</span> <span class="variable">SQL::Eval</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Create an SQL statement; use a concrete subclass of</span>
+    <span class="comment"># SQL::Statement</span>
+    <span class="keyword">my</span> <span class="variable">$stmt</span> <span class="operator">=</span> <span class="variable">MyStatement</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"SELECT * FROM foo, bar"</span><span class="operator">,</span>
+                                <span class="variable">SQL::Parser</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">'Ansi'</span><span class="operator">));</span>
+</pre>
+<pre>
+    <span class="comment"># Get an eval object by calling open_tables; this</span>
+    <span class="comment"># will call MyStatement::open_table</span>
+    <span class="keyword">my</span> <span class="variable">$eval</span> <span class="operator">=</span> <span class="variable">$stmt</span><span class="operator">-&gt;</span><span class="variable">open_tables</span><span class="operator">(</span><span class="variable">$data</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># Set parameter 0 to 'Van Gogh'</span>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">param</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="string">'Van Gogh'</span><span class="operator">);</span>
+    <span class="comment"># Get parameter 2</span>
+    <span class="keyword">my</span> <span class="variable">$param</span> <span class="operator">=</span> <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">param</span><span class="operator">(</span><span class="number">2</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># Get the SQL::Eval::Table object referring the 'foo' table</span>
+    <span class="keyword">my</span> <span class="variable">$fooTable</span> <span class="operator">=</span> <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">table</span><span class="operator">(</span><span class="string">'foo'</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module implements two classes that can be used for deriving
+concrete subclasses to evaluate SQL::Statement objects. The
+SQL::Eval object can be thought as an abstract state engine for
+executing SQL queries, the SQL::Eval::Table object can be considered
+a *very* table abstraction. It implements method for fetching or
+storing rows, retrieving column names and numbers and so on.
+See the <code>test.pl</code> script as an example for implementing a concrete
+subclass.</p>
+<p>While reading on, keep in mind that these are abstract classes,
+you *must* implement at least some of the methods describe below.
+Even more, you need not derive from SQL::Eval or SQL::Eval::Table,
+you just need to implement the method interface.</p>
+<p>All methods just throw a Perl exception in case of errors.</p>
+<p>
+</p>
+<h2><a name="method_interface_of_sql__eval">Method interface of SQL::Eval</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong>
+
+<dd>
+<p>Constructor; use it like this:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$eval</span> <span class="operator">=</span> <span class="variable">SQL::Eval</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(\</span><span class="variable">%attr</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Blesses the hash ref \%attr into the SQL::Eval class (or a subclass).</p>
+</dd>
+</li>
+<dt><strong><a name="param" class="item">param</a></strong>
+
+<dd>
+<p>Used for getting or setting input parameters, as in the SQL query</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">INSERT</span> <span class="variable">INTO</span> <span class="variable">foo</span> <span class="variable">VALUES</span> <span class="operator">(</span><span class="regex">?, ?</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">param</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="variable">$val</span><span class="operator">);</span>        <span class="comment"># Set parameter 0</span>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">param</span><span class="operator">(</span><span class="number">0</span><span class="operator">);</span>              <span class="comment"># Get parameter 0</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="params" class="item">params</a></strong>
+
+<dd>
+<p>Likewise used for getting or setting the complete array of input
+parameters. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">params</span><span class="operator">(</span><span class="variable">$params</span><span class="operator">);</span>       <span class="comment"># Set the array</span>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">params</span><span class="operator">();</span>              <span class="comment"># Get the array</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="table" class="item">table</a></strong>
+
+<dd>
+<p>Returns or sets a table object. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">table</span><span class="operator">(</span><span class="string">'foo'</span><span class="operator">,</span> <span class="variable">$fooTable</span><span class="operator">);</span>  <span class="comment"># Set the 'foo' table object</span>
+    <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">table</span><span class="operator">(</span><span class="string">'foo'</span><span class="operator">);</span>             <span class="comment"># Return the 'foo' table object</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="column" class="item">column</a></strong>
+
+<dd>
+<p>Return the value of a column with a given name; example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$col</span> <span class="operator">=</span> <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">column</span><span class="operator">(</span><span class="string">'foo'</span><span class="operator">,</span> <span class="string">'id'</span><span class="operator">);</span>  <span class="comment"># Return the 'id' column of</span>
+                                        <span class="comment"># the current row in the</span>
+                                        <span class="comment"># 'foo' table</span>
+</pre>
+</dd>
+<dd>
+<p>This is equivalent and just a shorthand for</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$col</span> <span class="operator">=</span> <span class="variable">$eval</span><span class="operator">-&gt;</span><span class="variable">table</span><span class="operator">(</span><span class="string">'foo'</span><span class="operator">)-&gt;</span><span class="variable">column</span><span class="operator">(</span><span class="string">'id'</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="method_interface_of_sql__eval__table">Method interface of SQL::Eval::Table</a></h2>
+<dl>
+<dt><strong>new</strong>
+
+<dd>
+<p>Constructor; use it like this:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$eval</span> <span class="operator">=</span> <span class="variable">SQL::Eval::Table</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(\</span><span class="variable">%attr</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Blesses the hash ref \%attr into the SQL::Eval::Table class (or a
+subclass).</p>
+</dd>
+</li>
+<dt><strong><a name="row" class="item">row</a></strong>
+
+<dd>
+<p>Used to get the current row as an array ref. Do not mismatch
+getting the current row with the fetch_row method! In fact this
+method is valid only after a successfull <code>$table-&gt;fetchrow()</code>.
+Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">row</span><span class="operator">();</span>
+</pre>
+</dd>
+</li>
+<dt><strong>column</strong>
+
+<dd>
+<p>Get the column with a given name in the current row. Valid only after
+a successfull <code>$table-&gt;fetchrow()</code>. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$col</span> <span class="operator">=</span> <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">column</span><span class="operator">(</span><span class="variable">$colName</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="column_num" class="item">column_num</a></strong>
+
+<dd>
+<p>Return the number of the given column name. Column numbers start with
+0. Returns undef, if a column name is not defined, so that you can
+well use this for verifying valid column names. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$colNum</span> <span class="operator">=</span> <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">column_num</span><span class="operator">(</span><span class="variable">$colNum</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="column_names" class="item">column_names</a></strong>
+
+<dd>
+<p>Returns an array ref of column names.</p>
+</dd>
+</li>
+</dl>
+<p>The above methods are implemented by SQL::Eval::Table. The following
+methods aren't, so that they *must* be implemented by concrete
+subclassed. See the <code>test.pl</code> script for example.</p>
+<dl>
+<dt><strong><a name="fetch_row" class="item">fetch_row</a></strong>
+
+<dd>
+<p>Fetches the next row from the table. Returns <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a>, if the last
+row was already fetched. The argument $data is for private use of
+the concrete subclass. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">fetch_row</span><span class="operator">(</span><span class="variable">$data</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Note, that you may use</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">row</span><span class="operator">();</span>
+</pre>
+</dd>
+<dd>
+<p>for retrieving the same row again, until the next call of <a href="#fetch_row"><code>fetch_row</code></a>.</p>
+</dd>
+</li>
+<dt><strong><a name="push_row" class="item">push_row</a></strong>
+
+<dd>
+<p>Likewise for storing rows. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">push_row</span><span class="operator">(</span><span class="variable">$data</span><span class="operator">,</span> <span class="variable">$row</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="push_names" class="item">push_names</a></strong>
+
+<dd>
+<p>Used by the <em>CREATE TABLE</em> statement to set the column names of the
+new table. Receives an array ref of names. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">push_names</span><span class="operator">(</span><span class="variable">$data</span><span class="operator">,</span> <span class="variable">$names</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="seek" class="item">seek</a></strong>
+
+<dd>
+<p>Similar to the seek method of a filehandle; used for setting the number
+of the next row being written. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">seek</span><span class="operator">(</span><span class="variable">$data</span><span class="operator">,</span> <span class="variable">$whence</span><span class="operator">,</span> <span class="variable">$rowNum</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Actually the current implementation is using only <a href="#seek"><code>seek($data, 0,0)</code></a>
+(first row) and <a href="#seek"><code>seek($data, 2,0)</code></a> (last row, end of file).</p>
+</dd>
+</li>
+<dt><strong><a name="truncate" class="item">truncate</a></strong>
+
+<dd>
+<p>Truncates a table after the current row. Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="variable">truncate</span><span class="operator">(</span><span class="variable">$data</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="internals">INTERNALS</a></h1>
+<p>The current implementation is quite simple: An SQL::Eval object is an
+hash ref with only two attributes. The <a href="#params"><code>params</code></a> attribute is an array
+ref of parameters. The <code>tables</code> attribute is an hash ref of table
+names (keys) and table objects (values).</p>
+<p>SQL::Eval::Table instances are implemented as hash refs. Used attributes
+are <a href="#row"><code>row</code></a> (the array ref of the current row), <code>col_nums</code> (an hash ref
+of column names as keys and column numbers as values) and <code>col_names</code>,
+an array ref of column names with the column numbers as indexes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="multithreading">MULTITHREADING</a></h1>
+<p>All methods are working with instance-local data only, thus the module
+is reentrant and thread safe, if you either don't share handles between
+threads or grant serialized use.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author_and_copyright">AUTHOR AND COPYRIGHT</a></h1>
+<p>This module is Copyright (C) 1998 by</p>
+<pre>
+    Jochen Wiedmann
+    Am Eisteich 9
+    72555 Metzingen
+    Germany</pre>
+<pre>
+    Email: joe@ispsoft.de
+    Phone: +49 7123 14887</pre>
+<p>All rights reserved.</p>
+<p>You may distribute this module under the terms of either the GNU
+General Public License or the Artistic License, as specified in
+the Perl README file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../SQL/Statement(3).html">the SQL::Statement(3) manpage</a></p>
+
+</body>
+
+</html>

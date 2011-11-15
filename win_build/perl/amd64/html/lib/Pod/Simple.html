@@ -1,0 +1,281 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Pod::Simple - framework for parsing Pod</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Pod::Simple - framework for parsing Pod</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#main_methods">MAIN METHODS</a></li>
+	<li><a href="#secondary_methods">SECONDARY METHODS</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright_and_disclaimers">COPYRIGHT AND DISCLAIMERS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Pod::Simple - framework for parsing Pod</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ TODO</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Pod::Simple is a Perl library for parsing text in the Pod (&quot;plain old
+documentation&quot;) markup language that is typically used for writing
+documentation for Perl and for Perl modules. The Pod format is explained
+in the <a href="../../lib/perlpod.html">perlpod</a> man page; the most common formatter is called
+&quot;perldoc&quot;.</p>
+<p>Pod formatters can use Pod::Simple to parse Pod documents into produce
+renderings of them in plain ASCII, in HTML, or in any number of other
+formats. Typically, such formatters will be subclasses of Pod::Simple,
+and so they will inherit its methods, like <a href="#parse_file"><code>parse_file</code></a>.</p>
+<p>If you're reading this document just because you have a Pod-processing
+subclass that you want to use, this document (plus the documentation for
+the subclass) is probably all you'll need to read.</p>
+<p>If you're reading this document because you want to write a formatter
+subclass, continue reading this document, and then read
+<a href="../../lib/Pod/Simple/Subclassing.html">the Pod::Simple::Subclassing manpage</a>, and then possibly even read <a href="../../lib/perlpodspec.html">the perlpodspec manpage</a>
+(some of which is for parser-writers, but much of which is notes to
+formatter-writers).</p>
+<p>
+</p>
+<hr />
+<h1><a name="main_methods">MAIN METHODS</a></h1>
+<dl>
+<dt><strong><a name="new" class="item"><code>$parser = SomeClass-&gt;new();</code></a></strong>
+
+<dd>
+<p>This returns a new parser object, where <em><code>SomeClass</code></em> is a subclass
+of Pod::Simple.</p>
+</dd>
+</li>
+<dt><strong><a name="output_fh" class="item"><code>$parser-&gt;output_fh( *OUT );</code></a></strong>
+
+<dd>
+<p>This sets the filehandle that <code>$parser</code>'s output will be written to.
+You can pass <code>*STDOUT</code>, otherwise you should probably do something
+like this:</p>
+</dd>
+<dd>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$outfile</span> <span class="operator">=</span> <span class="string">"output.txt"</span><span class="operator">;</span>
+    <span class="keyword">open</span> <span class="variable">TXTOUT</span><span class="operator">,</span> <span class="string">"&gt;</span><span class="variable">$outfile</span><span class="string">"</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"Can't write to </span><span class="variable">$outfile</span><span class="string">: $!"</span><span class="operator">;</span>
+    <span class="variable">$parser</span><span class="operator">-&gt;</span><span class="variable">output_fh</span><span class="operator">(</span><span class="variable">*TXTOUT</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>...before you call one of the <code>$parser-&gt;parse_whatever</code> methods.</p>
+</dd>
+</li>
+<dt><strong><a name="output_string" class="item"><code>$parser-&gt;output_string( \$somestring );</code></a></strong>
+
+<dd>
+<p>This sets the string that <code>$parser</code>'s output will be sent to,
+instead of any filehandle.</p>
+</dd>
+</li>
+<dt><strong><a name="parse_file" class="item"><code>$parser-&gt;parse_file( $some_filename );</code></a></strong>
+
+<dt><strong><code>$parser-&gt;parse_file( *INPUT_FH );</code></strong>
+
+<dd>
+<p>This reads the Pod content of the file (or filehandle) that you specify,
+and processes it with that <code>$parser</code> object, according to however
+<code>$parser</code>'s class works, and according to whatever parser options you
+have set up for this <code>$parser</code> object.</p>
+</dd>
+</li>
+<dt><strong><a name="parse_string_document" class="item"><code>$parser-&gt;parse_string_document( $all_content );</code></a></strong>
+
+<dd>
+<p>This works just like <a href="#parse_file"><code>parse_file</code></a> except that it reads the Pod
+content not from a file, but from a string that you have already
+in memory.</p>
+</dd>
+</li>
+<dt><strong><a name="parse_lines" class="item"><code>$parser-&gt;parse_lines( ...@lines..., undef );</code></a></strong>
+
+<dd>
+<p>This processes the lines in <code>@lines</code> (where each list item must be a
+defined value, and must contain exactly one line of content -- so no
+items like <code>&quot;foo\nbar&quot;</code> are allowed).  The final <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> is used to
+indicate the end of document being parsed.</p>
+</dd>
+<dd>
+<p>The other <code>parser_whatever</code> methods are meant to be called only once
+per <code>$parser</code> object; but <a href="#parse_lines"><code>parse_lines</code></a> can be called as many times per
+<code>$parser</code> object as you want, as long as the last call (and only
+the last call) ends with an <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> value.</p>
+</dd>
+</li>
+<dt><strong><a name="content_seen" class="item"><code>$parser-&gt;content_seen</code></a></strong>
+
+<dd>
+<p>This returns true only if there has been any real content seen
+for this document.</p>
+</dd>
+</li>
+<dt><strong><a name="filter" class="item"><code>SomeClass-&gt;filter( $filename );</code></a></strong>
+
+<dt><strong><code>SomeClass-&gt;filter( *INPUT_FH );</code></strong>
+
+<dt><strong><code>SomeClass-&gt;filter( \$document_content );</code></strong>
+
+<dd>
+<p>This is a shortcut method for creating a new parser object, setting the
+output handle to STDOUT, and then processing the specified file (or
+filehandle, or in-memory document). This is handy for one-liners like
+this:</p>
+</dd>
+<dd>
+<pre>
+  perl -MPod::Simple::Text -e &quot;Pod::Simple::Text-&gt;filter('thingy.pod')&quot;</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="secondary_methods">SECONDARY METHODS</a></h1>
+<p>Some of these methods might be of interest to general users, as
+well as of interest to formatter-writers.</p>
+<p>Note that the general pattern here is that the accessor-methods
+read the attribute's value with <code>$value = $parser-&gt;attribute</code>
+and set the attribute's value with
+<code>$parser-&gt;attribute(newvalue)</code>.  For each accessor, I typically
+only mention one syntax or another, based on which I think you are actually
+most likely to use.</p>
+<dl>
+<dt><strong><a name="no_whining" class="item"><code>$parser-&gt;no_whining( SOMEVALUE )</code></a></strong>
+
+<dd>
+<p>If you set this attribute to a true value, you will suppress the
+parser's complaints about irregularities in the Pod coding. By default,
+this attribute's value is false, meaning that irregularities will
+be reported.</p>
+</dd>
+<dd>
+<p>Note that turning this attribute to true won't suppress one or two kinds
+of complaints about rarely occurring unrecoverable errors.</p>
+</dd>
+</li>
+<dt><strong><a name="no_errata_section" class="item"><code>$parser-&gt;no_errata_section( SOMEVALUE )</code></a></strong>
+
+<dd>
+<p>If you set this attribute to a true value, you will stop the parser from
+generating a &quot;POD ERRORS&quot; section at the end of the document. By
+default, this attribute's value is false, meaning that an errata section
+will be generated, as necessary.</p>
+</dd>
+</li>
+<dt><strong><a name="complain_stderr" class="item"><code>$parser-&gt;complain_stderr( SOMEVALUE )</code></a></strong>
+
+<dd>
+<p>If you set this attribute to a true value, it will send reports of
+parsing errors to STDERR. By default, this attribute's value is false,
+meaning that no output is sent to STDERR.</p>
+</dd>
+<dd>
+<p>Note that errors can be noted in an errata section, or sent to STDERR,
+or both, or neither. So don't think that turning on <a href="#complain_stderr"><code>complain_stderr</code></a>
+will turn off <a href="#no_errata_section"><code>no_errata_section</code></a> or vice versa -- these are
+independent attributes.</p>
+</dd>
+</li>
+<dt><strong><a name="source_filename" class="item"><code>$parser-&gt;source_filename</code></a></strong>
+
+<dd>
+<p>This returns the filename that this parser object was set to read from.</p>
+</dd>
+</li>
+<dt><strong><a name="doc_has_started" class="item"><code>$parser-&gt;doc_has_started</code></a></strong>
+
+<dd>
+<p>This returns true if <code>$parser</code> has read from a source, and has seen
+Pod content in it.</p>
+</dd>
+</li>
+<dt><strong><a name="source_dead" class="item"><code>$parser-&gt;source_dead</code></a></strong>
+
+<dd>
+<p>This returns true if <code>$parser</code> has read from a source, and come to the
+end of that source.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>This is just a beta release -- there are a good number of things still
+left to do.  Notably, support for EBCDIC platforms is still half-done,
+an untested.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../lib/Pod/Simple/Subclassing.html">the Pod::Simple::Subclassing manpage</a></p>
+<p><a href="../../lib/perlpod.html">perlpod</a></p>
+<p><a href="../../lib/perlpodspec.html">perlpodspec</a></p>
+<p><a href="../../lib/Pod/Escapes.html">Pod::Escapes</a></p>
+<p><a href="../../lib/pods/perldoc.html">the perldoc manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_disclaimers">COPYRIGHT AND DISCLAIMERS</a></h1>
+<p>Copyright (c) 2002 Sean M. Burke.  All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+<p>This program is distributed in the hope that it will be useful, but
+without any warranty; without even the implied warranty of
+merchantability or fitness for a particular purpose.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Original author: Sean M. Burke <code>sburke@cpan.org</code></p>
+<p>Maintained by:</p>
+<ul>
+<li><strong><a name="allison_randal_allison_perl_org" class="item">Allison Randal <code>allison@perl.org</code></a></strong>
+
+<li><strong><a name="hans_dieter_pearcey_hdp_cpan_org" class="item">Hans Dieter Pearcey <code>hdp@cpan.org</code></a></strong>
+
+</ul>
+
+</body>
+
+</html>

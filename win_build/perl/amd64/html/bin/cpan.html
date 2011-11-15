@@ -1,0 +1,250 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>cpan - easily interact with CPAN from the command line</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>cpan - easily interact with CPAN from the command line</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#meta_options">Meta Options</a></li>
+		<li><a href="#module_options">Module options</a></li>
+		<li><a href="#examples">Examples</a></li>
+	</ul>
+
+	<li><a href="#to_do">TO DO</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#source_availability">SOURCE AVAILABILITY</a></li>
+	<li><a href="#credits">CREDITS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>cpan - easily interact with CPAN from the command line</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+        # with arguments and no switches, installs specified modules
+        cpan module_name [ module_name ... ]</pre>
+<pre>
+        # with switches, installs modules with extra behavior
+        cpan [-cfimt] module_name [ module_name ... ]</pre>
+<pre>
+        # without arguments, starts CPAN.pm shell
+        cpan</pre>
+<pre>
+        # without arguments, but some switches
+        cpan [-ahrvACDLO]</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This script provides a command interface (not a shell) to CPAN. At the
+moment it uses CPAN.pm to do the work, but it is not a one-shot command
+runner for CPAN.pm.</p>
+<p>
+</p>
+<h2><a name="meta_options">Meta Options</a></h2>
+<p>These options are mutually exclusive, and the script processes them in
+this order: [hvCAar].  Once the script finds one, it ignores the others,
+and then exits after it finishes the task.  The script ignores any other
+command line options.</p>
+<dl>
+<dt><strong><a name="a" class="item">-a</a></strong>
+
+<dd>
+<p>Creates the CPAN.pm autobundle with CPAN::Shell-&gt;autobundle.</p>
+</dd>
+</li>
+<dt><strong><a name="a_module_module" class="item">-A module [ module ... ]</a></strong>
+
+<dd>
+<p>Shows the primary maintainers for the specified modules</p>
+</dd>
+</li>
+<dt><strong><a name="c_module_module" class="item">-C module [ module ... ]</a></strong>
+
+<dd>
+<p>Show the <code>Changes</code> files for the specified modules</p>
+</dd>
+</li>
+<dt><strong><a name="d_module_module" class="item">-D module [ module ... ]</a></strong>
+
+<dd>
+<p>Show the module details. This prints one line for each out-of-date module
+(meaning, modules locally installed but have newer versions on CPAN).
+Each line has three columns: module name, local version, and CPAN
+version.</p>
+</dd>
+</li>
+<dt><strong><a name="l_author_author" class="item">-L author [ author ... ]</a></strong>
+
+<dd>
+<p>List the modules by the specified authors.</p>
+</dd>
+</li>
+<dt><strong><a name="h" class="item">-h</a></strong>
+
+<dd>
+<p>Prints a help message.</p>
+</dd>
+</li>
+<dt><strong><a name="o" class="item">-O</a></strong>
+
+<dd>
+<p>Show the out-of-date modules.</p>
+</dd>
+</li>
+<dt><strong><a name="r" class="item">-r</a></strong>
+
+<dd>
+<p>Recompiles dynamically loaded modules with CPAN::Shell-&gt;recompile.</p>
+</dd>
+</li>
+<dt><strong><a name="v2" class="item">-v</a></strong>
+
+<dd>
+<p>Print the script version and CPAN.pm version.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="module_options">Module options</a></h2>
+<p>These options are mutually exclusive, and the script processes them in
+alphabetical order. It only processes the first one it finds.</p>
+<dl>
+<dt><strong><a name="c" class="item">c</a></strong>
+
+<dd>
+<p>Runs a `make clean` in the specified module's directories.</p>
+</dd>
+</li>
+<dt><strong><a name="f" class="item">f</a></strong>
+
+<dd>
+<p>Forces the specified action, when it normally would have failed.</p>
+</dd>
+</li>
+<dt><strong><a name="i" class="item">i</a></strong>
+
+<dd>
+<p>Installed the specified modules.</p>
+</dd>
+</li>
+<dt><strong><a name="m" class="item">m</a></strong>
+
+<dd>
+<p>Makes the specified modules.</p>
+</dd>
+</li>
+<dt><strong><a name="t" class="item">t</a></strong>
+
+<dd>
+<p>Runs a `make test` on the specified modules.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="examples">Examples</a></h2>
+<pre>
+        # print a help message
+        cpan -h</pre>
+<pre>
+        # print the version numbers
+        cpan -v</pre>
+<pre>
+        # create an autobundle
+        cpan -a</pre>
+<pre>
+        # recompile modules
+        cpan -r</pre>
+<pre>
+        # install modules ( sole -i is optional )
+        cpan -i Netscape::Booksmarks Business::ISBN</pre>
+<pre>
+        # force install modules ( must use -i )
+        cpan -fi CGI::Minimal URI</pre>
+<p>
+</p>
+<hr />
+<h1><a name="to_do">TO DO</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>* none noted</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Most behaviour, including environment variables and configuration,
+comes directly from CPAN.pm.</p>
+<p>
+</p>
+<hr />
+<h1><a name="source_availability">SOURCE AVAILABILITY</a></h1>
+<p>This source is part of a SourceForge project which always has the
+latest sources in CVS, as well as all of the previous releases.</p>
+<pre>
+        <a href="http://sourceforge.net/projects/brian-d-foy/">http://sourceforge.net/projects/brian-d-foy/</a></pre>
+<p>If, for some reason, I disappear from the world, one of the other
+members of the project can shepherd this module appropriately.</p>
+<p>
+</p>
+<hr />
+<h1><a name="credits">CREDITS</a></h1>
+<p>Japheth Cleaver added the bits to allow a forced install (-f).</p>
+<p>Jim Brandt suggest and provided the initial implementation for the
+up-to-date and Changes features.</p>
+<p>Adam Kennedy pointed out that <a href="../lib/pods/perlfunc.html#exit"><code>exit()</code></a> causes problems on Windows
+where this script ends up with a .bat extension</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>brian d foy, <code>&lt;bdfoy@cpan.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2001-2006, brian d foy, All Rights Reserved.</p>
+<p>You may redistribute this under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

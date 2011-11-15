@@ -1,0 +1,215 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>DBD::File - Base class for writing DBI drivers</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>DBD::File - Base class for writing DBI drivers</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#metadata">Metadata</a></li>
+		<li><a href="#driver_private_methods">Driver private methods</a></li>
+	</ul>
+
+	<li><a href="#known_bugs">KNOWN BUGS</a></li>
+	<li><a href="#author_and_copyright">AUTHOR AND COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>DBD::File - Base class for writing DBI drivers</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ This module is a base class for writing other DBDs.
+ It is not intended to function as a DBD itself.
+ If you want to access flatfiles, use DBD::AnyData, or DBD::CSV,
+ (both of which are subclasses of DBD::File).</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The DBD::File module is not a true DBI driver, but an abstract
+base class for deriving concrete DBI drivers from it. The implication is,
+that these drivers work with plain files, for example CSV files or
+INI files. The module is based on the SQL::Statement module, a simple
+SQL engine.</p>
+<p>See <a href="../../lib/DBI.html">the DBI manpage</a> for details on DBI, <a href="../../lib/SQL/Statement.html">the SQL::Statement manpage</a> for details on
+SQL::Statement and <a href="../../lib/Bundle/DBD/CSV.html">the DBD::CSV manpage</a> or <a href="../../DBD/IniFile.html">the DBD::IniFile manpage</a> for example
+drivers.</p>
+<p>
+</p>
+<h2><a name="metadata">Metadata</a></h2>
+<p>The following attributes are handled by DBI itself and not by DBD::File,
+thus they all work like expected:</p>
+<pre>
+    Active
+    ActiveKids
+    CachedKids
+    CompatMode             (Not used)
+    InactiveDestroy
+    Kids
+    PrintError
+    RaiseError
+    Warn                   (Not used)</pre>
+<p>The following DBI attributes are handled by DBD::File:</p>
+<dl>
+<dt><strong><a name="autocommit2" class="item">AutoCommit</a></strong>
+
+<dd>
+<p>Always on</p>
+</dd>
+</li>
+<dt><strong><a name="chopblanks2" class="item">ChopBlanks</a></strong>
+
+<dd>
+<p>Works</p>
+</dd>
+</li>
+<dt><strong><a name="num_of_fields2" class="item">NUM_OF_FIELDS</a></strong>
+
+<dd>
+<p>Valid after <code>$sth-</code>execute&gt;</p>
+</dd>
+</li>
+<dt><strong><a name="num_of_params2" class="item">NUM_OF_PARAMS</a></strong>
+
+<dd>
+<p>Valid after <code>$sth-</code>prepare&gt;</p>
+</dd>
+</li>
+<dt><strong><a name="name6" class="item">NAME</a></strong>
+
+<dd>
+<p>Valid after <code>$sth-</code>execute&gt;; undef for Non-Select statements.</p>
+</dd>
+</li>
+<dt><strong><a name="nullable2" class="item">NULLABLE</a></strong>
+
+<dd>
+<p>Not really working, always returns an array ref of one's, as DBD::CSV
+doesn't verify input data. Valid after <code>$sth-</code>execute&gt;; undef for
+Non-Select statements.</p>
+</dd>
+</li>
+</dl>
+<p>These attributes and methods are not supported:</p>
+<pre>
+    bind_param_inout
+    CursorName
+    LongReadLen
+    LongTruncOk</pre>
+<p>Additional to the DBI attributes, you can use the following dbh
+attribute:</p>
+<dl>
+<dt><strong><a name="f_dir" class="item">f_dir</a></strong>
+
+<dd>
+<p>This attribute is used for setting the directory where CSV files are
+opened. Usually you set it in the dbh, it defaults to the current
+directory (&quot;.&quot;). However, it is overwritable in the statement handles.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="driver_private_methods">Driver private methods</a></h2>
+<dl>
+<dt><strong><a name="data_sources" class="item">data_sources</a></strong>
+
+<dd>
+<p>The <a href="#data_sources"><code>data_sources</code></a> method returns a list of subdirectories of the current
+directory in the form &quot;DBI:CSV:f_dir=$dirname&quot;.</p>
+</dd>
+<dd>
+<p>If you want to read the subdirectories of another directory, use</p>
+</dd>
+<dd>
+<pre>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$drh</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">install_driver</span><span class="operator">(</span><span class="string">"CSV"</span><span class="operator">);</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">@list</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">$drh</span><span class="operator">-&gt;</span><span class="variable">data_sources</span><span class="operator">(</span><span class="string">'f_dir'</span> <span class="operator">=&gt;</span> <span class="string">'/usr/local/csv_data'</span> <span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="list_tables" class="item">list_tables</a></strong>
+
+<dd>
+<p>This method returns a list of file names inside $dbh-&gt;{'f_dir'}.
+Example:</p>
+</dd>
+<dd>
+<pre>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$dbh</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">"DBI:CSV:f_dir=/usr/local/csv_data"</span><span class="operator">);</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">@list</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="string">'list_tables'</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Note that the list includes all files contained in the directory, even
+those that have non-valid table names, from the view of SQL.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="known_bugs">KNOWN BUGS</a></h1>
+<ul>
+<li>
+<p>The module is using <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a> internally. However, this function is not
+available on all platforms. Using <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a> is disabled on MacOS and
+Windows 95: There's no locking at all (perhaps not so important on
+MacOS and Windows 95, as there's a single user anyways).</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="author_and_copyright">AUTHOR AND COPYRIGHT</a></h1>
+<p>This module is currently maintained by</p>
+<p>Jeff Zucker &lt; jzucker @ cpan.org &gt;</p>
+<p>The original author is Jochen Wiedmann.</p>
+<p>Copyright (C) 2004 by Jeff Zucker
+Copyright (C) 1998 by Jochen Wiedmann</p>
+<p>All rights reserved.</p>
+<p>You may freely distribute and/or modify this module under the terms of either the GNU General Public License (GPL) or the Artistic License, as specified in
+the Perl README file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../lib/DBI.html">the DBI manpage</a>, <a href="../../lib/Text/CSV_XS.html">the Text::CSV_XS manpage</a>, <a href="../../lib/SQL/Statement.html">the SQL::Statement manpage</a></p>
+
+</body>
+
+</html>

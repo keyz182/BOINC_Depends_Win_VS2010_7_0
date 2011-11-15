@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Pod::Plainer - Perl extension for converting Pod to old style Pod.</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Pod::Plainer - Perl extension for converting Pod to old style Pod.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#export">EXPORT</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Pod::Plainer - Perl extension for converting Pod to old style Pod.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Pod::Plainer</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$parser</span> <span class="operator">=</span> <span class="variable">Pod::Plainer</span> <span class="operator">-&gt;</span> <span class="variable">new</span> <span class="operator">();</span>
+  <span class="variable">$parser</span> <span class="operator">-&gt;</span> <span class="variable">parse_from_filehandle</span><span class="operator">(\</span><span class="variable">*STDIN</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Pod::Plainer uses Pod::Parser which takes Pod with the (new)
+'C&lt;&lt; .. &gt;&gt;' constructs
+and returns the old(er) style with just 'C&lt;&gt;';
+'&lt;' and '&gt;' are replaced by 'E&lt;lt&gt;' and 'E&lt;gt&gt;'.</p>
+<p>This can be used to pre-process Pod before using tools which do not
+recognise the new style Pods.</p>
+<p>
+</p>
+<h2><a name="export">EXPORT</a></h2>
+<p>None by default.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robin Barker, <a href="mailto:rmb1@cise.npl.co.uk">rmb1@cise.npl.co.uk</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>See <a href="../../lib/Pod/Parser.html">the Pod::Parser manpage</a>.</p>
+
+</body>
+
+</html>

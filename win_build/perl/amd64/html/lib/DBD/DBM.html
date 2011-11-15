@@ -1,0 +1,393 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>DBD::DBM - a DBI driver for DBM &amp; MLDBM files</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>DBD::DBM - a DBI driver for DBM &amp; MLDBM files</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#quick_start">QUICK START</a></li>
+	<li><a href="#usage">USAGE</a></li>
+	<ul>
+
+		<li><a href="#specifiying_files_and_directories">Specifiying Files and Directories</a></li>
+		<li><a href="#table_locking_and_flock__">Table locking and <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a></a></li>
+		<li><a href="#specifying_the_dbm_type">Specifying the DBM type</a></li>
+		<li><a href="#adding_multi_column_support_with_mldbm">Adding multi-column support with MLDBM</a></li>
+		<li><a href="#support_for_berkeley_db">Support for Berkeley DB</a></li>
+		<li><a href="#supported_sql_syntax">Supported SQL syntax</a></li>
+		<li><a href="#optimizing_use_of_key_fields">Optimizing use of key fields</a></li>
+		<li><a href="#specifying_column_names">Specifying Column Names</a></li>
+		<li><a href="#statement_handle___sth__attributes_and_methods">Statement handle ($sth) attributes and methods</a></li>
+		<li><a href="#the__dbh__dbm_versions___method">The $dbh-&gt;<code>dbm_versions()</code> method</a></li>
+		<li><a href="#storing_objects">Storing Objects</a></li>
+	</ul>
+
+	<li><a href="#gotchas_and_warnings">GOTCHAS AND WARNINGS</a></li>
+	<li><a href="#getting_help__making_suggestions__and_reporting_bugs">GETTING HELP, MAKING SUGGESTIONS, AND REPORTING BUGS</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#author_and_copyright">AUTHOR AND COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>DBD::DBM - a DBI driver for DBM &amp; MLDBM files</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">DBI</span><span class="operator">;</span>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>                <span class="comment"># defaults to SDBM_File</span>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'DBI:DBM(RaiseError=1):'</span><span class="operator">);</span>  <span class="comment"># defaults to SDBM_File</span>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:type=GDBM_File'</span><span class="operator">);</span>  <span class="comment"># defaults to GDBM_File</span>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:mldbm=Storable'</span><span class="operator">);</span>  <span class="comment"># MLDBM with SDBM_File</span>
+                                                 <span class="comment"># and Storable</span>
+</pre>
+<p>or</p>
+<pre>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">);</span>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">,</span> <span class="operator">{</span> <span class="string">dbm_type</span> <span class="operator">=&gt;</span> <span class="string">'ODBM_File'</span> <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>and other variations on <a href="../../lib/pods/perlfunc.html#connect"><code>connect()</code></a> as shown in the DBI docs and with
+the dbm_ attributes shown below</p>
+<p>... and then use standard DBI prepare, execute, fetch, placeholders, etc.,
+see <a href="#quick_start">QUICK START</a> for an example</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>DBD::DBM is a database management sytem that can work right out of the box.  If you have a standard installation of Perl and a standard installation of DBI, you can begin creating, accessing, and modifying database tables without any further installation.  You can also add some other modules to it for more robust capabilities if you wish.</p>
+<p>The module uses a DBM file storage layer.  DBM file storage is common on many platforms and files can be created with it in many languges.  That means that, in addition to creating files with DBI/SQL, you can also use DBI/SQL to access and modify files created by other DBM modules and programs.  You can also use those programs to access files created with DBD::DBM.</p>
+<p>DBM files are stored in binary format optimized for quick retrieval when using a key field.  That optimization can be used advantageously to make DBD::DBM SQL operations that use key fields very fast.  There are several different &quot;flavors&quot; of DBM - different storage formats supported by different sorts of perl modules such as SDBM_File and MLDBM.  This module supports all of the flavors that perl supports and, when used with MLDBM, supports tables with any number of columns and insertion of Perl objects into tables.</p>
+<p>DBD::DBM has been tested with the following DBM types: SDBM_File, NDBM_File, ODBM_File, GDBM_File, DB_File, BerekeleyDB.  Each type was tested both with and without MLDBM.</p>
+<p>
+</p>
+<hr />
+<h1><a name="quick_start">QUICK START</a></h1>
+<p>DBD::DBM operates like all other DBD drivers - it's basic syntax and operation is specified by DBI.  If you're not familiar with DBI, you should start by reading <a href="../../lib/DBI.html">the DBI manpage</a> and the documents it points to and then come back and read this file.  If you are familiar with DBI, you already know most of what you need to know to operate this module.  Just jump in and create a test script something like the one shown below.</p>
+<p>You should be aware that there are several options for the SQL engine underlying DBD::DBM, see <a href="#supported_sql_syntax">Supported SQL syntax</a>.  There are also many options for DBM support, see especially the section on <a href="#adding_multi_column_support_with_mldbm">Adding multi-column support with MLDBM</a>.</p>
+<p>But here's a sample to get you started.</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">DBI</span><span class="operator">;</span>
+ <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">RaiseError</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+ <span class="keyword">for</span> <span class="keyword">my</span> <span class="variable">$sql</span><span class="operator">(</span> <span class="keyword">split</span> <span class="regex">/;\n+/</span><span class="operator">,</span><span class="string">"
+     CREATE TABLE user ( user_name TEXT, phone TEXT );
+     INSERT INTO user VALUES ('Fred Bloggs','233-7777');
+     INSERT INTO user VALUES ('Sanjay Patel','777-3333');
+     INSERT INTO user VALUES ('Junk','xxx-xxxx');
+     DELETE FROM user WHERE user_name = 'Junk';
+     UPDATE user SET phone = '999-4444' WHERE user_name = 'Sanjay Patel';
+     SELECT * FROM user
+ "</span><span class="operator">){</span>
+     <span class="keyword">my</span> <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="variable">$sql</span><span class="operator">);</span>
+     <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">;</span>
+     <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">dump_results</span> <span class="keyword">if</span> <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">NUM_OF_FIELDS</span><span class="operator">}</span><span class="operator">;</span>
+ <span class="operator">}</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">disconnect</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="usage">USAGE</a></h1>
+<p>
+</p>
+<h2><a name="specifiying_files_and_directories">Specifiying Files and Directories</a></h2>
+<p>DBD::DBM will automatically supply an appropriate file extension for the type of DBM you are using.  For example, if you use SDBM_File, a table called &quot;fruit&quot; will be stored in two files called &quot;fruit.pag&quot; and &quot;fruit.dir&quot;.  You should <em>never</em> specify the file extensions in your SQL statements.</p>
+<p>However, I am not aware (and therefore DBD::DBM is not aware) of all possible extensions for various DBM types.  If your DBM type uses an extension other than .pag and .dir, you should set the <em>dbm_ext</em> attribute to the extension. <strong>And</strong> you should write me with the name of the implementation and extension so I can add it to DBD::DBM!  Thanks in advance for that :-).</p>
+<pre>
+    <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:ext=.db'</span><span class="operator">);</span>  <span class="comment"># .db extension is used</span>
+    <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:ext='</span><span class="operator">);</span>     <span class="comment"># no extension is used</span>
+</pre>
+<p>or</p>
+<pre>
+    <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_ext</span><span class="operator">}</span><span class="operator">=</span><span class="string">'.db'</span><span class="operator">;</span>                      <span class="comment"># global setting</span>
+    <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'qux'</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">ext</span><span class="operator">}</span><span class="operator">=</span><span class="string">'.db'</span><span class="operator">;</span>   <span class="comment"># setting for table 'qux'</span>
+</pre>
+<p>By default files are assumed to be in the current working directory.  To have the module look in a different directory, specify the <em>f_dir</em> attribute in either the connect string or by setting the database handle attribute.</p>
+<p>For example, this will look for the file /foo/bar/fruit (or /foo/bar/fruit.pag for DBM types that use that extension)</p>
+<pre>
+   <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:f_dir=/foo/bar'</span><span class="operator">);</span>
+   <span class="keyword">my</span> <span class="variable">$ary</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">selectall_arrayref</span><span class="operator">(</span><span class="string">q{ SELECT * FROM fruit }</span><span class="operator">);</span>
+</pre>
+<p>And this will too:</p>
+<pre>
+   <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>
+   <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">f_dir</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'/foo/bar'</span><span class="operator">;</span>
+   <span class="keyword">my</span> <span class="variable">$ary</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">selectall_arrayref</span><span class="operator">(</span><span class="string">q{ SELECT x FROM fruit }</span><span class="operator">);</span>
+</pre>
+<p>You can also use delimited identifiers to specify paths directly in SQL statements.  This looks in the same place as the two examples above but without setting <em>f_dir</em>:</p>
+<pre>
+   <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>
+   <span class="keyword">my</span> <span class="variable">$ary</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">selectall_arrayref</span><span class="operator">(</span><span class="string">q{
+       SELECT x FROM "/foo/bar/fruit"
+   }</span><span class="operator">);</span>
+</pre>
+<p>If you have SQL::Statement installed, you can use table aliases:</p>
+<pre>
+   <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>
+   <span class="keyword">my</span> <span class="variable">$ary</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">selectall_arrayref</span><span class="operator">(</span><span class="string">q{
+       SELECT f.x FROM "/foo/bar/fruit" AS f
+   }</span><span class="operator">);</span>
+</pre>
+<p>See the <a href="#gotchas_and_warnings">GOTCHAS AND WARNINGS</a> for using DROP on tables.</p>
+<p>
+</p>
+<h2><a name="table_locking_and_flock__">Table locking and <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a></a></h2>
+<p>Table locking is accomplished using a lockfile which has the same name as the table's file but with the file extension '.lck' (or a lockfile extension that you suppy, see belwo).  This file is created along with the table during a CREATE and removed during a DROP.  Every time the table itself is opened, the lockfile is <code>flocked()</code>.  For SELECT, this is an shared lock.  For all other operations, it is an exclusive lock.</p>
+<p>Since the locking depends on <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a>, it only works on operating systems that support <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a>.  In cases where <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a> is not implemented, DBD::DBM will not complain, it will simply behave as if the <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a> had occurred although no actual locking will happen.  Read the documentation for <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a> if you need to understand this.</p>
+<p>Even on those systems that do support <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a>, the locking is only advisory - as is allways the case with <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a>.  This means that if some other program tries to access the table while DBD::DBM has the table locked, that other program will *succeed* at opening the table.  DBD::DBM's locking only applies to DBD::DBM.  An exception to this would be the situation in which you use a lockfile with the other program that has the same name as the lockfile used in DBD::DBM and that program also uses <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a> on that lockfile.  In that case, DBD::DBM and your other program will respect each other's locks.</p>
+<p>If you wish to use a lockfile extension other than '.lck', simply specify the dbm_lockfile attribute:</p>
+<pre>
+  <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:lockfile=.foo'</span><span class="operator">);</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_lockfile</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'.foo'</span><span class="operator">;</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">qux</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">lockfile</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'.foo'</span><span class="operator">;</span>
+</pre>
+<p>If you wish to disable locking, set the dbm_lockfile equal to 0.</p>
+<pre>
+  <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:lockfile=0'</span><span class="operator">);</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_lockfile</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">qux</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">lockfile</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="specifying_the_dbm_type">Specifying the DBM type</a></h2>
+<p>Each &quot;flavor&quot; of DBM stores its files in a different format and has different capabilities and different limitations.  See <a href="../../lib/AnyDBM_File.html">the AnyDBM_File manpage</a> for a comparison of DBM types.</p>
+<p>By default, DBD::DBM uses the SDBM_File type of storage since SDBM_File comes with Perl itself.  But if you have other types of DBM storage available, you can use any of them with DBD::DBM also.</p>
+<p>You can specify the DBM type using the &quot;dbm_type&quot; attribute which can be set in the connection string or with the $dbh-&gt;{dbm_type} attribute for global settings or with the $dbh-&gt;{dbm_tables}-&gt;{$table_name}-&gt;{type} attribute for per-table settings in cases where a single script is accessing more than one kind of DBM file.</p>
+<p>In the connection string, just set type=TYPENAME where TYPENAME is any DBM type such as GDBM_File, DB_File, etc.  Do <em>not</em> use MLDBM as your dbm_type, that is set differently, see below.</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span><span class="operator">=</span><span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>               <span class="comment"># uses the default SDBM_File</span>
+ <span class="keyword">my</span> <span class="variable">$dbh</span><span class="operator">=</span><span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:type=GDBM_File'</span><span class="operator">);</span> <span class="comment"># uses the GDBM_File</span>
+</pre>
+<p>You can also use $dbh-&gt;{dbm_type} to set global DBM type:</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_type</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'GDBM_File'</span><span class="operator">;</span>  <span class="comment"># set the global DBM type</span>
+ <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_type</span><span class="operator">}</span><span class="operator">;</span>          <span class="comment"># display the global DBM type</span>
+</pre>
+<p>If you are going to have several tables in your script that come from different DBM types, you can use the $dbh-&gt;{dbm_tables} hash to store different settings for the various tables.  You can even use this to perform joins on files that have completely different storage mechanisms.</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span><span class="operator">-&gt;(</span><span class="string">'dbi:DBM:type=GDBM_File'</span><span class="operator">);</span>
+ <span class="comment">#</span>
+ <span class="comment"># sets global default of GDBM_File</span>
+</pre>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">foo</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">type</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'DB_File'</span><span class="operator">;</span>
+ <span class="comment">#</span>
+ <span class="comment"># over-rides the global setting, but only for the table called "foo"</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">foo</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">type</span><span class="operator">}</span><span class="operator">;</span>
+ <span class="comment">#</span>
+ <span class="comment"># prints the dbm_type for the table "foo"</span>
+</pre>
+<p>
+</p>
+<h2><a name="adding_multi_column_support_with_mldbm">Adding multi-column support with MLDBM</a></h2>
+<p>Most of the DBM types only support two columns.  However a CPAN module called MLDBM overcomes this limitation by allowing more than two columns.  It does this by serializing the data - basically it puts a reference to an array into the second column.  It can also put almost any kind of Perl object or even Perl coderefs into columns.</p>
+<p>If you want more than two columns, you must install MLDBM.  It's available for many platforms and is easy to install.</p>
+<p>MLDBM can use three different modules to serialize the column - Data::Dumper, Storable, and FreezeThaw.  Data::Dumper is the default, Storable is the fastest.  MLDBM can also make use of user-defined serialization methods.  All of this is available to you through DBD::DBM with just one attribute setting.</p>
+<p>To use MLDBM with DBD::DBM, you need to set the dbm_mldbm attribute to the name of the serialization module.</p>
+<p>Some examples:</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">=</span><span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:mldbm=Storable'</span><span class="operator">);</span>  <span class="comment"># use MLDBM with Storable</span>
+ <span class="variable">$dbh</span><span class="operator">=</span><span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span>
+    <span class="string">'dbi:DBM:mldbm=MySerializer'</span>           <span class="comment"># use MLDBM with a user defined module</span>
+ <span class="operator">);</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_mldbm</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'MySerializer'</span><span class="operator">;</span>       <span class="comment"># same as above</span>
+ <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_mldbm</span><span class="operator">}</span>                   <span class="comment"># show the MLDBM serializer</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">foo</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">mldbm</span><span class="operator">}</span><span class="operator">=</span><span class="string">'Data::Dumper'</span><span class="operator">;</span>   <span class="comment"># set Data::Dumper for table "foo"</span>
+ <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">foo</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">mldbm</span><span class="operator">}</span><span class="operator">;</span> <span class="comment"># show serializer for table "foo"</span>
+</pre>
+<p>MLDBM works on top of other DBM modules so you can also set a DBM type along with setting dbm_mldbm.  The examples above would default to using SDBM_File with MLDBM.  If you wanted GDBM_File instead, here's how:</p>
+<pre>
+ <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:type=GDBM_File;mldbm=Storable'</span><span class="operator">);</span>
+ <span class="comment">#</span>
+ <span class="comment"># uses GDBM_File with MLDBM and Storable</span>
+</pre>
+<p>SDBM_File, the default file type is quite limited, so if you are going to use MLDBM, you should probably use a different type, see <a href="../../lib/AnyDBM_File.html">the AnyDBM_File manpage</a>.</p>
+<p>See below for some <a href="#gotchas_and_warnings">GOTCHAS AND WARNINGS</a> about MLDBM.</p>
+<p>
+</p>
+<h2><a name="support_for_berkeley_db">Support for Berkeley DB</a></h2>
+<p>The Berkeley DB storage type is supported through two different Perl modules - DB_File (which supports only features in old versions of Berkeley DB) and BerkeleyDB (which supports all versions).  DBD::DBM supports specifying either &quot;DB_File&quot; or &quot;BerkeleyDB&quot; as a <em>dbm_type</em>, with or without MLDBM support.</p>
+<p>The &quot;BerkeleyDB&quot; dbm_type is experimental and its interface is likely to chagne.  It currently defaults to BerkeleyDB::Hash and does not currently support ::Btree or ::Recno.</p>
+<p>With BerkeleyDB, you can specify initialization flags by setting them in your script like this:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:type=BerkeleyDB;mldbm=Storable'</span><span class="operator">);</span>
+ <span class="keyword">use</span> <span class="variable">BerkeleyDB</span><span class="operator">;</span>
+ <span class="keyword">my</span> <span class="variable">$env</span> <span class="operator">=</span> <span class="variable">new</span> <span class="variable">BerkeleyDB::Env</span> <span class="operator">-</span><span class="string">Home</span> <span class="operator">=&gt;</span> <span class="variable">$dir</span><span class="operator">;</span>  <span class="comment"># and/or other Env flags</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_berkeley_flags</span><span class="operator">}</span> <span class="operator">=</span> <span class="operator">{</span>
+      <span class="string">'DB_CREATE'</span>  <span class="operator">=&gt;</span> <span class="variable">DB_CREATE</span>  <span class="comment"># pass in constants</span>
+    <span class="operator">,</span> <span class="string">'DB_RDONLY'</span>  <span class="operator">=&gt;</span> <span class="variable">DB_RDONLY</span>  <span class="comment"># pass in constants</span>
+    <span class="operator">,</span> <span class="string">'-Cachesize'</span> <span class="operator">=&gt;</span> <span class="number">1000</span>       <span class="comment"># set a ::Hash flag</span>
+    <span class="operator">,</span> <span class="string">'-Env'</span>       <span class="operator">=&gt;</span> <span class="variable">$env</span>       <span class="comment"># pass in an environment</span>
+ <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>Do <em>not</em> set the -Flags or -Filename flags, those are determined by the SQL (e.g. -Flags =&gt; DB_RDONLY is set automatically when you issue a SELECT statement).</p>
+<p>Time has not permitted me to provide support in this release of DBD::DBM for further Berkeley DB features such as transactions, concurrency, locking, etc.  I will be working on these in the future and would value suggestions, patches, etc.</p>
+<p>See <em>DB_File</em> and <em>BerkeleyDB</em> for further details.</p>
+<p>
+</p>
+<h2><a name="supported_sql_syntax">Supported SQL syntax</a></h2>
+<p>DBD::DBM uses a subset of SQL.  The robustness of that subset depends on what other modules you have installed. Both options support basic SQL operations including CREATE TABLE, DROP TABLE, INSERT, DELETE, UPDATE, and SELECT.</p>
+<p><strong>Option #1:</strong> By default, this module inherits its SQL support from DBI::SQL::Nano that comes with DBI.  Nano is, as its name implies, a *very* small SQL engine.  Although limited in scope, it is faster than option #2 for some operations.  See <a href="../../lib/DBI/SQL/Nano.html">the DBI::SQL::Nano manpage</a> for a description of the SQL it supports and comparisons of it with option #2.</p>
+<p><strong>Option #2:</strong> If you install the pure Perl CPAN module SQL::Statement, DBD::DBM will use it instead of Nano.  This adds support for table aliases, for functions, for joins, and much more.  If you're going to use DBD::DBM for anything other than very simple tables and queries, you should install SQL::Statement.  You don't have to change DBD::DBM or your scripts in any way, simply installing SQL::Statement will give you the more robust SQL capabilities without breaking scripts written for DBI::SQL::Nano.  See <a href="../../lib/SQL/Statement.html">the SQL::Statement manpage</a> for a description of the SQL it supports.</p>
+<p>To find out which SQL module is working in a given script, you can use the <code>dbm_versions()</code> method or, if you don't need the full output and version numbers, just do this:</p>
+<pre>
+ <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">sql_handler</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>That will print out either &quot;SQL::Statement&quot; or &quot;DBI::SQL::Nano&quot;.</p>
+<p>
+</p>
+<h2><a name="optimizing_use_of_key_fields">Optimizing use of key fields</a></h2>
+<p>Most &quot;flavors&quot; of DBM have only two physical columns (but can contain multiple logical columns as explained below).  They work similarly to a Perl hash with the first column serving as the key.  Like a Perl hash, DBM files permit you to do quick lookups by specifying the key and thus avoid looping through all records.  Also like a Perl hash, the keys must be unique.  It is impossible to create two records with the same key.  To put this all more simply and in SQL terms, the key column functions as the PRIMARY KEY.</p>
+<p>In DBD::DBM, you can take advantage of the speed of keyed lookups by using a WHERE clause with a single equal comparison on the key field.  For example, the following SQL statements are optimized for keyed lookup:</p>
+<pre>
+ <span class="variable">CREATE</span> <span class="variable">TABLE</span> <span class="variable">user</span> <span class="operator">(</span> <span class="variable">user_name</span> <span class="variable">TEXT</span><span class="operator">,</span> <span class="variable">phone</span> <span class="variable">TEXT</span><span class="operator">);</span>
+ <span class="variable">INSERT</span> <span class="variable">INTO</span> <span class="variable">user</span> <span class="variable">VALUES</span> <span class="operator">(</span><span class="string">'Fred Bloggs'</span><span class="operator">,</span><span class="string">'233-7777'</span><span class="operator">);</span>
+ <span class="comment"># ... many more inserts</span>
+ <span class="variable">SELECT</span> <span class="variable">phone</span> <span class="variable">FROM</span> <span class="variable">user</span> <span class="variable">WHERE</span> <span class="variable">user_name</span><span class="operator">=</span><span class="string">'Fred Bloggs'</span><span class="operator">;</span>
+</pre>
+<p>The &quot;user_name&quot; column is the key column since it is the first column. The SELECT statement uses the key column in a single equal comparision - &quot;user_name='Fred Bloggs' - so the search will find it very quickly without having to loop through however many names were inserted into the table.</p>
+<p>In contrast, thes searches on the same table are not optimized:</p>
+<pre>
+ <span class="number">1.</span> <span class="variable">SELECT</span> <span class="variable">phone</span> <span class="variable">FROM</span> <span class="variable">user</span> <span class="variable">WHERE</span> <span class="variable">user_name</span> <span class="operator">&lt;</span> <span class="string">'Fred'</span><span class="operator">;</span>
+ <span class="number">2.</span> <span class="variable">SELECT</span> <span class="variable">user_name</span> <span class="variable">FROM</span> <span class="variable">user</span> <span class="variable">WHERE</span> <span class="variable">phone</span> <span class="operator">=</span> <span class="string">'233-7777'</span><span class="operator">;</span>
+</pre>
+<p>In #1, the operation uses a less-than (&lt;) comparison rather than an equals comparison, so it will not be optimized for key searching.  In #2, the key field &quot;user_name&quot; is not specified in the WHERE clause, and therefore the search will need to loop through all rows to find the desired result.</p>
+<p>
+</p>
+<h2><a name="specifying_column_names">Specifying Column Names</a></h2>
+<p>DBM files don't have a standard way to store column names.   DBD::DBM gets around this issue with a DBD::DBM specific way of storing the column names.  <strong>If you are working only with DBD::DBM and not using files created by or accessed with other DBM programs, you can ignore this section.</strong></p>
+<p>DBD::DBM stores column names as a row in the file with the key <em>_metadata \0</em>.  So this code</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:'</span><span class="operator">);</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">do</span><span class="operator">(</span><span class="string">"CREATE TABLE baz (foo CHAR(10), bar INTEGER)"</span><span class="operator">);</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">do</span><span class="operator">(</span><span class="string">"INSERT INTO baz (foo,bar) VALUES ('zippy',1)"</span><span class="operator">);</span>
+</pre>
+<p>Will create a file that has a structure something like this:</p>
+<pre>
+  _metadata \0 | foo,bar
+  zippy        | 1</pre>
+<p>The next time you access this table with DBD::DBM, it will treat the _metadata row as a header rather than as data and will pull the column names from there.  However, if you access the file with something other than DBD::DBM, the row will be treated as a regular data row.</p>
+<p>If you do not want the column names stored as a data row in the table you can set the <em>dbm_store_metadata</em> attribute to 0.</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:store_metadata=0'</span><span class="operator">);</span>
+</pre>
+<p>or</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_store_metadata</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+<p>or, for per-table setting</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">qux</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">store_metadata</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+<p>By default, DBD::DBM assumes that you have two columns named &quot;k&quot; and &quot;v&quot; (short for &quot;key&quot; and &quot;value&quot;).  So if you have <em>dbm_store_metadata</em> set to 1 and you want to use alternate column names, you need to specify the column names like this:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:DBM:store_metadata=0;cols=foo,bar'</span><span class="operator">);</span>
+</pre>
+<p>or</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_store_metadata</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_cols</span><span class="operator">}</span>           <span class="operator">=</span> <span class="string">'foo,bar'</span><span class="operator">;</span>
+</pre>
+<p>To set the column names on per-table basis, do this:</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">qux</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">store_metadata</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dbm_tables</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">qux</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">cols</span><span class="operator">}</span>           <span class="operator">=</span> <span class="string">'foo,bar'</span><span class="operator">;</span>
+ <span class="comment">#</span>
+ <span class="comment"># sets the column names only for table "qux"</span>
+</pre>
+<p>If you have a file that was created by another DBM program or created with <em>dbm_store_metadata</em> set to zero and you want to convert it to using DBD::DBM's column name storage, just use one of the methods above to name the columns but *without* specifying <em>dbm_store_metadata</em> as zero.  You only have to do that once - thereafter you can get by without setting either <em>dbm_store_metadata</em> or setting <em>dbm_cols</em> because the names will be stored in the file.</p>
+<p>
+</p>
+<h2><a name="statement_handle___sth__attributes_and_methods">Statement handle ($sth) attributes and methods</a></h2>
+<p>Most statement handle attributes such as NAME, NUM_OF_FIELDS, etc. are available only after an execute.  The same is true of $sth-&gt;rows which is available after the execute but does <em>not</em> require a fetch.</p>
+<p>
+</p>
+<h2><a name="the__dbh__dbm_versions___method">The $dbh-&gt;<code>dbm_versions()</code> method</a></h2>
+<p>The private method <code>dbm_versions()</code> presents a summary of what other modules are being used at any given time.  DBD::DBM can work with or without many other modules - it can use either SQL::Statement or DBI::SQL::Nano as its SQL engine, it can be run with DBI or DBI::PurePerl, it can use many kinds of DBM modules, and many kinds of serializers when run with MLDBM.  The <code>dbm_versions()</code> method reports on all of that and more.</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">dbm_versions</span><span class="operator">;</span>               <span class="comment"># displays global settings</span>
+  <span class="keyword">print</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">dbm_versions</span><span class="operator">(</span><span class="variable">$table_name</span><span class="operator">);</span>  <span class="comment"># displays per table settings</span>
+</pre>
+<p>An important thing to note about this method is that when called with no arguments, it displays the *global* settings.  If you over-ride these by setting per-table attributes, these will <em>not</em> be shown unless you specifiy a table name as an argument to the method call.</p>
+<p>
+</p>
+<h2><a name="storing_objects">Storing Objects</a></h2>
+<p>If you are using MLDBM, you can use DBD::DBM to take advantage of its serializing abilities to serialize any Perl object that MLDBM can handle.  To store objects in columns, you should (but don't absolutely need to) declare it as a column of type BLOB (the type is *currently* ignored by the SQL engine, but heh, it's good form).</p>
+<p>You *must* use placeholders to insert or refer to the data.</p>
+<p>
+</p>
+<hr />
+<h1><a name="gotchas_and_warnings">GOTCHAS AND WARNINGS</a></h1>
+<p>Using the SQL DROP command will remove any file that has the name specified in the command with either '.pag' or '.dir' or your {dbm_ext} appended to it.  So
+this be dangerous if you aren't sure what file it refers to:</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">do</span><span class="operator">(</span><span class="string">qq{DROP TABLE "/path/to/any/file"}</span><span class="operator">);</span>
+</pre>
+<p>Each DBM type has limitations.  SDBM_File, for example, can only store values of less than 1,000 characters.  *You* as the script author must ensure that you don't exceed those bounds.  If you try to insert a value that is bigger than the DBM can store, the results will be unpredictable.  See the documentation for whatever DBM you are using for details.</p>
+<p>Different DBM implementations return records in different orders.  That means that you can <em>not</em> depend on the order of records unless you use an ORDER BY statement.  DBI::SQL::Nano does not currently support ORDER BY (though it may soon) so if you need ordering, you'll have to install SQL::Statement.</p>
+<p>DBM data files are platform-specific.  To move them from one platform to another, you'll need to do something along the lines of dumping your data to CSV on platform #1 and then dumping from CSV to DBM on platform #2.  DBD::AnyData and DBD::CSV can help with that.  There may also be DBM conversion tools for your platforms which would probably be quickest.</p>
+<p>When using MLDBM, there is a very powerful serializer - it will allow you to store Perl code or objects in database columns.  When these get de-serialized, they may be evaled - in other words MLDBM (or actually Data::Dumper when used by MLDBM) may take the values and try to execute them in Perl.  Obviously, this can present dangers, so if you don't know what's in a file, be careful before you access it with MLDBM turned on!</p>
+<p>See the entire section on <a href="#table_locking_and_flock__">Table locking and flock()</a> for gotchas and warnings about the use of <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="getting_help__making_suggestions__and_reporting_bugs">GETTING HELP, MAKING SUGGESTIONS, AND REPORTING BUGS</a></h1>
+<p>If you need help installing or using DBD::DBM, please write to the DBI users mailing list at <a href="mailto:dbi-users@perl.org">dbi-users@perl.org</a> or to the comp.lang.perl.modules newsgroup on usenet.  I'm afraid I can't always answer these kinds of questions quickly and there are many on the mailing list or in the newsgroup who can.</p>
+<p>If you have suggestions, ideas for improvements, or bugs to report, please write me directly at the email shown below.</p>
+<p>When reporting bugs, please send the output of $dbh-&gt;<code>dbm_versions($table)</code> for a table that exhibits the bug and, if possible, as small a sample as you can make of the code that produces the bug.  And of course, patches are welcome too :-).</p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Many, many thanks to Tim Bunce for prodding me to write this, and for copious, wise, and patient suggestions all along the way.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author_and_copyright">AUTHOR AND COPYRIGHT</a></h1>
+<p>This module is written and maintained by</p>
+<p>Jeff Zucker &lt; jzucker AT cpan.org &gt;</p>
+<p>Copyright (c) 2004 by Jeff Zucker, all rights reserved.</p>
+<p>You may freely distribute and/or modify this module under the terms of either the GNU General Public License (GPL) or the Artistic License, as specified in the Perl README file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../lib/DBI.html">the DBI manpage</a>, <a href="../../lib/SQL/Statement.html">the SQL::Statement manpage</a>, <a href="../../lib/DBI/SQL/Nano.html">the DBI::SQL::Nano manpage</a>, <a href="../../lib/AnyDBM_File.html">the AnyDBM_File manpage</a>, <em>MLDBM</em></p>
+
+</body>
+
+</html>

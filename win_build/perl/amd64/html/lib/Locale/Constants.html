@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Locale::Constants - constants for Locale codes</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Locale::Constants - constants for Locale codes</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#known_bugs_and_limitations">KNOWN BUGS AND LIMITATIONS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Locale::Constants - constants for Locale codes</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Locale::Constants</span><span class="operator">;</span>
+    
+    <span class="variable">$codeset</span> <span class="operator">=</span> <span class="variable">LOCALE_CODE_ALPHA_2</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>Locale::Constants</strong> defines symbols which are used in
+the four modules from the Locale-Codes distribution:</p>
+<pre>
+        Locale::Language
+        Locale::Country
+        Locale::Currency
+        Locale::Script</pre>
+<p><strong>Note:</strong> at the moment only Locale::Country and Locale::Script
+support more than one code set.</p>
+<p>The symbols defined are used to specify which codes you
+want to be used:</p>
+<pre>
+        LOCALE_CODE_ALPHA_2
+        LOCALE_CODE_ALPHA_3
+        LOCALE_CODE_NUMERIC</pre>
+<p>You shouldn't have to <a href="../../lib/pods/perlfunc.html#use"><code>use</code></a> this module directly yourself -
+it is used by the three Locale modules, which in turn export
+the symbols.</p>
+<p>
+</p>
+<hr />
+<h1><a name="known_bugs_and_limitations">KNOWN BUGS AND LIMITATIONS</a></h1>
+<p>None at the moment.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<dl>
+<dt><strong><a name="locale_language" class="item">Locale::Language</a></strong>
+
+<dd>
+<p>Codes for identification of languages.</p>
+</dd>
+</li>
+<dt><strong><a name="locale_country" class="item">Locale::Country</a></strong>
+
+<dd>
+<p>Codes for identification of countries.</p>
+</dd>
+</li>
+<dt><strong><a name="locale_script" class="item">Locale::Script</a></strong>
+
+<dd>
+<p>Codes for identification of scripts.</p>
+</dd>
+</li>
+<dt><strong><a name="locale_currency" class="item">Locale::Currency</a></strong>
+
+<dd>
+<p>Codes for identification of currencies and funds.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Neil Bowers &lt;<a href="mailto:neil@bowers.com">neil@bowers.com</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2002-2004, Neil Bowers.</p>
+<p>Copyright (C) 2001, Canon Research Centre Europe (CRE).</p>
+<p>This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,440 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Crypt::SSLeay - OpenSSL support for LWP</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Crypt::SSLeay - OpenSSL support for LWP</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#environment_variables">ENVIRONMENT VARIABLES</a></li>
+	<li><a href="#install">INSTALL</a></li>
+	<ul>
+
+		<li><a href="#openssl">OpenSSL</a></li>
+		<li><a href="#crypt__ssleay">Crypt::SSLeay</a></li>
+		<ul>
+
+			<li><a href="#windows">Windows</a></li>
+			<li><a href="#vms">VMS</a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#proxy_support">PROXY SUPPORT</a></li>
+	<ul>
+
+		<li><a href="#lwp__useragent_proxy_support">LWP::UserAgent proxy support</a></li>
+		<li><a href="#crypt__ssleay_proxy_support">Crypt::SSLeay proxy support</a></li>
+	</ul>
+
+	<li><a href="#client_certificate_support">CLIENT CERTIFICATE SUPPORT</a></li>
+	<ul>
+
+		<li><a href="#creating_a_test_certificate">Creating a test certificate</a></li>
+		<li><a href="#pkcs12_support">PKCS12 support</a></li>
+	</ul>
+
+	<li><a href="#ssl_versions">SSL versions</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Crypt::SSLeay - OpenSSL support for LWP</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  lwp-request https://www.example.com</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">LWP::UserAgent</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$ua</span>  <span class="operator">=</span> <span class="variable">LWP::UserAgent</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$req</span> <span class="operator">=</span> <span class="variable">HTTP::Request</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">'GET'</span><span class="operator">,</span> <span class="string">'https://www.example.com/'</span><span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">$res</span> <span class="operator">=</span> <span class="variable">$ua</span><span class="operator">-&gt;</span><span class="variable">request</span><span class="operator">(</span><span class="variable">$req</span><span class="operator">);</span>
+  <span class="keyword">print</span> <span class="variable">$res</span><span class="operator">-&gt;</span><span class="variable">content</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This document describes <code>Crypt::SSLeay</code> version 0.57, released
+2007-09-17.</p>
+<p>This perl module provides support for the https protocol under LWP,
+to allow an <code>LWP::UserAgent</code> object to perform GET, HEAD and POST
+requests. Please see LWP for more information on POST requests.</p>
+<p>The <code>Crypt::SSLeay</code> package provides <a href="#net_ssl"><code>Net::SSL</code></a>, which is loaded
+by <code>LWP::Protocol::https</code> for https requests and provides the
+necessary SSL glue.</p>
+<p>This distribution also makes following deprecated modules available:</p>
+<pre>
+  Crypt::SSLeay::CTX
+  Crypt::SSLeay::Conn
+  Crypt::SSLeay::X509</pre>
+<p>Work on Crypt::SSLeay has been continued only to provide https
+support for the LWP (libwww-perl) libraries.</p>
+<p>
+</p>
+<hr />
+<h1><a name="environment_variables">ENVIRONMENT VARIABLES</a></h1>
+<p>The following environment variables change the way
+<code>Crypt::SSLeay</code> and <a href="#net_ssl"><code>Net::SSL</code></a> behave.</p>
+<pre>
+  <span class="comment"># proxy support</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'http://proxy_hostname_or_ip:port'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># proxy_basic_auth</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY_USERNAME</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'username'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY_PASSWORD</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'password'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># debugging (SSL diagnostics)</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_DEBUG</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># default ssl version</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_VERSION</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'3'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># client certificate support</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_CERT_FILE</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'certs/notacacert.pem'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_KEY_FILE</span><span class="operator">}</span>  <span class="operator">=</span> <span class="string">'certs/notacakeynopass.pem'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># CA cert peer verification</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_CA_FILE</span><span class="operator">}</span>   <span class="operator">=</span> <span class="string">'certs/ca-bundle.crt'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_CA_DIR</span><span class="operator">}</span>    <span class="operator">=</span> <span class="string">'certs/'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Client PKCS12 cert support</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PKCS12_FILE</span><span class="operator">}</span>     <span class="operator">=</span> <span class="string">'certs/pkcs12.pkcs12'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PKCS12_PASSWORD</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'PKCS12_PASSWORD'</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="install">INSTALL</a></h1>
+<p>
+</p>
+<h2><a name="openssl">OpenSSL</a></h2>
+<p>You must have OpenSSL or SSLeay installed before compiling 
+this module. You can get the latest OpenSSL package from:</p>
+<pre>
+  <a href="http://www.openssl.org/">http://www.openssl.org/</a></pre>
+<p>On Debian systems, you will need to install the libssl-dev package,
+at least for the duration of the build (it may be removed afterwards).</p>
+<p>Other package-based systems may require something similar. The key
+is that Crypt::SSLeay makes calls to the OpenSSL library, and how
+to do so is specified in the C header files that come with the
+library.  Some systems break out the header files into a separate
+package from that of the libraries. Once the program has been built,
+you don't need the headers any more.</p>
+<p>When installing openssl make sure your config looks like:</p>
+<pre>
+  ./config --openssldir=/usr/local/openssl
+ or
+  ./config --openssldir=/usr/local/ssl</pre>
+<p>If you are planning on upgrading the default OpenSSL libraries on
+a system like RedHat, (not recommended), then try something like:</p>
+<pre>
+  ./config --openssldir=/usr --shared</pre>
+<p>The --shared option to config will set up building the .so 
+shared libraries which is important for such systems. This is
+followed by:</p>
+<pre>
+  make
+  make test
+  make install</pre>
+<p>This way Crypt::SSLeay will pick up the includes and 
+libraries automatically. If your includes end up
+going into a separate directory like /usr/local/include,
+then you may need to symlink /usr/local/openssl/include
+to /usr/local/include</p>
+<p>
+</p>
+<h2><a name="crypt__ssleay">Crypt::SSLeay</a></h2>
+<p>The latest Crypt::SSLeay can be found at your nearest CPAN,
+as well as:</p>
+<pre>
+  <a href="http://search.cpan.org/dist/Crypt-SSLeay/">http://search.cpan.org/dist/Crypt-SSLeay/</a></pre>
+<p>Once you have downloaded it, Crypt::SSLeay installs easily 
+using the <code>make</code> * commands as shown below.</p>
+<pre>
+  perl Makefile.PL
+  make
+  make test
+  make install</pre>
+<pre>
+  * use nmake or dmake on Win32</pre>
+<p>For unattended (batch) installations, to be absolutely certain that
+<em class="file">Makefile.PL</em> does not prompt for questions on STDIN, set the
+following environment variable beforehand:</p>
+<pre>
+  PERL_MM_USE_DEFAULT=1</pre>
+<p>(This is true for any CPAN module that uses <code>ExtUtils::MakeMaker</code>).</p>
+<p>
+</p>
+<h3><a name="windows">Windows</a></h3>
+<p><code>Crypt::SSLeay</code> builds correctly with Strawberry Perl.</p>
+<p>For Activestate users, the ActiveState company does not have a
+permit from the Canadian Federal Government to distribute cryptographic
+software. This prevents <code>Crypt::SSLeay</code> from being distributed as
+a PPM package from their repository. See
+<a href="http://aspn.activestate.com/ASPN/docs/ActivePerl/5.8/faq/ActivePerl-faq2.html#crypto_packages">http://aspn.activestate.com/ASPN/docs/ActivePerl/5.8/faq/ActivePerl-faq2.html#crypto_packages</a>
+for more information on this issue.</p>
+<p>You may download it from Randy Kobes's PPM repository by using
+the following command:</p>
+<pre>
+  ppm install <a href="http://theoryx5.uwinnipeg.ca/ppms/Crypt-SSLeay.ppd">http://theoryx5.uwinnipeg.ca/ppms/Crypt-SSLeay.ppd</a></pre>
+<p>An alternative is to add the uwinnipeg.ca PPM repository to your
+local installation. See <a href="http://cpan.uwinnipeg.ca/htdocs/faqs/ppm.html">http://cpan.uwinnipeg.ca/htdocs/faqs/ppm.html</a>
+for more details.</p>
+<p>
+</p>
+<h3><a name="vms">VMS</a></h3>
+<p>It is assumed that the OpenSSL installation is located at
+<code>/ssl$root</code>. Define this logical to point to the appropriate
+place in the filesystem.</p>
+<p>
+</p>
+<hr />
+<h1><a name="proxy_support">PROXY SUPPORT</a></h1>
+<p>LWP::UserAgent and Crypt::SSLeay have their own versions of 
+proxy support. Please read these sections to see which one
+is appropriate.</p>
+<p>
+</p>
+<h2><a name="lwp__useragent_proxy_support">LWP::UserAgent proxy support</a></h2>
+<p>LWP::UserAgent has its own methods of proxying which may work for
+you and is likely to be incompatible with Crypt::SSLeay proxy support.
+To use LWP::UserAgent proxy support, try something like:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$ua</span> <span class="operator">=</span> <span class="variable">new</span> <span class="variable">LWP::UserAgent</span><span class="operator">;</span>
+  <span class="variable">$ua</span><span class="operator">-&gt;</span><span class="variable">proxy</span><span class="operator">(</span><span class="operator">[</span><span class="string">qw( https http )</span><span class="operator">]</span><span class="operator">,</span> <span class="string">"</span><span class="variable">$proxy_ip</span><span class="string">:</span><span class="variable">$proxy_port</span><span class="string">"</span><span class="operator">);</span>
+</pre>
+<p>At the time of this writing, libwww v5.6 seems to proxy https 
+requests fine with an Apache mod_proxy server.  It sends a line like:</p>
+<pre>
+  GET https://www.example.com HTTP/1.1</pre>
+<p>to the proxy server, which is not the CONNECT request that
+some proxies would expect, so this may not work with other
+proxy servers than mod_proxy. The CONNECT method is used
+by Crypt::SSLeay's internal proxy support.</p>
+<p>
+</p>
+<h2><a name="crypt__ssleay_proxy_support">Crypt::SSLeay proxy support</a></h2>
+<p>For native Crypt::SSLeay proxy support of https requests,
+you need to set the environment variable <code>HTTPS_PROXY</code> to your 
+proxy server and port, as in:</p>
+<pre>
+  <span class="comment"># proxy support</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'http://proxy_hostname_or_ip:port'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'127.0.0.1:8080'</span><span class="operator">;</span>
+</pre>
+<p>Use of the <code>HTTPS_PROXY</code> environment variable in this way 
+is similar to <code>LWP::UserAgent-</code>env_proxy()&gt; usage, but calling
+that method will likely override or break the Crypt::SSLeay
+support, so do not mix the two.</p>
+<p>Basic auth credentials to the proxy server can be provided 
+this way:</p>
+<pre>
+  <span class="comment"># proxy_basic_auth</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY_USERNAME</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'username'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PROXY_PASSWORD</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'password'</span><span class="operator">;</span>
+</pre>
+<p>For an example of LWP scripting with <code>Crypt::SSLeay</code> native proxy
+support, please look at the <em class="file">eg/lwp-ssl-test</em> script in the 
+<code>Crypt::SSLeay</code> distribution.</p>
+<p>
+</p>
+<hr />
+<h1><a name="client_certificate_support">CLIENT CERTIFICATE SUPPORT</a></h1>
+<p>Client certificates are supported. PEM0encoded certificate and
+private key files may be used like this:</p>
+<pre>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_CERT_FILE</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'certs/notacacert.pem'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_KEY_FILE</span><span class="operator">}</span>  <span class="operator">=</span> <span class="string">'certs/notacakeynopass.pem'</span><span class="operator">;</span>
+</pre>
+<p>You may test your files with the <em class="file">eg/net-ssl-test</em> program,
+bundled with the distribution, by issuing a command like:</p>
+<pre>
+  perl eg/net-ssl-test -cert=certs/notacacert.pem \
+    -key=certs/notacakeynopass.pem -d GET $HOST_NAME</pre>
+<p>Additionally, if you would like to tell the client where
+the CA file is, you may set these.</p>
+<pre>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_CA_FILE</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">"some_file"</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_CA_DIR</span><span class="operator">}</span>  <span class="operator">=</span> <span class="string">"some_dir"</span><span class="operator">;</span>
+</pre>
+<p>There is no sample CA cert file at this time for testing,
+but you may configure <em class="file">eg/net-ssl-test</em> to use your CA cert
+with the -CAfile option. (TODO: then what is the ./certs
+directory in the distribution?)</p>
+<p>
+</p>
+<h2><a name="creating_a_test_certificate">Creating a test certificate</a></h2>
+<p>To create simple test certificates with OpenSSL, you may
+run the following command:</p>
+<pre>
+  openssl req -config /usr/local/openssl/openssl.cnf \
+    -new -days 365 -newkey rsa:1024 -x509 \
+    -keyout notacakey.pem -out notacacert.pem</pre>
+<p>To remove the pass phrase from the key file, run:</p>
+<pre>
+  openssl rsa -in notacakey.pem -out notacakeynopass.pem</pre>
+<p>
+</p>
+<h2><a name="pkcs12_support">PKCS12 support</a></h2>
+<p>The directives for enabling use of PKCS12 certificates is:</p>
+<pre>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PKCS12_FILE</span><span class="operator">}</span>     <span class="operator">=</span> <span class="string">'certs/pkcs12.pkcs12'</span><span class="operator">;</span>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_PKCS12_PASSWORD</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'PKCS12_PASSWORD'</span><span class="operator">;</span>
+</pre>
+<p>Use of this type of certificate takes precedence over previous
+certificate settings described. (TODO: unclear? Meaning &quot;the
+presence of this type of certificate??)</p>
+<p>
+</p>
+<hr />
+<h1><a name="ssl_versions">SSL versions</a></h1>
+<p>Crypt::SSLeay tries very hard to connect to <em>any</em> SSL web server
+accomodating servers that are buggy, old or simply
+not standards-compliant. To this effect, this module will
+try SSL connections in this order:</p>
+<pre>
+  SSL v23 - should allow v2 and v3 servers to pick their best type
+  SSL v3  - best connection type
+  SSL v2  - old connection type</pre>
+<p>Unfortunately, some servers seem not to handle a reconnect
+to SSL v3 after a failed connect of SSL v23 is tried,
+so you may set before using LWP or Net::SSL:</p>
+<pre>
+  <span class="variable">$ENV</span><span class="operator">{</span><span class="string">HTTPS_VERSION</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span>
+</pre>
+<p>to force a version 3 SSL connection first. At this time only a
+version 2 SSL connection will be tried after this, as the connection
+attempt order remains unchanged by this setting.</p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Many thanks to Gisle Aas for writing this module and many others
+including libwww, for perl. The web will never be the same :)</p>
+<p>Ben Laurie deserves kudos for his excellent patches for better error
+handling, SSL information inspection, and random seeding.</p>
+<p>Thanks to Dongqiang Bai for host name resolution fix when using a
+proxy.</p>
+<p>Thanks to Stuart Horner of Core Communications, Inc. who found the
+need for building --shared OpenSSL libraries.</p>
+<p>Thanks to Pavel Hlavnicka for a patch for freeing memory when using
+a pkcs12 file, and for inspiring more robust <a href="../../lib/pods/perlfunc.html#read"><code>read()</code></a> behavior.</p>
+<p>James Woodyatt is a champ for finding a ridiculous memory leak that
+has been the bane of many a Crypt::SSLeay user.</p>
+<p>Thanks to Bryan Hart for his patch adding proxy support,
+and thanks to Tobias Manthey for submitting another approach.</p>
+<p>Thanks to Alex Rhomberg for Alpha linux ccc patch.</p>
+<p>Thanks to Tobias Manthey for his patches for client certificate
+support.</p>
+<p>Thanks to Daisuke Kuroda for adding PKCS12 certificate support.</p>
+<p>Thanks to Gamid Isayev for CA cert support and insights into error
+messaging.</p>
+<p>Thanks to Jeff Long for working through a tricky CA cert SSLClientVerify
+issue.</p>
+<p>Thanks to Chip Turner for patch to build under perl 5.8.0.</p>
+<p>Thanks to Joshua Chamas for the time he spent maintaining the
+module.</p>
+<p>Thanks to Jeff Lavallee for help with alarms on read failures (CPAN
+bug #12444).</p>
+<p>Thanks to Guenter Knauf for significant improvements in configuring
+things in Win32 and Netware lands and Jan Dubois for various
+suggestions for improvements.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<dl>
+<dt><strong><a name="net_ssl" class="item">Net::SSL</a></strong>
+
+<dd>
+<p>If you have downloaded this distribution as of a dependency
+of another distribution, it's probably due to this module
+(which is included in this distribution).</p>
+</dd>
+</li>
+<dt><strong><a name="net_ssleay" class="item">Net::SSLeay</a></strong>
+
+<dd>
+<p>A module that offers access to the OpenSSL API directly from Perl.</p>
+</dd>
+<dd>
+<pre>
+  <a href="http://search.cpan.org/dist/Net_SSLeay.pm/">http://search.cpan.org/dist/Net_SSLeay.pm/</a></pre>
+</dd>
+</li>
+<dt><strong><a name="http_www_openssl_org_related_binaries_html" class="item"><a href="http://www.openssl.org/related/binaries.html">http://www.openssl.org/related/binaries.html</a></a></strong>
+
+<dd>
+<p>Pointers on where to find OpenSSL binary packages (Windows).</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>For use of Crypt::SSLeay &amp; Net::SSL with perl's LWP, please
+send email to <code>libwww@perl.org</code>.</p>
+<p>For OpenSSL or general SSL support please email the 
+openssl user mailing list at <code>openssl-users@openssl.org</code>.
+This includes issues associated with building and installing
+OpenSSL on one's system.</p>
+<p>Please report all bugs at
+<a href="http://rt.cpan.org/NoAuth/Bugs.html?Dist=Crypt-SSLeay">http://rt.cpan.org/NoAuth/Bugs.html</a>.</p>
+<p>This module was originally written by Gisle Aas, and was subsequently
+maintained by Joshua Chamas. It is currently maintained by David
+Landgren.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<pre>
+ Copyright (c) 2006-2007 David Landgren.
+ Copyright (c) 1999-2003 Joshua Chamas.
+ Copyright (c) 1998 Gisle Aas.</pre>
+<p>This program is free software; you can redistribute 
+it and/or modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

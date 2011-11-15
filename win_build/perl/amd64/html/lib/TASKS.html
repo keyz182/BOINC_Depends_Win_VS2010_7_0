@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>TASKS - Want to help? These things need doing...</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>TASKS - Want to help? These things need doing...</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<ul>
+
+		<li><a href="#increase_test_coverage">Increase test coverage</a></li>
+		<li><a href="#test_the_proxy">Test the proxy</a></li>
+		<li><a href="#fixing_bugs">Fixing bugs</a></li>
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>TASKS - Want to help? These things need doing...</p>
+<p>
+</p>
+<h2><a name="increase_test_coverage">Increase test coverage</a></h2>
+<p>More tests need to be added to test the codes that not urrently being tested.</p>
+<p>It's pretty poor right now:</p>
+<pre>
+   <a href="http://pjcj.sytes.net/cover/latest/DBI-1.52/coverage.html">http://pjcj.sytes.net/cover/latest/DBI-1.52/coverage.html</a></pre>
+<p>Start with improving the subroutine coverage</p>
+<pre>
+   <a href="http://pjcj.sytes.net/cover/latest/DBI-1.52/blib-lib-DBI-pm--subroutine.html">http://pjcj.sytes.net/cover/latest/DBI-1.52/blib-lib-DBI-pm--subroutine.html</a></pre>
+<p>
+</p>
+<h2><a name="test_the_proxy">Test the proxy</a></h2>
+<p>The current t/80proxy.t is isolated from the rest of the test suite so actually
+tests very little, and what it does test is duplicating other tests.</p>
+<p>Ideally the proxy should be tested in the same way as DBI::PurePerl.  In other
+words, by creating wrappers test files for each test file that set
+$ENV{DBI_AUTOPROXY} and run the original test. They'll also need to start and
+stop a proxy server.</p>
+<p>
+</p>
+<h2><a name="fixing_bugs">Fixing bugs</a></h2>
+<p>The official bug list is here:</p>
+<pre>
+   <a href="http://rt.cpan.org/NoAuth/Bugs.html?Dist=DBI">http://rt.cpan.org/NoAuth/Bugs.html?Dist=DBI</a></pre>
+<p>Naturally I'll offer direction and guidance on any you want to tackle.
+I've also got a few that could be entered into rt.cpan.org.</p>
+
+</body>
+
+</html>

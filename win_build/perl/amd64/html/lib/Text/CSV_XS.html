@@ -1,0 +1,1303 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Text::CSV_XS - comma-separated values manipulation routines</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Text::CSV_XS - comma-separated values manipulation routines</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#embedded_newlines">Embedded newlines</a></li>
+		<li><a href="#unicode__utf8_">Unicode (UTF8)</a></li>
+	</ul>
+
+	<li><a href="#specification">SPECIFICATION</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#version___">version ()</a></li>
+		<li><a href="#new____attr_">new (\%attr)</a></li>
+		<li><a href="#combine">combine</a></li>
+		<li><a href="#print">print</a></li>
+		<li><a href="#string">string</a></li>
+		<li><a href="#parse">parse</a></li>
+		<li><a href="#getline">getline</a></li>
+		<li><a href="#getline_hr">getline_hr</a></li>
+		<li><a href="#column_names">column_names</a></li>
+		<li><a href="#bind_columns">bind_columns</a></li>
+		<li><a href="#eof">eof</a></li>
+		<li><a href="#types">types</a></li>
+		<li><a href="#fields">fields</a></li>
+		<li><a href="#meta_info">meta_info</a></li>
+		<li><a href="#is_quoted">is_quoted</a></li>
+		<li><a href="#is_binary">is_binary</a></li>
+		<li><a href="#status">status</a></li>
+		<li><a href="#error_input">error_input</a></li>
+		<li><a href="#error_diag">error_diag</a></li>
+		<li><a href="#setdiag">SetDiag</a></li>
+	</ul>
+
+	<li><a href="#internals">INTERNALS</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<ul>
+
+		<li><a href="#microsoft_excel">Microsoft Excel</a></li>
+	</ul>
+
+	<li><a href="#todo">TODO</a></li>
+	<li><a href="#release_plan">Release plan</a></li>
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors_and_maintainers">AUTHORS and MAINTAINERS</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Text::CSV_XS - comma-separated values manipulation routines</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Text::CSV_XS</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">();</span>          <span class="comment"># create a new object</span>
+ <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(\</span><span class="variable">%attr</span><span class="operator">);</span>    <span class="comment"># create a new object</span>
+</pre>
+<pre>
+ <span class="variable">$status</span>  <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">combine</span> <span class="operator">(</span><span class="variable">@columns</span><span class="operator">);</span>  <span class="comment"># combine columns into a string</span>
+ <span class="variable">$line</span>    <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">string</span> <span class="operator">();</span>           <span class="comment"># get the combined string</span>
+</pre>
+<pre>
+ <span class="variable">$status</span>  <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">parse</span> <span class="operator">(</span><span class="variable">$line</span><span class="operator">);</span>       <span class="comment"># parse a CSV string into fields</span>
+ <span class="variable">@columns</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">fields</span> <span class="operator">();</span>           <span class="comment"># get the parsed fields</span>
+</pre>
+<pre>
+ <span class="variable">$status</span>       <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">status</span> <span class="operator">();</span>      <span class="comment"># get the most recent status</span>
+ <span class="variable">$bad_argument</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_input</span> <span class="operator">();</span> <span class="comment"># get the most recent bad argument</span>
+ <span class="variable">$diag</span>         <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>  <span class="comment"># if an error occured, explains WHY</span>
+</pre>
+<pre>
+ <span class="variable">$status</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">print</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">,</span> <span class="variable">$colref</span><span class="operator">);</span> <span class="comment"># Write an array of fields</span>
+                                       <span class="comment"># immediately to a file $io</span>
+ <span class="variable">$colref</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">);</span>        <span class="comment"># Read a line from file $io,</span>
+                                       <span class="comment"># parse it and return an array</span>
+                                       <span class="comment"># ref of fields</span>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">bind_columns</span> <span class="operator">(</span><span class="variable">@refs</span><span class="operator">);</span>           <span class="comment"># Set return fields for getline ()</span>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">column_names</span> <span class="operator">(</span><span class="variable">@names</span><span class="operator">);</span>          <span class="comment"># Set column names for getline_hr ()</span>
+ <span class="variable">$ref</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline_hr</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">);</span>        <span class="comment"># getline (), but returns a hashref</span>
+ <span class="variable">$eof</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">eof</span> <span class="operator">();</span>                  <span class="comment"># Indicate if last parse or</span>
+                                       <span class="comment"># getline () hit End Of File</span>
+</pre>
+<pre>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">types</span> <span class="operator">(\</span><span class="variable">@t_array</span><span class="operator">);</span>              <span class="comment"># Set column types</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Text::CSV_XS provides facilities for the composition and decomposition of
+comma-separated values.  An instance of the Text::CSV_XS class can combine
+fields into a CSV string and parse a CSV string into fields.</p>
+<p>The module accepts either strings or files as input and can utilize any
+user-specified characters as delimiters, separators, and escapes so it is
+perhaps better called ASV (anything separated values) rather than just CSV.</p>
+<p>
+</p>
+<h2><a name="embedded_newlines">Embedded newlines</a></h2>
+<p><strong>Important Note</strong>: The default behavior is to only accept ascii characters.
+This means that fields can not contain newlines. If your data contains
+newlines embedded in fields, or characters above 0x7e (tilde), or binary data,
+you *must* set <code>binary =&gt; 1</code> in the call to <code>new ()</code>.  To cover the widest
+range of parsing options, you will always want to set binary.</p>
+<p>But you still have the problem that you have to pass a correct line to the
+<code>parse ()</code> method, which is more complicated from the usual point of
+usage:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">binary</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">eol</span> <span class="operator">=&gt;</span> <span class="variable">$/</span> <span class="operator">}</span><span class="operator">);</span>
+ <span class="keyword">while</span> <span class="operator">(&lt;&gt;)</span> <span class="operator">{</span>           <span class="comment">#  WRONG!</span>
+     <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">parse</span> <span class="operator">(</span><span class="variable">$_</span><span class="operator">);</span>
+     <span class="keyword">my</span> <span class="variable">@fields</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">fields</span> <span class="operator">();</span>
+</pre>
+<p>will break, as the while might read broken lines, as that doesn't care
+about the quoting. If you need to support embedded newlines, the way to go
+is either</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">binary</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">eol</span> <span class="operator">=&gt;</span> <span class="variable">$/</span> <span class="operator">}</span><span class="operator">);</span>
+ <span class="keyword">while</span> <span class="operator">(</span><span class="keyword">my</span> <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">*ARGV</span><span class="operator">))</span> <span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">@fields</span> <span class="operator">=</span> <span class="variable">@$row</span><span class="operator">;</span>
+</pre>
+<p>or, more safely in perl 5.6 and up</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">binary</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">eol</span> <span class="operator">=&gt;</span> <span class="variable">$/</span> <span class="operator">}</span><span class="operator">);</span>
+ <span class="keyword">open</span> <span class="keyword">my</span> <span class="variable">$io</span><span class="operator">,</span> <span class="string">"&lt;"</span><span class="operator">,</span> <span class="variable">$file</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"</span><span class="variable">$file</span><span class="string">: $!"</span><span class="operator">;</span>
+ <span class="keyword">while</span> <span class="operator">(</span><span class="keyword">my</span> <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">))</span> <span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">@fields</span> <span class="operator">=</span> <span class="variable">@$row</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="unicode__utf8_">Unicode (UTF8)</a></h2>
+<p>On parsing (both for <code>getline ()</code> and <code>parse ()</code>), if the source is
+marked being UTF8, then parsing that source will mark all fields that
+are marked binary will also be marked UTF8.</p>
+<p>On combining (<a href="../../lib/pods/perlfunc.html#print"><code>print ()</code></a> and <code>combine ()</code>), if any of the combining
+fields was marked UTF8, the resulting string will be marked UTF8.</p>
+<p>For complete control over encoding, please use Text::CSV::Encoded:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Text::CSV::Encoded</span><span class="operator">;</span>
+    <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV::Encoded</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span>
+        <span class="string">encoding_in</span>  <span class="operator">=&gt;</span> <span class="string">"iso-8859-1"</span><span class="operator">,</span> <span class="comment"># the encoding comes into   Perl</span>
+        <span class="string">encoding_out</span> <span class="operator">=&gt;</span> <span class="string">"cp1252"</span><span class="operator">,</span>     <span class="comment"># the encoding comes out of Perl</span>
+        <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV::Encoded</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">encoding</span>  <span class="operator">=&gt;</span> <span class="string">"utf8"</span> <span class="operator">}</span><span class="operator">);</span>
+    <span class="comment"># combine () and print () accept *literally* utf8 encoded data</span>
+    <span class="comment"># parse () and getline () return *literally* utf8 encoded data</span>
+</pre>
+<pre>
+    <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV::Encoded</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">encoding</span>  <span class="operator">=&gt;</span> <span class="keyword">undef</span> <span class="operator">}</span><span class="operator">);</span> <span class="comment"># default</span>
+    <span class="comment"># combine () and print () accept UTF8 marked data</span>
+    <span class="comment"># parse () and getline () return UTF8 marked data</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="specification">SPECIFICATION</a></h1>
+<p>While no formal specification for CSV exists, <a href="http://www.ietf.org/rfc/rfc4180.txt" class="rfc">RFC 4180</a> 1) describes a common
+format and establishes &quot;text/csv&quot; as the MIME type registered with the IANA.</p>
+<p>Many informal documents exist that describe the CSV format. How To: The Comma
+Separated Value (CSV) File Format 2) provides an overview of the CSV format in
+the most widely used applications and explains how it can best be used and
+supported.</p>
+<pre>
+ 1) <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
+ 2) <a href="http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm">http://www.creativyst.com/Doc/Articles/CSV/CSV01.htm</a></pre>
+<p>The basic rules are as follows:</p>
+<p><strong>CSV</strong> is a delimited data format that has fields/columns separated by the comma
+character and records/rows separated by newlines. Fields that contain a special
+character (comma, newline, or double quote), must be enclosed in double quotes.
+However, if a line contains a single entry which is the empty string, it may be
+enclosed in double quotes. If a field's value contains a double quote character
+it is escaped by placing another double quote character next to it. The CSV file
+format does not require a specific character encoding, byte order, or line
+terminator format.</p>
+<ul>
+<li>
+<p>Each record is one line terminated by a line feed (ASCII/LF=0x0A) or a
+carriage return and line feed pair (ASCII/CRLF=0x0D 0x0A), however,
+line-breaks can be embedded.</p>
+</li>
+<li>
+<p>Fields are separated by commas.</p>
+</li>
+<li>
+<p>Allowable characters within a CSV field include 0x09 (tab) and the inclusive
+range of 0x20 (space) through 0x7E (tilde). In binary mode all characters
+are accepted, at least in quoted fields.</p>
+</li>
+<li>
+<p>A field within CSV must be surrounded by double-quotes to contain a
+the separator character (comma).</p>
+</li>
+</ul>
+<p>Though this is the most clear and restrictive definition, Text::CSV_XS is way
+more liberal than this, and allows extension:</p>
+<ul>
+<li>
+<p>Line termination by a single carriage return is accepted by default</p>
+</li>
+<li>
+<p>The separation-, escape-, and escape- characters can be any ASCII character
+in the range from 0x20 (space) to 0x7E (tilde). Characters outside this range
+may or may not work as expected. Multibyte characters, like U+060c (ARABIC
+COMMA), U+FF0C (FULLWIDTH COMMA), U+241B (SYMBOL FOR ESCAPE), U+2424 (SYMBOL
+FOR NEWLINE), U+FF02 (FULLWIDTH QUOTATION MARK), and U+201C (LEFT DOUBLE
+QUOTATION MARK) (to give some examples of what might look promising) are
+therefor not allowed.</p>
+<p>If you use perl-5.8.2 or higher, these three attributes are utf8-decoded, to
+increase the likelyhood of success. This way U+00FE will be allowed as a
+quote character.</p>
+</li>
+<li>
+<p>A field within CSV must be surrounded by double-quotes to contain an embedded
+double-quote, represented by a pair of consecutive double-quotes. In binary
+mode you may additionally use the sequence <code>&quot;0</code> for representation of a
+NULL byte.</p>
+</li>
+<li>
+<p>Several violations of the above specification may be allowed by passing
+options to the object creator.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="version___">version ()</a></h2>
+<p>(Class method) Returns the current module version.</p>
+<p>
+</p>
+<h2><a name="new____attr_">new (\%attr)</a></h2>
+<p>(Class method) Returns a new instance of Text::CSV_XS. The objects
+attributes are described by the (optional) hash ref <code>\%attr</code>.
+Currently the following attributes are available:</p>
+<dl>
+<dt><strong><a name="eol" class="item">eol</a></strong>
+
+<dd>
+<p>An end-of-line string to add to rows. <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> is replaced with an
+empty string. The default is <a href="../../lib/pods/perlvar.html#__"><code>$\</code></a>. Common values for <a href="#eol"><code>eol</code></a> are
+<code>&quot;\012&quot;</code> (Line Feed) or <code>&quot;\015\012&quot;</code> (Carriage Return, Line Feed).
+Cannot be longer than 7 (ASCII) characters.</p>
+</dd>
+<dd>
+<p>If both <a href="../../lib/pods/perlvar.html#__"><code>$/</code></a> and <a href="#eol"><code>eol</code></a> equal <code>&quot;\015&quot;</code>, parsing lines that end on
+only a Carriage Return without Line Feed, will be <code>parse</code>d correct.
+Line endings, whether in <a href="../../lib/pods/perlvar.html#__"><code>$/</code></a> or <a href="#eol"><code>eol</code></a>, other than <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a>,
+<a href="../../lib/pods/perlrun.html#n"><code>&quot;\n&quot;</code></a>, <code>&quot;\r\n&quot;</code>, or <a href="../../lib/pods/perlguts.html#r"><code>&quot;\r&quot;</code></a> are not (yet) supported for parsing.</p>
+</dd>
+</li>
+<dt><strong><a name="sep_char" class="item">sep_char</a></strong>
+
+<dd>
+<p>The char used for separating fields, by default a comma. (<code>,</code>).
+Limited to a single-byte character, usually in the range from 0x20
+(space) to 0x7e (tilde).</p>
+</dd>
+<dd>
+<p>The separation character can not be equal to the quote character.
+The separation character can not be equal to the escape character.</p>
+</dd>
+<dd>
+<p>See also CAVEATS</p>
+</dd>
+</li>
+<dt><strong><a name="allow_whitespace" class="item">allow_whitespace</a></strong>
+
+<dd>
+<p>When this option is set to true, whitespace (TAB's and SPACE's)
+surrounding the separation character is removed when parsing. If
+either TAB or SPACE is one of the three major characters <a href="#sep_char"><code>sep_char</code></a>,
+<a href="#quote_char"><code>quote_char</code></a>, or <a href="#escape_char"><code>escape_char</code></a> it will not be considered whitespace.</p>
+</dd>
+<dd>
+<p>So lines like:</p>
+</dd>
+<dd>
+<pre>
+  1 , &quot;foo&quot; , bar , 3 , zapp</pre>
+</dd>
+<dd>
+<p>are now correctly parsed, even though it violates the CSV specs.</p>
+</dd>
+<dd>
+<p>Note that <strong>all</strong> whitespace is stripped from start and end of each
+field. That would make is more a <em>feature</em> than a way to be able
+to parse bad CSV lines, as</p>
+</dd>
+<dd>
+<pre>
+ 1,   2.0,  3,   ape  , monkey</pre>
+</dd>
+<dd>
+<p>will now be parsed as</p>
+</dd>
+<dd>
+<pre>
+ (&quot;1&quot;, &quot;2.0&quot;, &quot;3&quot;, &quot;ape&quot;, &quot;monkey&quot;)</pre>
+</dd>
+<dd>
+<p>even if the original line was perfectly sane CSV.</p>
+</dd>
+</li>
+<dt><strong><a name="blank_is_undef" class="item">blank_is_undef</a></strong>
+
+<dd>
+<p>Under normal circumstances, CSV data makes no distinction between
+quoted- and unquoted empty fields. They both end up in an empty
+string field once read, so</p>
+</dd>
+<dd>
+<pre>
+ 1,&quot;&quot;,,&quot; &quot;,2</pre>
+</dd>
+<dd>
+<p>is read as</p>
+</dd>
+<dd>
+<pre>
+ (&quot;1&quot;, &quot;&quot;, &quot;&quot;, &quot; &quot;, &quot;2&quot;)</pre>
+</dd>
+<dd>
+<p>When <em>writing</em> CSV files with <a href="#always_quote"><code>always_quote</code></a> set, the unquoted empty
+field is the result of an undefined value. To make it possible to also
+make this distinction when reading CSV data, the <a href="#blank_is_undef"><code>blank_is_undef</code></a> option
+will cause unquoted empty fields to be set to undef, causing the above to
+be parsed as</p>
+</dd>
+<dd>
+<pre>
+ (&quot;1&quot;, &quot;&quot;, undef, &quot; &quot;, &quot;2&quot;)</pre>
+</dd>
+</li>
+<dt><strong><a name="quote_char" class="item">quote_char</a></strong>
+
+<dd>
+<p>The char used for quoting fields containing blanks, by default the
+double quote character (<code>&quot;</code>). A value of undef suppresses
+quote chars. (For simple cases only).
+Limited to a single-byte character, usually in the range from 0x20
+(space) to 0x7e (tilde).</p>
+</dd>
+<dd>
+<p>The quote character can not be equal to the separation character.</p>
+</dd>
+</li>
+<dt><strong><a name="allow_loose_quotes" class="item">allow_loose_quotes</a></strong>
+
+<dd>
+<p>By default, parsing fields that have <a href="#quote_char"><code>quote_char</code></a> characters inside
+an unquoted field, like</p>
+</dd>
+<dd>
+<pre>
+ 1,foo &quot;bar&quot; baz,42</pre>
+</dd>
+<dd>
+<p>would result in a parse error. Though it is still bad practice to
+allow this format, we cannot help there are some vendors that make
+their applications spit out lines styled like this.</p>
+</dd>
+<dd>
+<p>In case there is <strong>really</strong> bad CSV data, like</p>
+</dd>
+<dd>
+<pre>
+ 1,&quot;foo &quot;bar&quot; baz&quot;,42</pre>
+</dd>
+<dd>
+<p>or</p>
+</dd>
+<dd>
+<pre>
+ 1,&quot;&quot;foo bar baz&quot;&quot;,42</pre>
+</dd>
+<dd>
+<p>there is a way to get that parsed, and leave the quotes inside the quoted
+field as-is. This can be achieved by setting <a href="#allow_loose_quotes"><code>allow_loose_quotes</code></a> <strong>AND</strong>
+making sure that the <a href="#escape_char"><code>escape_char</code></a> is <em>not</em> equal to <a href="#quote_char"><code>quote_char</code></a>.</p>
+</dd>
+</li>
+<dt><strong><a name="escape_char" class="item">escape_char</a></strong>
+
+<dd>
+<p>The character used for escaping certain characters inside quoted fields.
+Limited to a single-byte character, usually in the range from 0x20
+(space) to 0x7e (tilde).</p>
+</dd>
+<dd>
+<p>The <a href="#escape_char"><code>escape_char</code></a> defaults to being the literal double-quote mark (<code>&quot;</code>)
+in other words, the same as the default <a href="#quote_char"><code>quote_char</code></a>. This means that
+doubling the quote mark in a field escapes it:</p>
+</dd>
+<dd>
+<pre>
+  &quot;foo&quot;,&quot;bar&quot;,&quot;Escape &quot;&quot;quote mark&quot;&quot; with two &quot;&quot;quote marks&quot;&quot;&quot;,&quot;baz&quot;</pre>
+</dd>
+<dd>
+<p>If you change the default quote_char without changing the default
+escape_char, the escape_char will still be the quote mark.  If instead
+you want to escape the quote_char by doubling it, you will need to change
+the escape_char to be the same as what you changed the quote_char to.</p>
+</dd>
+<dd>
+<p>The escape character can not be equal to the separation character.</p>
+</dd>
+</li>
+<dt><strong><a name="allow_loose_escapes" class="item">allow_loose_escapes</a></strong>
+
+<dd>
+<p>By default, parsing fields that have <a href="#escape_char"><code>escape_char</code></a> characters that
+escape characters that do not need to be escaped, like:</p>
+</dd>
+<dd>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">escape_char</span> <span class="operator">=&gt;</span> <span class="string">"\\"</span> <span class="operator">}</span><span class="operator">);</span>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">parse</span> <span class="operator">(</span><span class="string">qq{1,"my bar\'s",baz,42}</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>would result in a parse error. Though it is still bad practice to
+allow this format, this option enables you to treat all escape character
+sequences equal.</p>
+</dd>
+</li>
+<dt><strong><a name="binary" class="item">binary</a></strong>
+
+<dd>
+<p>If this attribute is TRUE, you may use binary characters in quoted fields,
+including line feeds, carriage returns and NULL bytes. (The latter must
+be escaped as <code>&quot;0</code>.) By default this feature is off.</p>
+</dd>
+<dd>
+<p>If a string is marked UTF8, binary will be turned on automatically when
+binary characters other than CR or NL are encountered. Note that a simple
+string like <code>&quot;\x{00a0}&quot;</code> might still be binary, but not marked UTF8, so
+setting <a href="#binary"><code>{ binary =</code></a> 1 }&gt; is still a wise option.</p>
+</dd>
+</li>
+<dt><strong><a name="types" class="item">types</a></strong>
+
+<dd>
+<p>A set of column types; this attribute is immediately passed to the
+<em>types</em> method below. You must not set this attribute otherwise,
+except for using the <em>types</em> method. For details see the description
+of the <em>types</em> method below.</p>
+</dd>
+</li>
+<dt><strong><a name="always_quote" class="item">always_quote</a></strong>
+
+<dd>
+<p>By default the generated fields are quoted only, if they need to, for
+example, if they contain the separator. If you set this attribute to
+a TRUE value, then all fields will be quoted. This is typically easier
+to handle in external applications. (Poor creatures who aren't using
+Text::CSV_XS. :-)</p>
+</dd>
+</li>
+<dt><strong><a name="keep_meta_info" class="item">keep_meta_info</a></strong>
+
+<dd>
+<p>By default, the parsing of input lines is as simple and fast as
+possible. However, some parsing information - like quotation of
+the original field - is lost in that process. Set this flag to
+true to be able to retrieve that information after parsing with
+the methods <code>meta_info ()</code>, <code>is_quoted ()</code>, and <code>is_binary ()</code>
+described below.  Default is false.</p>
+</dd>
+</li>
+<dt><strong><a name="verbatim" class="item">verbatim</a></strong>
+
+<dd>
+<p>This is a quite controversial attribute to set, but it makes hard
+things possible.</p>
+</dd>
+<dd>
+<p>The basic thought behind this is to tell the parser that the normally
+special characters newline (NL) and Carriage Return (CR) will not be
+special when this flag is set, and be dealt with as being ordinary
+binary characters. This will ease working with data with embedded
+newlines.</p>
+</dd>
+<dd>
+<p>When <a href="#verbatim"><code>verbatim</code></a> is used with <code>getline ()</code>, <code>getline ()</code>
+auto-chomp's every line.</p>
+</dd>
+<dd>
+<p>Imagine a file format like</p>
+</dd>
+<dd>
+<pre>
+  M^^Hans^Janssen^Klas 2\n2A^Ja^11-06-2007#\r\n</pre>
+</dd>
+<dd>
+<p>where, the line ending is a very specific &quot;#\r\n&quot;, and the sep_char
+is a ^ (caret). None of the fields is quoted, but embedded binary
+data is likely to be present. With the specific line ending, that
+shouldn't be too hard to detect.</p>
+</dd>
+<dd>
+<p>By default, Text::CSV_XS' parse function however is instructed to only
+know about &quot;\n&quot; and &quot;\r&quot; to be legal line endings, and so has to deal
+with the embedded newline as a real end-of-line, so it can scan the next
+line if binary is true, and the newline is inside a quoted field.
+With this attribute however, we can tell parse () to parse the line
+as if \n is just nothing more than a binary character.</p>
+</dd>
+<dd>
+<p>For parse () this means that the parser has no idea about line ending
+anymore, and getline () chomps line endings on reading.</p>
+</dd>
+</li>
+</dl>
+<p>To sum it up,</p>
+<pre>
+ <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">();</span>
+</pre>
+<p>is equivalent to</p>
+<pre>
+ <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span>
+     <span class="string">quote_char</span>          <span class="operator">=&gt;</span> <span class="string">'"'</span><span class="operator">,</span>
+     <span class="string">escape_char</span>         <span class="operator">=&gt;</span> <span class="string">'"'</span><span class="operator">,</span>
+     <span class="string">sep_char</span>            <span class="operator">=&gt;</span> <span class="string">','</span><span class="operator">,</span>
+     <span class="string">eol</span>                 <span class="operator">=&gt;</span> <span class="variable">$\</span><span class="operator">,</span>
+     <span class="string">always_quote</span>        <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">binary</span>              <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">keep_meta_info</span>      <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">allow_loose_quotes</span>  <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">allow_loose_escapes</span> <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">allow_whitespace</span>    <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">blank_is_undef</span>      <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="string">verbatim</span>            <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+     <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>For all of the above mentioned flags, there is an accessor method
+available where you can inquire for the current value, or change
+the value</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$quote</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">quote_char</span><span class="operator">;</span>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">binary</span> <span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
+</pre>
+<p>It is unwise to change these settings halfway through writing CSV
+data to a stream. If however, you want to create a new stream using
+the available CSV object, there is no harm in changing them.</p>
+<p>If the <code>new ()</code> constructor call fails, it returns <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a>, and makes
+the fail reason available through the <code>error_diag ()</code> method.</p>
+<pre>
+ <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">ecs_char</span> <span class="operator">=&gt;</span> <span class="number">1</span> <span class="operator">}</span><span class="operator">)</span> <span class="keyword">or</span>
+     <span class="keyword">die</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+</pre>
+<p><code>error_diag ()</code> will return a string like</p>
+<pre>
+ &quot;Unknown attribute 'ecs_char'&quot;</pre>
+<p>
+</p>
+<h2><a name="combine">combine</a></h2>
+<pre>
+ <span class="variable">$status</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">combine</span> <span class="operator">(</span><span class="variable">@columns</span><span class="operator">);</span>
+</pre>
+<p>This object function constructs a CSV string from the arguments, returning
+success or failure.  Failure can result from lack of arguments or an argument
+containing an invalid character.  Upon success, <code>string ()</code> can be called to
+retrieve the resultant CSV string.  Upon failure, the value returned by
+<code>string ()</code> is undefined and <code>error_input ()</code> can be called to retrieve an
+invalid argument.</p>
+<p>
+</p>
+<h2><a name="print">print</a></h2>
+<pre>
+ <span class="variable">$status</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">print</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">,</span> <span class="variable">$colref</span><span class="operator">);</span>
+</pre>
+<p>Similar to combine, but it expects an array ref as input (not an array!)
+and the resulting string is not really created, but immediately written
+to the <em>$io</em> object, typically an IO handle or any other object that
+offers a <em>print</em> method. Note, this implies that the following is wrong
+in perl 5.005_xx and older:</p>
+<pre>
+ <span class="keyword">open</span> <span class="variable">FILE</span><span class="operator">,</span> <span class="string">"&gt;"</span><span class="operator">,</span> <span class="string">"whatever"</span><span class="operator">;</span>
+ <span class="variable">$status</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">print</span> <span class="operator">(\</span><span class="variable">*FILE</span><span class="operator">,</span> <span class="variable">$colref</span><span class="operator">);</span>
+</pre>
+<p>as in perl 5.005 and older, the glob <code>\*FILE</code> is not an object, thus it
+doesn't have a print method. The solution is to use an IO::File object or
+to hide the glob behind an IO::Wrap object. See <a href="../../IO/File(3).html">the IO::File(3) manpage</a> and
+<a href="../../IO/Wrap(3).html">the IO::Wrap(3) manpage</a> for details.</p>
+<p>For performance reasons the print method doesn't create a result string.
+In particular the <em>$csv-&gt;string ()</em>, <em>$csv-&gt;status ()</em>,
+<em>$csv-</em>fields ()&gt; and <em>$csv-&gt;error_input ()</em> methods are meaningless
+after executing this method.</p>
+<p>
+</p>
+<h2><a name="string">string</a></h2>
+<pre>
+ <span class="variable">$line</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">string</span> <span class="operator">();</span>
+</pre>
+<p>This object function returns the input to <code>parse ()</code> or the resultant CSV
+string of <code>combine ()</code>, whichever was called more recently.</p>
+<p>
+</p>
+<h2><a name="parse">parse</a></h2>
+<pre>
+ <span class="variable">$status</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">parse</span> <span class="operator">(</span><span class="variable">$line</span><span class="operator">);</span>
+</pre>
+<p>This object function decomposes a CSV string into fields, returning
+success or failure.  Failure can result from a lack of argument or the
+given CSV string is improperly formatted.  Upon success, <code>fields ()</code> can
+be called to retrieve the decomposed fields .  Upon failure, the value
+returned by <code>fields ()</code> is undefined and <code>error_input ()</code> can be called
+to retrieve the invalid argument.</p>
+<p>You may use the <em>types ()</em> method for setting column types. See the
+description below.</p>
+<p>
+</p>
+<h2><a name="getline">getline</a></h2>
+<pre>
+ <span class="variable">$colref</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">);</span>
+</pre>
+<p>This is the counterpart to print, like parse is the counterpart to
+combine: It reads a row from the IO object $io using $io-&gt;getline ()
+and parses this row into an array ref. This array ref is returned
+by the function or undef for failure.</p>
+<p>When fields are bound with <a href="#bind_columns"><code>bind_columns ()</code></a>, the return value is a
+reference to an empty list.</p>
+<p>The <em>$csv-&gt;string ()</em>, <em>$csv-&gt;fields ()</em> and <em>$csv-&gt;status ()</em>
+methods are meaningless, again.</p>
+<p>
+</p>
+<h2><a name="getline_hr">getline_hr</a></h2>
+<p>The <a href="#getline_hr"><code>getline_hr ()</code></a> and <a href="#column_names"><code>column_names ()</code></a> methods work together to allow
+you to have rows returned as hashrefs. You must call <a href="#column_names"><code>column_names ()</code></a>
+first to declare your column names.</p>
+<pre>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">column_names</span> <span class="operator">(</span><span class="string">qw( code name price description )</span><span class="operator">);</span>
+ <span class="variable">$hr</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline_hr</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">);</span>
+ <span class="keyword">print</span> <span class="string">"Price for </span><span class="variable">$hr</span><span class="string">-&gt;{name} is </span><span class="variable">$hr</span><span class="string">-&gt;{price} EUR\n"</span><span class="operator">;</span>
+</pre>
+<p><a href="#getline_hr"><code>getline_hr ()</code></a> will croak if called before <a href="#column_names"><code>column_names ()</code></a>.</p>
+<p>
+</p>
+<h2><a name="column_names">column_names</a></h2>
+<p>Set the keys that will be used in the <a href="#getline_hr"><code>getline_hr ()</code></a> calls. If no keys
+(column names) are passed, it'll return the current setting.</p>
+<p><a href="#column_names"><code>column_names ()</code></a> accepts a list of scalars (the column names) or a
+single array_ref, so you can pass <code>getline ()</code></p>
+<pre>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">column_names</span> <span class="operator">(</span><span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">));</span>
+</pre>
+<p><a href="#column_names"><code>column_names ()</code></a> does <strong>no</strong> checking on duplicates at all, which might
+lead to unwanted results. Undefined entries will be replaced with the
+string <code>&quot;\cAUNDEF\cA&quot;</code>, so</p>
+<pre>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">column_names</span> <span class="operator">(</span><span class="keyword">undef</span><span class="operator">,</span> <span class="string">""</span><span class="operator">,</span> <span class="string">"name"</span><span class="operator">,</span> <span class="string">"name"</span><span class="operator">);</span>
+  <span class="variable">$hr</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline_hr</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">);</span>
+</pre>
+<p>Will set <code>$hr-</code>{&quot;\cAUNDEF\cA&quot;}&gt; to the 1st field, <code>$hr-</code>{&quot;&quot;}&gt; to the
+2nd field, and <code>$hr-</code>{name}&gt; to the 4th field, discarding the 2rd field.</p>
+<p><a href="#column_names"><code>column_names ()</code></a> croaks on invalid arguments.</p>
+<p>
+</p>
+<h2><a name="bind_columns">bind_columns</a></h2>
+<p>Takes a list of references to scalars to store the fields fetched
+<code>getline ()</code> in. When you don't pass enough references to store the
+fetched fields in, <code>getline ()</code> will fail. If you pass more than there are
+fields to return, the remaining references are left untouched.</p>
+<pre>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">bind_columns</span> <span class="operator">(\</span><span class="variable">$code</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$name</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$price</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$description</span><span class="operator">);</span>
+  <span class="keyword">while</span> <span class="operator">(</span><span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">$io</span><span class="operator">))</span> <span class="operator">{</span>
+      <span class="keyword">print</span> <span class="string">"The price of a </span><span class="variable">$name</span><span class="string"> is \x{20ac} </span><span class="variable">$price</span><span class="string">\n"</span><span class="operator">;</span>
+      <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<h2><a name="eof">eof</a></h2>
+<pre>
+ <span class="variable">$eof</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">eof</span> <span class="operator">();</span>
+</pre>
+<p>If <code>parse ()</code> or <code>getline ()</code> was used with an IO stream, this
+method will return true (1) if the last call hit end of file, otherwise
+it will return false (''). This is useful to see the difference between
+a failure and end of file.</p>
+<p>
+</p>
+<h2><a name="types">types</a></h2>
+<pre>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">types</span> <span class="operator">(\</span><span class="variable">@tref</span><span class="operator">);</span>
+</pre>
+<p>This method is used to force that columns are of a given type. For
+example, if you have an integer column, two double columns and a
+string column, then you might do a</p>
+<pre>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">types</span> <span class="operator">(</span><span class="operator">[</span><span class="variable">Text::CSV_XS::IV</span> <span class="operator">(),</span>
+               <span class="variable">Text::CSV_XS::NV</span> <span class="operator">(),</span>
+               <span class="variable">Text::CSV_XS::NV</span> <span class="operator">(),</span>
+               <span class="variable">Text::CSV_XS::PV</span> <span class="operator">()</span><span class="operator">]</span><span class="operator">);</span>
+</pre>
+<p>Column types are used only for decoding columns, in other words
+by the <em>parse ()</em> and <em>getline ()</em> methods.</p>
+<p>You can unset column types by doing a</p>
+<pre>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">types</span> <span class="operator">(</span><span class="keyword">undef</span><span class="operator">);</span>
+</pre>
+<p>or fetch the current type settings with</p>
+<pre>
+ <span class="variable">$types</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">types</span> <span class="operator">();</span>
+</pre>
+<dl>
+<dt><strong><a name="iv3" class="item">IV</a></strong>
+
+<dd>
+<p>Set field type to integer.</p>
+</dd>
+</li>
+<dt><strong><a name="nv3" class="item">NV</a></strong>
+
+<dd>
+<p>Set field type to numeric/float.</p>
+</dd>
+</li>
+<dt><strong><a name="pv3" class="item">PV</a></strong>
+
+<dd>
+<p>Set field type to string.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="fields">fields</a></h2>
+<pre>
+ <span class="variable">@columns</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">fields</span> <span class="operator">();</span>
+</pre>
+<p>This object function returns the input to <code>combine ()</code> or the resultant
+decomposed fields of C successfull &lt;parse ()&gt;, whichever was called more
+recently.</p>
+<p>Note that the return value is undefined after using <code>getline ()</code>, which
+does not fill the data structures returned by <code>parse ()</code>.</p>
+<p>
+</p>
+<h2><a name="meta_info">meta_info</a></h2>
+<pre>
+ <span class="variable">@flags</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">meta_info</span> <span class="operator">();</span>
+</pre>
+<p>This object function returns the flags of the input to <code>combine ()</code> or
+the flags of the resultant decomposed fields of <code>parse ()</code>, whichever
+was called more recently.</p>
+<p>For each field, a meta_info field will hold flags that tell something about
+the field returned by the <code>fields ()</code> method or passed to the <code>combine ()</code>
+method. The flags are bitwise-or'd like:</p>
+<ol>
+<li><strong><a name="x0001" class="item">x0001</a></strong>
+
+<p>The field was quoted.</p>
+</li>
+<li><strong><a name="x0002" class="item">x0002</a></strong>
+
+<p>The field was binary.</p>
+</li>
+</ol>
+<p>See the <code>is_*** ()</code> methods below.</p>
+<p>
+</p>
+<h2><a name="is_quoted">is_quoted</a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$quoted</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">is_quoted</span> <span class="operator">(</span><span class="variable">$column_idx</span><span class="operator">);</span>
+</pre>
+<p>Where <code>$column_idx</code> is the (zero-based) index of the column in the
+last result of <code>parse ()</code>.</p>
+<p>This returns a true value if the data in the indicated column was
+enclosed in <a href="#quote_char"><code>quote_char</code></a> quotes. This might be important for data
+where <code>,20070108,</code> is to be treated as a numeric value, and where
+<code>,&quot;20070108&quot;,</code> is explicitly marked as character string data.</p>
+<p>
+</p>
+<h2><a name="is_binary">is_binary</a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$binary</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">is_binary</span> <span class="operator">(</span><span class="variable">$column_idx</span><span class="operator">);</span>
+</pre>
+<p>Where <code>$column_idx</code> is the (zero-based) index of the column in the
+last result of <code>parse ()</code>.</p>
+<p>This returns a true value if the data in the indicated column
+contained any byte in the range [\x00-\x08,\x10-\x1F,\x7F-\xFF]</p>
+<p>
+</p>
+<h2><a name="status">status</a></h2>
+<pre>
+ <span class="variable">$status</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">status</span> <span class="operator">();</span>
+</pre>
+<p>This object function returns success (or failure) of <code>combine ()</code> or
+<code>parse ()</code>, whichever was called more recently.</p>
+<p>
+</p>
+<h2><a name="error_input">error_input</a></h2>
+<pre>
+ <span class="variable">$bad_argument</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_input</span> <span class="operator">();</span>
+</pre>
+<p>This object function returns the erroneous argument (if it exists) of
+<code>combine ()</code> or <code>parse ()</code>, whichever was called more recently.</p>
+<p>
+</p>
+<h2><a name="error_diag">error_diag</a></h2>
+<pre>
+ <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+ <span class="variable">$error_code</span>   <span class="operator">=</span> <span class="number">0</span>  <span class="operator">+</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+ <span class="variable">$error_str</span>    <span class="operator">=</span> <span class="string">""</span> <span class="operator">.</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+ <span class="operator">(</span><span class="variable">$cde</span><span class="operator">,</span> <span class="variable">$str</span><span class="operator">,</span> <span class="variable">$pos</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+</pre>
+<p>If (and only if) an error occured, this function returns the diagnostics
+of that error.</p>
+<p>If called in void context, it will print the internal error code and the
+associated error message to STDERR.</p>
+<p>If called in list context, it will return the error code and the error
+message in that order. If the last error was from parsing, the third
+value returned is a best guess at the location within the line that was
+being parsed. It's value is 1-based. See <code>examples/csv-check</code> for how
+this can be used.</p>
+<p>If called in scalar context, it will return the diagnostics in a single
+scalar, a-la $!. It will contain the error code in numeric context, and
+the diagnostics message in string context.</p>
+<p>When called as a class method or a direct function call, the error diag
+is that of the last <code>new ()</code> call.</p>
+<p>
+</p>
+<h2><a name="setdiag">SetDiag</a></h2>
+<pre>
+ <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">SetDiag</span> <span class="operator">(</span><span class="number">0</span><span class="operator">);</span>
+</pre>
+<p>Use to reset the diagnostics if you are dealing with errors.</p>
+<p>
+</p>
+<hr />
+<h1><a name="internals">INTERNALS</a></h1>
+<dl>
+<dt><strong><a name="combine" class="item">Combine (...)</a></strong>
+
+<dt><strong><a name="parse" class="item">Parse (...)</a></strong>
+
+</dl>
+<p>The arguments to these two internal functions are deliberately not
+described or documented to enable the module author(s) to change it
+when they feel the need for it and using them is highly discouraged
+as the API may change in future releases.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<p>An example for parsing CSV strings:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">keep_meta_info</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">binary</span> <span class="operator">=&gt;</span> <span class="number">1</span> <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$sample_input_string</span> <span class="operator">=</span>
+      <span class="string">qq{"I said, ""Hi!""",Yes,"",2.34,,"1.09","\x{20ac}",}</span><span class="operator">;</span>
+  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">parse</span> <span class="operator">(</span><span class="variable">$sample_input_string</span><span class="operator">))</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">@field</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">fields</span><span class="operator">;</span>
+      <span class="keyword">foreach</span> <span class="keyword">my</span> <span class="variable">$col</span> <span class="operator">(</span><span class="number">0</span> <span class="operator">..</span> <span class="variable">$#field</span><span class="operator">)</span> <span class="operator">{</span>
+          <span class="keyword">my</span> <span class="variable">$quo</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">is_quoted</span> <span class="operator">(</span><span class="variable">$col</span><span class="operator">)</span> <span class="operator">?</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">quote_char</span><span class="operator">}</span> <span class="operator">:</span> <span class="string">""</span><span class="operator">;</span>
+          <span class="keyword">printf</span> <span class="string">"%2d: %s%s%s\n"</span><span class="operator">,</span> <span class="variable">$col</span><span class="operator">,</span> <span class="variable">$quo</span><span class="operator">,</span> <span class="variable">$field</span><span class="operator">[</span><span class="variable">$col</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">$quo</span><span class="operator">;</span>
+          <span class="operator">}</span>
+      <span class="operator">}</span>
+  <span class="keyword">else</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$err</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_input</span><span class="operator">;</span>
+      <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"parse () failed on argument: "</span><span class="operator">,</span> <span class="variable">$err</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span>
+      <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span> <span class="operator">();</span>
+      <span class="operator">}</span>
+</pre>
+<p>An example for creating CSV files:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">open</span> <span class="keyword">my</span> <span class="variable">$csv_fh</span><span class="operator">,</span> <span class="string">"&gt;"</span><span class="operator">,</span> <span class="string">"hello.csv"</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"hello.csv: $!"</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">@sample_input_fields</span> <span class="operator">=</span> <span class="operator">(</span>
+      <span class="string">'You said, "Hello!"'</span><span class="operator">,</span>   <span class="number">5.67</span><span class="operator">,</span>
+      <span class="string">'"Surely"'</span><span class="operator">,</span>   <span class="string">''</span><span class="operator">,</span>   <span class="string">'3.14159'</span><span class="operator">);</span>
+  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">combine</span> <span class="operator">(</span><span class="variable">@sample_input_fields</span><span class="operator">))</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">string</span><span class="operator">;</span>
+      <span class="keyword">print</span> <span class="variable">$csv_fh</span> <span class="string">"</span><span class="variable">$string</span><span class="string">\n"</span><span class="operator">;</span>
+      <span class="operator">}</span>
+  <span class="keyword">else</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$err</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_input</span><span class="operator">;</span>
+      <span class="keyword">print</span> <span class="string">"combine () failed on argument: "</span><span class="operator">,</span> <span class="variable">$err</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span>
+      <span class="operator">}</span>
+  <span class="keyword">close</span> <span class="variable">$csv_fh</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"hello.csv: $!"</span><span class="operator">;</span>
+</pre>
+<p>Or using the <a href="../../lib/pods/perlfunc.html#print"><code>print ()</code></a> method, which is faster like in
+dumping the content of a database ($dbh) table ($tbl) to CSV:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">binary</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">eol</span> <span class="operator">=&gt;</span> <span class="variable">$/</span> <span class="operator">}</span><span class="operator">);</span>
+  <span class="keyword">open</span> <span class="keyword">my</span> <span class="variable">$fh</span><span class="operator">,</span> <span class="string">"&gt;"</span><span class="operator">,</span> <span class="string">"</span><span class="variable">$tbl</span><span class="string">.csv"</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"</span><span class="variable">$tbl</span><span class="string">.csv: $!"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span> <span class="operator">(</span><span class="string">"select * from </span><span class="variable">$tbl</span><span class="string">"</span><span class="operator">);</span>
+  <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">;</span>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">print</span> <span class="operator">(</span><span class="variable">$fh</span><span class="operator">,</span> <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">NAME_lc</span><span class="operator">}</span><span class="operator">);</span>
+  <span class="keyword">while</span> <span class="operator">(</span><span class="keyword">my</span> <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">fetch</span><span class="operator">)</span> <span class="operator">{</span>
+      <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">print</span> <span class="operator">(</span><span class="variable">$fh</span><span class="operator">,</span> <span class="variable">$row</span><span class="operator">)</span> <span class="keyword">or</span> <span class="operator">...;</span>
+      <span class="operator">}</span>
+  <span class="keyword">close</span> <span class="variable">$fh</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"</span><span class="variable">$tbl</span><span class="string">.csv: $!"</span><span class="operator">;</span>
+</pre>
+<p>Reading a CSV file line by line:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$csv</span> <span class="operator">=</span> <span class="variable">Text::CSV_XS</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="operator">{</span> <span class="string">binary</span> <span class="operator">=&gt;</span> <span class="number">1</span> <span class="operator">}</span><span class="operator">);</span>
+  <span class="keyword">open</span> <span class="keyword">my</span> <span class="variable">$fh</span><span class="operator">,</span> <span class="string">"&lt;"</span><span class="operator">,</span> <span class="string">"file.csv"</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"file.csv: $!"</span><span class="operator">;</span>
+  <span class="keyword">while</span> <span class="operator">(</span><span class="keyword">my</span> <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">getline</span> <span class="operator">(</span><span class="variable">$fh</span><span class="operator">))</span> <span class="operator">{</span>
+      <span class="comment"># do something with @$row</span>
+      <span class="operator">}</span>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">eof</span> <span class="keyword">or</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">error_diag</span><span class="operator">;</span>
+  <span class="keyword">close</span> <span class="variable">$fh</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"file.csv: $!"</span><span class="operator">;</span>
+</pre>
+<p>For more extended examples, see the <code>examples/</code> subdirectory in the
+original distribution. The following files can be found there:</p>
+<dl>
+<dt><strong><a name="parser_xs_pl" class="item">parser-xs.pl</a></strong>
+
+<dd>
+<p>This can be used as a boilerplate to `fix' bad CSV and parse beyond errors.</p>
+</dd>
+<dd>
+<pre>
+  $ perl examples/parser-xs.pl bad.csv &gt;good.csv</pre>
+</dd>
+</li>
+<dt><strong><a name="csv_check" class="item">csv-check</a></strong>
+
+<dd>
+<p>This is a command-line tool that uses parser-xs.pl techniques to check the
+CSV file and report on its content.</p>
+</dd>
+<dd>
+<pre>
+  $ csv-check files/utf8.csv
+  Checked with examples/csv-check 1.2 using Text::CSV_XS 0.61
+  OK: rows: 1, columns: 2
+      sep = &lt;,&gt;, quo = &lt;&quot;&gt;, bin = &lt;1&gt;</pre>
+</dd>
+</li>
+<dt><strong><a name="csv2xls" class="item">csv2xls</a></strong>
+
+<dd>
+<p>A script to convert CSV to Microsoft Excel. This requires <a href="../../Date/Calc(3).html">the Date::Calc(3) manpage</a>
+and <a href="../../Spreadsheet/WriteExcel(3).html">the Spreadsheet::WriteExcel(3) manpage</a>. The converter acceps various options and
+can produce UTF-8 Excel files.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p><code>Text::CSV_XS</code> is not designed to detect the characters used for field
+separation and quoting. The parsing is done using predefined settings. In
+the examples subdirectory, you can find scripts that demonstrate how you
+can try to detect these characters yourself.</p>
+<p>
+</p>
+<h2><a name="microsoft_excel">Microsoft Excel</a></h2>
+<p>The import/export from Microsoft Excel is a <em>risky task</em>, according to the
+documentation in <code>Text::CSV::Separator</code>. Microsoft uses the system's default
+list separator defined in the regional settings, which happens to be a
+semicolon for Dutch, German and Spanish (and probably some others as well).
+For the English locale, the default is a comma. In Windows however, the user
+is free to choose a predefined locale, and then change every individual
+setting in it, so checking the locale is no solution.</p>
+<p>
+</p>
+<hr />
+<h1><a name="todo">TODO</a></h1>
+<dl>
+<dt><strong><a name="more_errors_warnings" class="item">More Errors &amp; Warnings</a></strong>
+
+<dd>
+<p>New extensions ought to be clear and concise in reporting what error
+occurred where and why, and possibly also tell a remedy to the problem.
+error_diag is a (very) good start, but there is more work to be done here.</p>
+</dd>
+<dd>
+<p>Basic calls should croak or warn on illegal parameters. Errors should be
+documented.</p>
+</dd>
+</li>
+<dt><strong><a name="setting_meta_info" class="item">setting meta info</a></strong>
+
+<dd>
+<p>Future extensions might include extending the <code>meta_info ()</code>,
+<code>is_quoted ()</code>, and <code>is_binary ()</code> to accept setting these flags
+for fields, so you can specify which fields are quoted in the
+combine ()/string () combination.</p>
+</dd>
+<dd>
+<pre>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">meta_info</span> <span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">);</span>
+  <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">is_quoted</span> <span class="operator">(</span><span class="number">3</span><span class="operator">,</span> <span class="number">1</span><span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="combined_methods" class="item">combined methods</a></strong>
+
+<dd>
+<p>Requests for adding means (methods) that combine <code>combine ()</code> and
+<code>string ()</code> in a single call will <strong>not</strong> be honored. Likewise for
+<code>parse ()</code> and <code>fields ()</code>. Given the trouble with embedded newlines,
+Using <code>getline ()</code> and <a href="../../lib/pods/perlfunc.html#print"><code>print ()</code></a> instead is the prefered way to go.</p>
+</dd>
+</li>
+<dt><strong><a name="parse_the_whole_file_at_once" class="item">Parse the whole file at once</a></strong>
+
+<dd>
+<p>Implement a new methods that enables the parsing of a complete file
+at once, returning a lis of hashes. Possible extension to this could
+be to enable a column selection on the call:</p>
+</dd>
+<dd>
+<pre>
+   <span class="keyword">my</span> <span class="variable">@AoH</span> <span class="operator">=</span> <span class="variable">$csv</span><span class="operator">-&gt;</span><span class="variable">parse_file</span> <span class="operator">(</span><span class="variable">$filename</span><span class="operator">,</span> <span class="operator">{</span> <span class="string">cols</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="number">1</span><span class="operator">,</span> <span class="number">4</span><span class="operator">..</span><span class="number">8</span><span class="operator">,</span> <span class="number">12</span> <span class="operator">]}</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Returning something like</p>
+</dd>
+<dd>
+<pre>
+   <span class="operator">[</span> <span class="operator">{</span> <span class="string">fields</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="string">"foo"</span><span class="operator">,</span> <span class="number">4.5</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">,</span> <span class="string">""</span><span class="operator">,</span> <span class="number">8</span> <span class="operator">]</span><span class="operator">,</span>
+       <span class="string">flags</span>  <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="operator">...</span> <span class="operator">]</span><span class="operator">,</span>
+       <span class="string">errors</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="operator">...</span> <span class="operator">]</span><span class="operator">,</span>
+       <span class="operator">}</span><span class="operator">,</span>
+     <span class="operator">{</span> <span class="string">fields</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="operator">...</span> <span class="operator">]</span><span class="operator">,</span>
+       <span class="operator">.</span>
+       <span class="operator">.</span>
+       <span class="operator">}</span><span class="operator">,</span>
+     <span class="operator">]</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="ebcdic" class="item">EBCDIC</a></strong>
+
+<dd>
+<p>The hard-coding of characters and character ranges makes this module
+unusable on EBCDIC system. Using some #ifdef structure could enable
+these again without loosing speed. Testing would be the hard part.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="release_plan">Release plan</a></h1>
+<p>No guarantees, but this is what I have in mind right now:</p>
+<dl>
+<dt><strong><a name="next" class="item">next</a></strong>
+
+<dd>
+<pre>
+ - This might very well be 1.00
+ - DIAGNOSTICS setction in pod to *describe* the errors (see below)
+ - croak / carp</pre>
+</dd>
+<dt><strong><a name="next_1" class="item">next + 1</a></strong>
+
+<dd>
+<pre>
+ - csv2csv - a script to regenerate a CSV file to follow standards
+ - EBCDIC support</pre>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<p>Still under construction ...</p>
+<p>If an error occured, <code>$csv-</code>error_diag ()&gt; can be used to get more information
+on the cause of the failure. Note that for speed reasons, the internal value
+is never cleared on success, so using the value returned by <code>error_diag ()</code> in
+normal cases - when no error occured - may cause unexpected results.</p>
+<p>If the constructor failed, the cause can be found using <code>error_diag ()</code> as a
+class method, like <code>Text::CSV_XS-</code>error_diag ()&gt;.</p>
+<p>Currently errors as described below are available. I've tried to make the error
+itself explanatory enough, but more descriptions will be added. For most of
+these errors, the first three capitals describe the error category:</p>
+<dl>
+<dt><strong><a name="ini" class="item">INI</a></strong>
+
+<dd>
+<p>Initialization error or option conflict.</p>
+</dd>
+</li>
+<dt><strong><a name="ecr" class="item">ECR</a></strong>
+
+<dd>
+<p>Carriage-Return related parse error.</p>
+</dd>
+</li>
+<dt><strong><a name="eof" class="item">EOF</a></strong>
+
+<dd>
+<p>End-Of-File related parse error.</p>
+</dd>
+</li>
+<dt><strong><a name="eiq" class="item">EIQ</a></strong>
+
+<dd>
+<p>Parse error inside quotation.</p>
+</dd>
+</li>
+<dt><strong><a name="eif" class="item">EIF</a></strong>
+
+<dd>
+<p>Parse error inside field.</p>
+</dd>
+</li>
+<dt><strong><a name="ecb" class="item">ECB</a></strong>
+
+<dd>
+<p>Combine error.</p>
+</dd>
+</li>
+<dt><strong><a name="ehr" class="item">EHR</a></strong>
+
+<dd>
+<p>HashRef parse related error.</p>
+</dd>
+</li>
+</dl>
+<ol>
+<li><strong><a name="ini_sep_char_is_equal_to_quote_char_or_escape_char" class="item">&quot;INI - sep_char is equal to quote_char or escape_char&quot;</a></strong>
+
+<p>The separation character cannot be equal to either the quotation character
+or the escape character, as that will invalidate all parsing rules.</p>
+</li>
+<li><strong><a name="ini_allow_whitespace_with_escape_char_or_quote_char_sp_or_tab" class="item">&quot;INI - allow_whitespace with escape_char or quote_char SP or TAB&quot;</a></strong>
+
+<p>Using <a href="#allow_whitespace"><code>allow_whitespace</code></a> when either <a href="#escape_char"><code>escape_char</code></a> or <a href="#quote_char"><code>quote_char</code></a> is
+equal to SPACE or TAB is too ambiguous to allow.</p>
+</li>
+<li><strong><a name="ecr_quo_char_inside_quotes_followed_by_cr_not_part_of_eol" class="item">&quot;ECR - QUO char inside quotes followed by CR not part of EOL&quot;</a></strong>
+
+<p>When <a href="#eol"><code>eol</code></a> has been set to something specific, other than the default,
+like <code>&quot;\r\t\n&quot;</code>, and the <a href="../../lib/pods/perlguts.html#r"><code>&quot;\r&quot;</code></a> is following the <strong>second</strong> (closing)
+<a href="#quote_char"><code>quote_char</code></a>, where the characters following the <a href="../../lib/pods/perlguts.html#r"><code>&quot;\r&quot;</code></a> do not make up
+the <a href="#eol"><code>eol</code></a> sequence, this is an error.</p>
+</li>
+<li><strong><a name="ecr_characters_after_end_of_quoted_field" class="item">&quot;ECR - Characters after end of quoted field&quot;</a></strong>
+
+<p>Sequences like <code>1,foo,&quot;bar&quot;baz,2</code> are not allowed. <code>&quot;bar&quot;</code> is a quoted
+field, and after the closing quote, there should be either a new-line
+sequence or a separation character.</p>
+</li>
+<li><strong><a name="eof_end_of_data_in_parsing_input_stream" class="item">&quot;EOF - End of data in parsing input stream&quot;</a></strong>
+
+<p>Self-explaining. End-of-file while inside parsing a stream. Can only
+happen when reading from streams with <code>getline ()</code>, as using <code>parse ()</code>
+is done on strings that are not required to have a trailing <a href="#eol"><code>eol</code></a>.</p>
+</li>
+<li><strong><a name="eiq_nl_char_inside_quotes_binary_off" class="item">&quot;EIQ - NL char inside quotes, binary off&quot;</a></strong>
+
+<p>Sequences like <code>1,&quot;foo\nbar&quot;,2</code> are only allowed when the binary option
+has been selected with the constructor.</p>
+</li>
+<li><strong><a name="eiq_cr_char_inside_quotes_binary_off" class="item">&quot;EIQ - CR char inside quotes, binary off&quot;</a></strong>
+
+<p>Sequences like <code>1,&quot;foo\rbar&quot;,2</code> are only allowed when the binary option
+has been selected with the constructor.</p>
+</li>
+<li><strong><a name="eiq_quo_character_not_allowed" class="item">&quot;EIQ - QUO character not allowed</a></strong>
+
+<p>Sequences like <code>&quot;foo &quot;bar&quot; baz&quot;,quux</code> and <code>2023,&quot;,2008-04-05,&quot;Foo, Bar&quot;,\n</code>
+will cause this error.</p>
+</li>
+<li><strong><a name="eiq_eof_cannot_be_escaped_not_even_inside_quotes" class="item">&quot;EIQ - EOF cannot be escaped, not even inside quotes&quot;</a></strong>
+
+<p>The escape character is not allowed as last character in an input stream.</p>
+</li>
+<li><strong><a name="eiq_loose_unescaped_escape" class="item">&quot;EIQ - Loose unescaped escape&quot;</a></strong>
+
+<p>An escape character should escape only characters that need escaping. Allowing
+the escape for other characters is possible with the <code>allow_loose_escape</code>
+attribute.</p>
+</li>
+<li><strong><a name="eiq_binary_character_inside_quoted_field_binary_off" class="item">&quot;EIQ - Binary character inside quoted field, binary off&quot;</a></strong>
+
+<p>Binary characters are not allowed by default. Exceptions are fields that
+contain valid UTF-8, that will automatically be upgraded is the content is
+valid UTF-8. Pass the <a href="#binary"><code>binary</code></a> attribute with a true value to accept binary
+characters.</p>
+</li>
+<li><strong><a name="eiq_quoted_field_not_terminated" class="item">&quot;EIQ - Quoted field not terminated&quot;</a></strong>
+
+<p>When parsing a field that started with a quotation character, the field is
+expected to be closed with a quotation character. When the parsed line is
+exhausted before the quote is found, that field is not terminated.</p>
+</li>
+<li><strong><a name="eif_nl_char_inside_unquoted_verbatim_binary_off" class="item">&quot;EIF - NL char inside unquoted verbatim, binary off&quot;</a></strong>
+
+<li><strong><a name="eif_cr_char_is_first_char_of_field_not_part_of_eol" class="item">&quot;EIF - CR char is first char of field, not part of EOL&quot;</a></strong>
+
+<li><strong><a name="eif_cr_char_inside_unquoted_not_part_of_eol" class="item">&quot;EIF - CR char inside unquoted, not part of EOL&quot;</a></strong>
+
+<li><strong><a name="eif_loose_unescaped_quote" class="item">&quot;EIF - Loose unescaped quote&quot;</a></strong>
+
+<li><strong><a name="eif_escaped_eof_in_unquoted_field" class="item">&quot;EIF - Escaped EOF in unquoted field&quot;</a></strong>
+
+<li><strong><a name="eif_esc_error" class="item">&quot;EIF - ESC error&quot;</a></strong>
+
+<li><strong><a name="eif_binary_character_in_unquoted_field_binary_off" class="item">&quot;EIF - Binary character in unquoted field, binary off&quot;</a></strong>
+
+<li><strong><a name="ecb_binary_character_in_combine_binary_off" class="item">&quot;ECB - Binary character in Combine, binary off&quot;</a></strong>
+
+<li><strong><a name="eio_print_to_io_failed_see_errno" class="item">&quot;EIO - print to IO failed. See errno&quot;</a></strong>
+
+<li><strong><a name="column_names" class="item">&quot;EHR - Unsupported syntax for column_names ()&quot;</a></strong>
+
+<li><strong><a name="getline_hr" class="item">&quot;EHR - getline_hr () called before column_names ()&quot;</a></strong>
+
+<li><strong><a name="bind_columns" class="item">&quot;EHR - bind_columns () and column_names () fields count mismatch&quot;</a></strong>
+
+<li><strong>&quot;EHR - bind_columns () only accepts refs to scalars&quot;</strong>
+
+<li><strong>&quot;EHR - bind_columns () did not pass enough refs for parsed fields&quot;</strong>
+
+<li><strong><a name="ehr_bind_columns_needs_refs_to_writeable_scalars" class="item">&quot;EHR - bind_columns needs refs to writeable scalars&quot;</a></strong>
+
+<li><strong><a name="ehr_unexpected_error_in_bound_fields" class="item">&quot;EHR - unexpected error in bound fields</a></strong>
+
+</ol>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><em>perl(1)</em>, <a href="../../IO/File(3).html">the IO::File(3) manpage</a>, <a href="../../IO/Handle(3).html">the IO::Handle(3) manpage</a>, <a href="../../IO/Wrap(3).html">the IO::Wrap(3) manpage</a>,
+<a href="../../Text/CSV(3).html">the Text::CSV(3) manpage</a>, <a href="../../Text/CSV_PP(3).html">the Text::CSV_PP(3) manpage</a>, <a href="../../Text/CSV/Encoded(3).html">the Text::CSV::Encoded(3) manpage</a>,
+<a href="../../Text/CSV/Separator(3).html">the Text::CSV::Separator(3) manpage</a>, and <a href="../../Spreadsheet/Read(3).html">the Spreadsheet::Read(3) manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors_and_maintainers">AUTHORS and MAINTAINERS</a></h1>
+<p>Alan Citterman <em class="file">&lt;<a href="mailto:alan@mfgrtl.com">alan@mfgrtl.com</a>&gt;</em> wrote the original Perl
+module. Please don't send mail concerning Text::CSV_XS to Alan, as
+he's not involved in the C part which is now the main part of the
+module.</p>
+<p>Jochen Wiedmann <em class="file">&lt;<a href="mailto:joe@ispsoft.de">joe@ispsoft.de</a>&gt;</em> rewrote the encoding and
+decoding in C by implementing a simple finite-state machine and added
+the variable quote, escape and separator characters, the binary mode
+and the print and getline methods. See ChangeLog releases 0.10 through
+0.23.</p>
+<p>H.Merijn Brand <em class="file">&lt;<a href="mailto:h.m.brand@xs4all.nl">h.m.brand@xs4all.nl</a>&gt;</em> cleaned up the code,
+added the field flags methods, wrote the major part of the test suite,
+completed the documentation, fixed some RT bugs and added all the allow
+flags. See ChangeLog releases 0.25 and on.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright (C) 2007-2009 H.Merijn Brand for PROCURA B.V.
+Copyright (C) 1998-2001 Jochen Wiedmann. All rights reserved.
+Portions Copyright (C) 1997 Alan Citterman. All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,2354 @@
+=head2 Mon Aug 24 14:33:31 2009: C<Module> L<HTML::Tagset|HTML::Tagset>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.20>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:33:52 2009: C<Module> L<URI|URI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.40>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:34:16 2009: C<Module> L<HTML::Parser|HTML::Parser>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.62>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:34:28 2009: C<Module> L<Win32::Job|Win32::Job>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:34:47 2009: C<Module> L<version|version>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.7701>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:35:43 2009: C<Module> L<LWP|LWP>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.831>
+
+=item *
+
+C<EXE_FILES: bin/lwp-request bin/lwp-mirror bin/lwp-rget bin/lwp-download bin/lwp-dump>
+
+=back
+
+=head2 Mon Aug 24 14:36:04 2009: C<Module> L<Archive::Zip|Archive::Zip>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.30>
+
+=item *
+
+C<EXE_FILES: script/crc32>
+
+=back
+
+=head2 Mon Aug 24 14:37:23 2009: C<Module> L<ActiveState::Utils|ActiveState::Utils>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.05>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:38:55 2009: C<Module> L<Sub::Uplevel|Sub::Uplevel>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.2002>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:39:23 2009: C<Module> L<Test::Exception|Test::Exception>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.27>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:40:18 2009: C<Module> L<Algorithm::Diff|Algorithm::Diff>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.1902>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:40:35 2009: C<Module> L<GD|GD>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.44>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:40:43 2009: C<Module> L<Carp::Clan|Carp::Clan>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.00>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:40:57 2009: C<Module> L<Tcl|Tcl>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.97>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:44:12 2009: C<Module> L<DBI|DBI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.607>
+
+=item *
+
+C<EXE_FILES: dbiproxy dbiprof dbilogstrip>
+
+=back
+
+=head2 Mon Aug 24 14:44:27 2009: C<Module> L<HTML::Template|HTML::Template>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.9>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:44:34 2009: C<Module> L<ActiveState::YAML|ActiveState::YAML>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:44:43 2009: C<Module> L<ActiveState::RelocateTree|ActiveState::RelocateTree>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: bin/reloc_perl>
+
+=back
+
+=head2 Mon Aug 24 14:45:10 2009: C<Module> L<ActivePerl::DocTools|ActivePerl::DocTools>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.03>
+
+=item *
+
+C<EXE_FILES: bin/ap-update-html bin/ap-user-guide>
+
+=back
+
+=head2 Mon Aug 24 14:45:24 2009: C<Module> L<Win32API::Registry|Win32API::Registry>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.30>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:46:30 2009: C<Module> L<threads|threads>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.74>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:46:52 2009: C<Module> L<XML::Parser|XML::Parser>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.36>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:47:00 2009: C<Module> L<HTTP::Server::Simple|HTTP::Server::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.40>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:47:07 2009: C<Module> L<Text::Reform|Text::Reform>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:47:15 2009: C<Module> L<Text::Diff|Text::Diff>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.37>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:47:24 2009: C<Module> L<GD::Text|GD::Text>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.86>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:47:34 2009: C<Module> L<Digest::SHA1|Digest::SHA1>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.12>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:48:16 2009: C<Module> L<Bit::Vector|Bit::Vector>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.9>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:48:53 2009: C<Module> L<Text::CSV_XS|Text::CSV_XS>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.67>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:49:08 2009: C<Module> L<SQL::Statement|SQL::Statement>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:55:41 2009: C<Module> L<IO::String|IO::String>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:56:12 2009: C<Module> L<Tkx|Tkx>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.07>
+
+=item *
+
+C<EXE_FILES: tkx-ed tkx-prove>
+
+=back
+
+=head2 Mon Aug 24 14:56:22 2009: C<Module> L<Term::ReadKey|Term::ReadKey>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.30>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:57:13 2009: C<Module> L<DBD::SQLite|DBD::SQLite>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.25>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:57:47 2009: C<Module> L<Win32API::Net|Win32API::Net>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.12>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:57:58 2009: C<Module> L<Win32::WinError|Win32::WinError>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:58:06 2009: C<Module> L<Win32::TieRegistry|Win32::TieRegistry>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.26>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:58:16 2009: C<Module> L<Win32::Sound|Win32::Sound>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.49>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:58:26 2009: C<Module> L<Win32::Shortcut|Win32::Shortcut>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.07>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:58:38 2009: C<Module> L<Win32::Service|Win32::Service>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:58:50 2009: C<Module> L<Win32::Registry|Win32::Registry>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.10>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:58:59 2009: C<Module> L<Win32::Process|Win32::Process>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.14>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:59:10 2009: C<Module> L<Win32::Pipe|Win32::Pipe>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.024>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:59:20 2009: C<Module> L<Win32::PerfLib|Win32::PerfLib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:59:35 2009: C<Module> L<Win32::OLE|Win32::OLE>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.1709>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:59:48 2009: C<Module> L<Win32::ODBC|Win32::ODBC>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.034>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 14:59:59 2009: C<Module> L<Win32::NetResource|Win32::NetResource>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.056>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:00:09 2009: C<Module> L<Win32::NetAdmin|Win32::NetAdmin>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:00:19 2009: C<Module> L<Win32::Internet|Win32::Internet>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.084>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:00:42 2009: C<Module> L<Win32::FileSecurity|Win32::FileSecurity>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:00:52 2009: C<Module> L<Win32::File|Win32::File>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:01:02 2009: C<Module> L<Win32::EventLog|Win32::EventLog>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.076>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:01:12 2009: C<Module> L<Win32::Console|Win32::Console>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:01:22 2009: C<Module> L<Win32::Clipboard|Win32::Clipboard>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.55>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:01:32 2009: C<Module> L<Win32::AuthenticateUser|Win32::AuthenticateUser>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:01:50 2009: C<Module> L<Win32::API|Win32::API>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.59>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:02:03 2009: C<Module> L<Win32|Win32>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.39>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:04:10 2009: C<Module> L<threads::shared|threads::shared>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.31>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:04:18 2009: C<Module> L<constant|constant>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.18>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:04:27 2009: C<Module> L<Text::Balanced|Text::Balanced>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:04:49 2009: C<Module> L<Storable|Storable>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.21>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:05:33 2009: C<Module> L<Pod::Simple|Pod::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:05:42 2009: C<Module> L<Pod::Perldoc|Pod::Perldoc>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.15>
+
+=item *
+
+C<EXE_FILES: perldoc>
+
+=back
+
+=head2 Mon Aug 24 15:05:53 2009: C<Module> L<Parse::CPAN::Meta|Parse::CPAN::Meta>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.40>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:06:01 2009: C<Module> L<Locale::Maketext::Simple|Locale::Maketext::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.21>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:06:11 2009: C<Module> L<IO::Zlib|IO::Zlib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.10>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:06:20 2009: C<Module> L<ExtUtils::CBuilder|ExtUtils::CBuilder>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.2603>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:06:32 2009: C<Module> L<Data::Dumper|Data::Dumper>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.125>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:06:46 2009: C<Module> L<CGI|CGI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.45>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:07:11 2009: C<Module> L<AutoLoader|AutoLoader>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.69>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:07:19 2009: C<Module> L<Attribute::Handlers|Attribute::Handlers>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.86>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:07:27 2009: C<Module> L<Term::ANSIColor|Term::ANSIColor>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:07:34 2009: C<Module> L<mylib|mylib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:08:04 2009: C<Module> L<YAML::LibYAML|YAML::LibYAML>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.32>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:08:28 2009: C<Module> L<XML::Simple|XML::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.18>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:09:35 2009: C<Module> L<WWW::Mechanize|WWW::Mechanize>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.60>
+
+=item *
+
+C<EXE_FILES: bin/mech-dump>
+
+=back
+
+=head2 Mon Aug 24 15:09:47 2009: C<Module> L<Unicode::String|Unicode::String>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:09:54 2009: C<Module> L<Text::Glob|Text::Glob>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:10:02 2009: C<Module> L<Text::Autoformat|Text::Autoformat>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.666.0>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:10:10 2009: C<Module> L<Test::Differences|Test::Differences>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.4801>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:10:17 2009: C<Module> L<Term::ReadLine::Perl|Term::ReadLine::Perl>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.0302>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:10:24 2009: C<Module> L<PPM::Repositories|PPM::Repositories>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:10:32 2009: C<Module> L<Net::Telnet|Net::Telnet>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:10:46 2009: C<Module> L<MIME-Base64-Scripts|MIME-Base64-Scripts>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.00>
+
+=item *
+
+C<EXE_FILES: encode-base64 decode-base64 encode-qp decode-qp>
+
+=back
+
+=head2 Mon Aug 24 15:10:53 2009: C<Module> L<MD5|MD5>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:11:25 2009: C<Module> L<JSON|JSON>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:11:38 2009: C<Module> L<HTML-Tree|HTML-Tree>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.23>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:11:48 2009: C<Module> L<GD::Graph|GD::Graph>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.44>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:11:56 2009: C<Module> L<Font::AFM|Font::AFM>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.20>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:12:05 2009: C<Module> L<File::Which|File::Which>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.07>
+
+=item *
+
+C<EXE_FILES: script/pwhich>
+
+=back
+
+=head2 Mon Aug 24 15:12:14 2009: C<Module> L<File::Next|File::Next>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:12:24 2009: C<Module> L<File::HomeDir|File::HomeDir>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.86>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:12:56 2009: C<Module> L<File::CounterFile|File::CounterFile>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:13:06 2009: C<Module> L<Digest::MD4|Digest::MD4>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.5>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:13:16 2009: C<Module> L<Digest::MD2|Digest::MD2>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:13:23 2009: C<Module> L<Digest::HMAC|Digest::HMAC>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:13:42 2009: C<Module> L<Date::Calc|Date::Calc>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.6>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:13:51 2009: C<Module> L<Data::Dump|Data::Dump>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:17:16 2009: C<Module> L<DBD::Oracle|DBD::Oracle>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.21>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:17:37 2009: C<Module> L<DBD::ODBC|DBD::ODBC>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.22>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:17:51 2009: C<Module> L<DBD::CSV|DBD::CSV>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.22>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:18:23 2009: C<Module> L<Crypt::SSLeay|Crypt::SSLeay>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.57>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:18:31 2009: C<Module> L<Class::Accessor|Class::Accessor>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.33>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:18:48 2009: C<Module> L<Archive::Tar|Archive::Tar>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.52>
+
+=item *
+
+C<EXE_FILES: bin/ptar bin/ptardiff>
+
+=back
+
+=head2 Mon Aug 24 15:19:00 2009: C<Module> L<ActiveState::Scineplex|ActiveState::Scineplex>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Aug 24 15:21:14 2009: C<Module> L<ActivePerl::PPM|ActivePerl::PPM>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.06>
+
+=item *
+
+C<EXE_FILES: bin/ppm bin/ppm-shell>
+
+=back
+
+=head2 Mon Aug 24 15:21:23 2009: C<Module> L<ActivePerl::Config|ActivePerl::Config>
+
+=over 4
+
+=item *
+
+C<installed into: C:\TEMP\perl---------please-run-the-install-script--------\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

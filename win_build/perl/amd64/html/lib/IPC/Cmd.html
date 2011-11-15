@@ -1,0 +1,414 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>IPC::Cmd - finding and running system commands made easy</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>IPC::Cmd - finding and running system commands made easy</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#class_methods">CLASS METHODS</a></li>
+	<ul>
+
+		<li><a href="#_bool___ipc__cmd__can_use_ipc_run___verbose___">$bool = IPC::Cmd-&gt;can_use_ipc_run( [VERBOSE] )</a></li>
+		<li><a href="#_bool___ipc__cmd__can_use_ipc_open3___verbose___">$bool = IPC::Cmd-&gt;can_use_ipc_open3( [VERBOSE] )</a></li>
+		<li><a href="#_bool___ipc__cmd__can_capture_buffer">$bool = IPC::Cmd-&gt;can_capture_buffer</a></li>
+	</ul>
+
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#_path___can_run__program___">$path = can_run( PROGRAM );</a></li>
+		<li><a href="#_ok_____ok___err___full_buf___stdout_buff___stderr_buff____run__command____command___verbose____bool__buffer______scalar____">$ok | ($ok, $err, $full_buf, $stdout_buff, $stderr_buff) = run( command =&gt; COMMAND, [verbose =&gt; BOOL, buffer =&gt; \$SCALAR] );</a></li>
+	</ul>
+
+	<li><a href="#how_it_works">HOW IT WORKS</a></li>
+	<li><a href="#global_variables">Global Variables</a></li>
+	<ul>
+
+		<li><a href="#_ipc__cmd__verbose">$IPC::Cmd::VERBOSE</a></li>
+		<li><a href="#_ipc__cmd__use_ipc_run">$IPC::Cmd::USE_IPC_RUN</a></li>
+		<li><a href="#_ipc__cmd__use_ipc_open3">$IPC::Cmd::USE_IPC_OPEN3</a></li>
+		<li><a href="#_ipc__cmd__warn">$IPC::Cmd::WARN</a></li>
+	</ul>
+
+	<li><a href="#caveats">Caveats</a></li>
+	<li><a href="#see_also">See Also</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#bug_reports">BUG REPORTS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>IPC::Cmd - finding and running system commands made easy</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">IPC::Cmd</span> <span class="string">qw[can_run run]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$full_path</span> <span class="operator">=</span> <span class="variable">can_run</span><span class="operator">(</span><span class="string">'wget'</span><span class="operator">)</span> <span class="keyword">or</span> <span class="keyword">warn</span> <span class="string">'wget is not installed!'</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">### commands can be arrayrefs or strings ###</span>
+    <span class="keyword">my</span> <span class="variable">$cmd</span> <span class="operator">=</span> <span class="string">"</span><span class="variable">$full_path</span><span class="string"> -b theregister.co.uk"</span><span class="operator">;</span>
+    <span class="keyword">my</span> <span class="variable">$cmd</span> <span class="operator">=</span> <span class="operator">[</span><span class="variable">$full_path</span><span class="operator">,</span> <span class="string">'-b'</span><span class="operator">,</span> <span class="string">'theregister.co.uk'</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">### in scalar context ###</span>
+    <span class="keyword">my</span> <span class="variable">$buffer</span><span class="operator">;</span>
+    <span class="keyword">if</span><span class="operator">(</span> <span class="keyword">scalar</span> <span class="variable">run</span><span class="operator">(</span> <span class="string">command</span> <span class="operator">=&gt;</span> <span class="variable">$cmd</span><span class="operator">,</span>
+                    <span class="string">verbose</span> <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span>
+                    <span class="string">buffer</span>  <span class="operator">=&gt;</span> <span class="operator">\</span><span class="variable">$buffer</span> <span class="operator">)</span>
+    <span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">print</span> <span class="string">"fetched webpage successfully: </span><span class="variable">$buffer</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment">### in list context ###</span>
+    <span class="keyword">my</span><span class="operator">(</span> <span class="variable">$success</span><span class="operator">,</span> <span class="variable">$error_code</span><span class="operator">,</span> <span class="variable">$full_buf</span><span class="operator">,</span> <span class="variable">$stdout_buf</span><span class="operator">,</span> <span class="variable">$stderr_buf</span> <span class="operator">)</span> <span class="operator">=</span>
+            <span class="variable">run</span><span class="operator">(</span> <span class="string">command</span> <span class="operator">=&gt;</span> <span class="variable">$cmd</span><span class="operator">,</span> <span class="string">verbose</span> <span class="operator">=&gt;</span> <span class="number">0</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="keyword">if</span><span class="operator">(</span> <span class="variable">$success</span> <span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">print</span> <span class="string">"this is what the command printed:\n"</span><span class="operator">;</span>
+        <span class="keyword">print</span> <span class="keyword">join</span> <span class="string">""</span><span class="operator">,</span> <span class="variable">@$full_buf</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment">### check for features</span>
+    <span class="keyword">print</span> <span class="string">"IPC::Open3 available: "</span>  <span class="operator">.</span> <span class="variable">IPC::Cmd</span><span class="operator">-&gt;</span><span class="variable">can_use_ipc_open3</span><span class="operator">;</span>      
+    <span class="keyword">print</span> <span class="string">"IPC::Run available: "</span>    <span class="operator">.</span> <span class="variable">IPC::Cmd</span><span class="operator">-&gt;</span><span class="variable">can_use_ipc_run</span><span class="operator">;</span>      
+    <span class="keyword">print</span> <span class="string">"Can capture buffer: "</span>    <span class="operator">.</span> <span class="variable">IPC::Cmd</span><span class="operator">-&gt;</span><span class="variable">can_capture_buffer</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">### don't have IPC::Cmd be verbose, ie don't print to stdout or</span>
+    <span class="comment">### stderr when running commands -- default is '0'</span>
+    <span class="variable">$IPC::Cmd::VERBOSE</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>IPC::Cmd allows you to run commands, interactively if desired,
+platform independent but have them still work.</p>
+<p>The <code>can_run</code> function can tell you if a certain binary is installed
+and if so where, whereas the <code>run</code> function can actually execute any
+of the commands you give it and give you a clear return value, as well
+as adhere to your verbosity settings.</p>
+<p>
+</p>
+<hr />
+<h1><a name="class_methods">CLASS METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_bool___ipc__cmd__can_use_ipc_run___verbose___">$bool = IPC::Cmd-&gt;can_use_ipc_run( [VERBOSE] )</a></h2>
+<p>Utility function that tells you if <code>IPC::Run</code> is available. 
+If the verbose flag is passed, it will print diagnostic messages
+if <code>IPC::Run</code> can not be found or loaded.</p>
+<p>
+</p>
+<h2><a name="_bool___ipc__cmd__can_use_ipc_open3___verbose___">$bool = IPC::Cmd-&gt;can_use_ipc_open3( [VERBOSE] )</a></h2>
+<p>Utility function that tells you if <code>IPC::Open3</code> is available. 
+If the verbose flag is passed, it will print diagnostic messages
+if <code>IPC::Open3</code> can not be found or loaded.</p>
+<p>
+</p>
+<h2><a name="_bool___ipc__cmd__can_capture_buffer">$bool = IPC::Cmd-&gt;can_capture_buffer</a></h2>
+<p>Utility function that tells you if <code>IPC::Cmd</code> is capable of
+capturing buffers in it's current configuration.</p>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="_path___can_run__program___">$path = can_run( PROGRAM );</a></h2>
+<p><code>can_run</code> takes but a single argument: the name of a binary you wish
+to locate. <code>can_run</code> works much like the unix binary <code>which</code> or the bash
+command <code>type</code>, which scans through your path, looking for the requested
+binary .</p>
+<p>Unlike <code>which</code> and <code>type</code>, this function is platform independent and
+will also work on, for example, Win32.</p>
+<p>It will return the full path to the binary you asked for if it was
+found, or <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if it was not.</p>
+<p>
+</p>
+<h2><a name="_ok_____ok___err___full_buf___stdout_buff___stderr_buff____run__command____command___verbose____bool__buffer______scalar____">$ok | ($ok, $err, $full_buf, $stdout_buff, $stderr_buff) = run( command =&gt; COMMAND, [verbose =&gt; BOOL, buffer =&gt; \$SCALAR] );</a></h2>
+<p><code>run</code> takes 3 arguments:</p>
+<dl>
+<dt><strong><a name="command" class="item">command</a></strong>
+
+<dd>
+<p>This is the command to execute. It may be either a string or an array
+reference.
+This is a required argument.</p>
+</dd>
+<dd>
+<p>See <em>CAVEATS</em> for remarks on how commands are parsed and their
+limitations.</p>
+</dd>
+</li>
+<dt><strong><a name="verbose" class="item">verbose</a></strong>
+
+<dd>
+<p>This controls whether all output of a command should also be printed
+to STDOUT/STDERR or should only be trapped in buffers (NOTE: buffers
+require <code>IPC::Run</code> to be installed or your system able to work with
+<code>IPC::Open3</code>).</p>
+</dd>
+<dd>
+<p>It will default to the global setting of <code>$IPC::Cmd::VERBOSE</code>,
+which by default is 0.</p>
+</dd>
+</li>
+<dt><strong><a name="buffer" class="item">buffer</a></strong>
+
+<dd>
+<p>This will hold all the output of a command. It needs to be a reference
+to a scalar.
+Note that this will hold both the STDOUT and STDERR messages, and you
+have no way of telling which is which.
+If you require this distinction, run the <code>run</code> command in list context
+and inspect the individual buffers.</p>
+</dd>
+<dd>
+<p>Of course, this requires that the underlying call supports buffers. See
+the note on buffers right above.</p>
+</dd>
+</li>
+</dl>
+<p><code>run</code> will return a simple <code>true</code> or <code>false</code> when called in scalar
+context.
+In list context, you will be returned a list of the following items:</p>
+<dl>
+<dt><strong><a name="success" class="item">success</a></strong>
+
+<dd>
+<p>A simple boolean indicating if the command executed without errors or
+not.</p>
+</dd>
+</li>
+<dt><strong><a name="errorcode" class="item">errorcode</a></strong>
+
+<dd>
+<p>If the first element of the return value (success) was 0, then some
+error occurred. This second element is the error code the command
+you requested exited with, if available.</p>
+</dd>
+</li>
+<dt><strong><a name="full_buffer" class="item">full_buffer</a></strong>
+
+<dd>
+<p>This is an arrayreference containing all the output the command
+generated.
+Note that buffers are only available if you have <code>IPC::Run</code> installed,
+or if your system is able to work with <code>IPC::Open3</code> -- See below).
+This element will be <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if this is not the case.</p>
+</dd>
+</li>
+<dt><strong><a name="out_buffer" class="item">out_buffer</a></strong>
+
+<dd>
+<p>This is an arrayreference containing all the output sent to STDOUT the
+command generated.
+Note that buffers are only available if you have <code>IPC::Run</code> installed,
+or if your system is able to work with <code>IPC::Open3</code> -- See below).
+This element will be <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if this is not the case.</p>
+</dd>
+</li>
+<dt><strong><a name="error_buffer" class="item">error_buffer</a></strong>
+
+<dd>
+<p>This is an arrayreference containing all the output sent to STDERR the
+command generated.
+Note that buffers are only available if you have <code>IPC::Run</code> installed,
+or if your system is able to work with <code>IPC::Open3</code> -- See below).
+This element will be <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if this is not the case.</p>
+</dd>
+</li>
+</dl>
+<p>See the <code>HOW IT WORKS</code> Section below to see how <code>IPC::Cmd</code> decides
+what modules or function calls to use when issuing a command.</p>
+<p>
+</p>
+<hr />
+<h1><a name="how_it_works">HOW IT WORKS</a></h1>
+<p><code>run</code> will try to execute your command using the following logic:</p>
+<ul>
+<li>
+<p>If you have <code>IPC::Run</code> installed, and the variable <code>$IPC::Cmd::USE_IPC_RUN</code>
+is set to true (See the <code>GLOBAL VARIABLES</code> Section) use that to execute 
+the command. You will have the full output available in buffers, interactive commands are sure to work  and you are guaranteed to have your verbosity
+settings honored cleanly.</p>
+</li>
+<li>
+<p>Otherwise, if the variable <code>$IPC::Cmd::USE_IPC_OPEN3</code> is set to true 
+(See the <code>GLOBAL VARIABLES</code> Section), try to execute the command using
+<code>IPC::Open3</code>. Buffers will be available on all platforms except <code>Win32</code>,
+interactive commands will still execute cleanly, and also your verbosity
+settings will be adhered to nicely;</p>
+</li>
+<li>
+<p>Otherwise, if you have the verbose argument set to true, we fall back
+to a simple <a href="../../lib/pods/perlfunc.html#system"><code>system()</code></a> call. We cannot capture any buffers, but
+interactive commands will still work.</p>
+</li>
+<li>
+<p>Otherwise we will try and temporarily redirect STDERR and STDOUT, do a
+<a href="../../lib/pods/perlfunc.html#system"><code>system()</code></a> call with your command and then re-open STDERR and STDOUT.
+This is the method of last resort and will still allow you to execute
+your commands cleanly. However, no buffers will be available.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="global_variables">Global Variables</a></h1>
+<p>The behaviour of IPC::Cmd can be altered by changing the following
+global variables:</p>
+<p>
+</p>
+<h2><a name="_ipc__cmd__verbose">$IPC::Cmd::VERBOSE</a></h2>
+<p>This controls whether IPC::Cmd will print any output from the
+commands to the screen or not. The default is 0;</p>
+<p>
+</p>
+<h2><a name="_ipc__cmd__use_ipc_run">$IPC::Cmd::USE_IPC_RUN</a></h2>
+<p>This variable controls whether IPC::Cmd will try to use <a href="../../IPC/Run.html">the IPC::Run manpage</a>
+when available and suitable. Defaults to true if you are on <code>Win32</code>.</p>
+<p>
+</p>
+<h2><a name="_ipc__cmd__use_ipc_open3">$IPC::Cmd::USE_IPC_OPEN3</a></h2>
+<p>This variable controls whether IPC::Cmd will try to use <a href="../../lib/IPC/Open3.html">the IPC::Open3 manpage</a>
+when available and suitable. Defaults to true.</p>
+<p>
+</p>
+<h2><a name="_ipc__cmd__warn">$IPC::Cmd::WARN</a></h2>
+<p>This variable controls whether run time warnings should be issued, like
+the failure to load an <code>IPC::*</code> module you explicitly requested.</p>
+<p>Defaults to true. Turn this off at your own risk.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">Caveats</a></h1>
+<dl>
+<dt><strong><a name="whitespace" class="item">Whitespace</a></strong>
+
+<dd>
+<p>When you provide a string as this argument, the string will be
+split on whitespace to determine the individual elements of your
+command. Although this will usually just Do What You Mean, it may
+break if you have files or commands with whitespace in them.</p>
+</dd>
+<dd>
+<p>If you do not wish this to happen, you should provide an array
+reference, where all parts of your command are already separated out.
+Note however, if there's extra or spurious whitespace in these parts,
+the parser or underlying code may not interpret it correctly, and
+cause an error.</p>
+</dd>
+<dd>
+<p>Example:
+The following code</p>
+</dd>
+<dd>
+<pre>
+    gzip -cdf foo.tar.gz | tar -xf -</pre>
+</dd>
+<dd>
+<p>should either be passed as</p>
+</dd>
+<dd>
+<pre>
+    &quot;gzip -cdf foo.tar.gz | tar -xf -&quot;</pre>
+</dd>
+<dd>
+<p>or as</p>
+</dd>
+<dd>
+<pre>
+    ['gzip', '-cdf', 'foo.tar.gz', '|', 'tar', '-xf', '-']</pre>
+</dd>
+<dd>
+<p>But take care not to pass it as, for example</p>
+</dd>
+<dd>
+<pre>
+    ['gzip -cdf foo.tar.gz', '|', 'tar -xf -']</pre>
+</dd>
+<dd>
+<p>Since this will lead to issues as described above.</p>
+</dd>
+</li>
+<dt><strong><a name="io_redirect" class="item">IO Redirect</a></strong>
+
+<dd>
+<p>Currently it is too complicated to parse your command for IO
+Redirections. For capturing STDOUT or STDERR there is a work around
+however, since you can just inspect your buffers for the contents.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">See Also</a></h1>
+<p><code>IPC::Run</code>, <code>IPC::Open3</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Thanks to James Mastros and Martijn van der Streek for their
+help in getting IPC::Open3 to behave nicely.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bug_reports">BUG REPORTS</a></h1>
+<p>Please report bugs or other issues to &lt;<a href="mailto:bug-ipc-cmd@rt.cpan.org">bug-ipc-cmd@rt.cpan.org</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>This module by Jos Boumans &lt;<a href="mailto:kane@cpan.org">kane@cpan.org</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>This library is free software; you may redistribute and/or modify it 
+under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

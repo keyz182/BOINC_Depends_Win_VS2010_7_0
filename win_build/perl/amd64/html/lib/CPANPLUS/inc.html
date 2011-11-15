@@ -1,0 +1,247 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>CPANPLUS::inc - runtime inclusion of privately bundled modules</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>CPANPLUS::inc - runtime inclusion of privately bundled modules</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#cpanplus__inc__inc_path__">CPANPLUS::inc-&gt;<code>inc_path()</code></a></li>
+		<li><a href="#cpanplus__inc__my_path__">CPANPLUS::inc-&gt;<code>my_path()</code></a></li>
+		<li><a href="#cpanplus__inc__installer_path__">CPANPLUS::inc-&gt;<code>installer_path()</code></a></li>
+		<li><a href="#cpanplus__inc__original_perl5lib">CPANPLUS::inc-&gt;original_perl5lib</a></li>
+		<li><a href="#cpanplus__inc__original_perl5opt">CPANPLUS::inc-&gt;original_perl5opt</a></li>
+		<li><a href="#cpanplus__inc__original_inc">CPANPLUS::inc-&gt;original_inc</a></li>
+		<li><a href="#cpanplus__inc__limited_perl5opt__modules__">CPANPLUS::inc-&gt;limited_perl5opt(@modules);</a></li>
+		<li><a href="#cpanplus__inc__interesting_modules__">CPANPLUS::inc-&gt;<code>interesting_modules()</code></a></li>
+	</ul>
+
+	<li><a href="#interesting_modules">INTERESTING MODULES</a></li>
+	<li><a href="#debug">DEBUG</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>CPANPLUS::inc</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>OBSOLETE</p>
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>CPANPLUS::inc - runtime inclusion of privately bundled modules</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="comment">### set up CPANPLUS::inc to do it's thing ###</span>
+    <span class="keyword">BEGIN</span> <span class="operator">{</span> <span class="keyword">use</span> <span class="variable">CPANPLUS::inc</span> <span class="operator">};</span>
+</pre>
+<pre>
+    <span class="comment">### enable debugging ###</span>
+    <span class="keyword">use</span> <span class="variable">CPANPLUS::inc</span> <span class="string">qw[DEBUG]</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module enables the use of the bundled modules in the
+<code>CPANPLUS/inc</code> directory of this package. These modules are bundled
+to make sure <code>CPANPLUS</code> is able to bootstrap itself. It will do the
+following things:</p>
+<dl>
+<dt><strong><a name="put_a_coderef_at_the_beginning_of_inc" class="item">Put a coderef at the beginning of <a href="../../lib/pods/perlvar.html#_inc"><code>@INC</code></a></a></strong>
+
+<dd>
+<p>This allows us to decide which module to load, and where to find it.
+For details on what we do, see the <code>INTERESTING MODULES</code> section below.
+Also see the <code>CAVEATS</code> section.</p>
+</dd>
+</li>
+<dt><strong><a name="add_the_full_path_to_the_cpanplus_inc_directory_to_env_perl5lib" class="item">Add the full path to the <code>CPANPLUS/inc</code> directory to <code>$ENV{PERL5LIB</code>.</a></strong>
+
+<dd>
+<p>This allows us to find our bundled modules even if we spawn off a new
+process. Although it's not able to do the selective loading as the
+coderef in <a href="../../lib/pods/perlvar.html#_inc"><code>@INC</code></a> could, it's a good fallback.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="cpanplus__inc__inc_path__">CPANPLUS::inc-&gt;<code>inc_path()</code></a></h2>
+<p>Returns the full path to the <code>CPANPLUS/inc</code> directory.</p>
+<p>
+</p>
+<h2><a name="cpanplus__inc__my_path__">CPANPLUS::inc-&gt;<code>my_path()</code></a></h2>
+<p>Returns the full path to be added to <a href="../../lib/pods/perlvar.html#_inc"><code>@INC</code></a> to load
+<code>CPANPLUS::inc</code> from.</p>
+<p>
+</p>
+<h2><a name="cpanplus__inc__installer_path__">CPANPLUS::inc-&gt;<code>installer_path()</code></a></h2>
+<p>Returns the full path to the <code>CPANPLUS/inc/installers</code> directory.</p>
+<p>
+</p>
+<h2><a name="cpanplus__inc__original_perl5lib">CPANPLUS::inc-&gt;original_perl5lib</a></h2>
+<p>Returns the value of $ENV{PERL5LIB} the way it was when <code>CPANPLUS::inc</code>
+got loaded.</p>
+<p>
+</p>
+<h2><a name="cpanplus__inc__original_perl5opt">CPANPLUS::inc-&gt;original_perl5opt</a></h2>
+<p>Returns the value of $ENV{PERL5OPT} the way it was when <code>CPANPLUS::inc</code>
+got loaded.</p>
+<p>
+</p>
+<h2><a name="cpanplus__inc__original_inc">CPANPLUS::inc-&gt;original_inc</a></h2>
+<p>Returns the value of @INC the way it was when <code>CPANPLUS::inc</code> got
+loaded.</p>
+<p>
+</p>
+<h2><a name="cpanplus__inc__limited_perl5opt__modules__">CPANPLUS::inc-&gt;limited_perl5opt(@modules);</a></h2>
+<p>Returns a string you can assign to <code>$ENV{PERL5OPT}</code> to have a limited
+include facility from <code>CPANPLUS::inc</code>. It will roughly look like:</p>
+<pre>
+    -I/path/to/cpanplus/inc -MCPANPLUS::inc=module1,module2</pre>
+<p>
+</p>
+<h2><a name="cpanplus__inc__interesting_modules__">CPANPLUS::inc-&gt;<code>interesting_modules()</code></a></h2>
+<p>Returns a hashref with modules we're interested in, and the minimum
+version we need to find.</p>
+<p>It would looks something like this:</p>
+<pre>
+    <span class="operator">{</span>   <span class="variable">File::Fetch</span>             <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">.</span><span class="number">06</span><span class="operator">,</span>
+        <span class="variable">IPC::Cmd</span>                <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">.</span><span class="number">22</span><span class="operator">,</span>
+        <span class="operator">....</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="interesting_modules">INTERESTING MODULES</a></h1>
+<p><code>CPANPLUS::inc</code> doesn't even bother to try find and find a module
+it's not interested in. A list of <em>interesting modules</em> can be
+obtained using the <code>interesting_modules</code> method described above.</p>
+<p>Note that all subclassed modules of an <code>interesting module</code> will
+also be attempted to be loaded, but a version will not be checked.</p>
+<p>When it however does encounter a module it is interested in, it will
+do the following things:</p>
+<dl>
+<dt><strong><a name="loop_over_your_inc" class="item">Loop over your @INC</a></strong>
+
+<dd>
+<p>And for every directory it finds there (skipping all non directories
+-- see the <code>CAVEATS</code> section), see if the module requested can be
+found there.</p>
+</dd>
+</li>
+<dt><strong><a name="check_the_version_on_every_suitable_module_found_in_inc" class="item">Check the version on every suitable module found in @INC</a></strong>
+
+<dd>
+<p>After a list of modules has been gathered, the version of each of them
+is checked to find the one with the highest version, and return that as
+the module to <a href="../../lib/pods/perlfunc.html#use"><code>use</code></a>.</p>
+</dd>
+<dd>
+<p>This enables us to use a recent enough version from our own bundled
+modules, but also to use a <em>newer</em> module found in your path instead,
+if it is present. Thus having access to bugfixed versions as they are
+released.</p>
+</dd>
+<dd>
+<p>If for some reason no satisfactory version could be found, a warning
+will be emitted. See the <code>DEBUG</code> section for more details on how to
+find out exactly what <code>CPANPLUS::inc</code> is doing.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="debug">DEBUG</a></h1>
+<p>Since this module does <code>Clever Things</code> to your search path, it might
+be nice sometimes to figure out what it's doing, if things don't work
+as expected. You can enable a debug trace by calling the module like
+this:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">CPANPLUS::inc</span> <span class="string">'DEBUG'</span><span class="operator">;</span>
+</pre>
+<p>This will show you what <code>CPANPLUS::inc</code> is doing, which might look
+something like this:</p>
+<pre>
+    CPANPLUS::inc: Found match for 'Params::Check' in
+    '/opt/lib/perl5/site_perl/5.8.3' with version '0.07'
+    CPANPLUS::inc: Found match for 'Params::Check' in
+    '/my/private/lib/CPANPLUS/inc' with version '0.21'
+    CPANPLUS::inc: Best match for 'Params::Check' is found in
+    '/my/private/lib/CPANPLUS/inc' with version '0.21'</pre>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>This module has 2 major caveats, that could lead to unexpected
+behaviour. But currently I don't know how to fix them, Suggestions
+are much welcomed.</p>
+<dl>
+<dt><strong><a name="on_multiple_use_lib_calls_our_coderef_may_not_be_the_first_in_inc" class="item">On multiple <code>use lib</code> calls, our coderef may not be the first in @INC</a></strong>
+
+<dd>
+<p>If this happens, although unlikely in most situations and not happening
+when calling the shell directly, this could mean that a lower (too low)
+versioned module is loaded, which might cause failures in the
+application.</p>
+</dd>
+</li>
+<dt><strong><a name="non_directories_in_inc" class="item">Non-directories in @INC</a></strong>
+
+<dd>
+<p>Non-directories are right now skipped by CPANPLUS::inc. They could of
+course lead us to newer versions of a module, but it's too tricky to
+verify if they would. Therefor they are skipped. In the worst case
+scenario we'll find the sufficing version bundled with CPANPLUS.</p>
+</dd>
+</dl>
+
+</body>
+
+</html>

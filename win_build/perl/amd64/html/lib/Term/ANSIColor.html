@@ -1,0 +1,352 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Term::ANSIColor - Color screen output using ANSI escape sequences</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Term::ANSIColor - Color screen output using ANSI escape sequences</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<li><a href="#environment">ENVIRONMENT</a></li>
+	<li><a href="#restrictions">RESTRICTIONS</a></li>
+	<li><a href="#notes">NOTES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Term::ANSIColor - Color screen output using ANSI escape sequences</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Term::ANSIColor</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">color</span> <span class="string">'bold blue'</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"This text is bold blue.\n"</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">color</span> <span class="string">'reset'</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"This text is normal.\n"</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">colored</span> <span class="operator">(</span><span class="string">"Yellow on magenta."</span><span class="operator">,</span> <span class="string">'yellow on_magenta'</span><span class="operator">),</span> <span class="string">"\n"</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"This text is normal.\n"</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">colored</span> <span class="operator">[</span><span class="string">'yellow on_magenta'</span><span class="operator">]</span><span class="operator">,</span> <span class="string">'Yellow on magenta.'</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"\n"</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Term::ANSIColor</span> <span class="string">qw(uncolor)</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">uncolor</span> <span class="string">'01;31'</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Term::ANSIColor</span> <span class="string">qw(:constants)</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">BOLD</span><span class="operator">,</span> <span class="variable">BLUE</span><span class="operator">,</span> <span class="string">"This text is in bold blue.\n"</span><span class="operator">,</span> <span class="variable">RESET</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Term::ANSIColor</span> <span class="string">qw(:constants)</span><span class="operator">;</span>
+    <span class="variable">$Term::ANSIColor::AUTORESET</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="variable">BOLD</span> <span class="variable">BLUE</span> <span class="string">"This text is in bold blue.\n"</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"This text is normal.\n"</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module has two interfaces, one through <code>color()</code> and <code>colored()</code> and the
+other through constants.  It also offers the utility function <code>uncolor()</code>,
+which has to be explicitly imported to be used (see <a href="#synopsis">SYNOPSIS</a>).</p>
+<p><code>color()</code> takes any number of strings as arguments and considers them to be
+space-separated lists of attributes.  It then forms and returns the escape
+sequence to set those attributes.  It doesn't print it out, just returns it,
+so you'll have to print it yourself if you want to (this is so that you can
+save it as a string, pass it to something else, send it to a file handle, or
+do anything else with it that you might care to).</p>
+<p><code>uncolor()</code> performs the opposite translation, turning escape sequences
+into a list of strings.</p>
+<p>The recognized attributes (all of which should be fairly intuitive) are clear,
+reset, dark, bold, underline, underscore, blink, reverse, concealed, black,
+red, green, yellow, blue, magenta, cyan, white, on_black, on_red, on_green,
+on_yellow, on_blue, on_magenta, on_cyan, and on_white.  Case is not
+significant.  Underline and underscore are equivalent, as are clear and reset,
+so use whichever is the most intuitive to you.  The color alone sets the
+foreground color, and on_color sets the background color.</p>
+<p>Note that not all attributes are supported by all terminal types, and some
+terminals may not support any of these sequences.  Dark, blink, and
+concealed in particular are frequently not implemented.</p>
+<p>Attributes, once set, last until they are unset (by sending the attribute
+&quot;reset&quot;).  Be careful to do this, or otherwise your attribute will last
+after your script is done running, and people get very annoyed at having
+their prompt and typing changed to weird colors.</p>
+<p>As an aid to help with this, <code>colored()</code> takes a scalar as the first argument
+and any number of attribute strings as the second argument and returns the
+scalar wrapped in escape codes so that the attributes will be set as
+requested before the string and reset to normal after the string.
+Alternately, you can pass a reference to an array as the first argument, and
+then the contents of that array will be taken as attributes and color codes
+and the remainder of the arguments as text to colorize.</p>
+<p>Normally, <code>colored()</code> just puts attribute codes at the beginning and end of
+the string, but if you set $Term::ANSIColor::EACHLINE to some string, that
+string will be considered the line delimiter and the attribute will be set
+at the beginning of each line of the passed string and reset at the end of
+each line.  This is often desirable if the output contains newlines and
+you're using background colors, since a background color that persists
+across a newline is often interpreted by the terminal as providing the
+default background color for the next line.  Programs like pagers can also
+be confused by attributes that span lines.  Normally you'll want to set
+$Term::ANSIColor::EACHLINE to <a href="../../lib/pods/perlrun.html#n"><code>&quot;\n&quot;</code></a> to use this feature.</p>
+<p>Alternately, if you import <code>:constants</code>, you can use the constants CLEAR,
+RESET, BOLD, DARK, UNDERLINE, UNDERSCORE, BLINK, REVERSE, CONCEALED, BLACK,
+RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, ON_BLACK, ON_RED, ON_GREEN,
+ON_YELLOW, ON_BLUE, ON_MAGENTA, ON_CYAN, and ON_WHITE directly.  These are
+the same as color('attribute') and can be used if you prefer typing:</p>
+<pre>
+    <span class="keyword">print</span> <span class="variable">BOLD</span> <span class="variable">BLUE</span> <span class="variable">ON_WHITE</span> <span class="string">"Text"</span><span class="operator">,</span> <span class="variable">RESET</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span>
+</pre>
+<p>to</p>
+<pre>
+    <span class="keyword">print</span> <span class="variable">colored</span> <span class="operator">(</span><span class="string">"Text"</span><span class="operator">,</span> <span class="string">'bold blue on_white'</span><span class="operator">),</span> <span class="string">"\n"</span><span class="operator">;</span>
+</pre>
+<p>(Note that the newline is kept separate to avoid confusing the terminal as
+described above since a background color is being used.)</p>
+<p>When using the constants, if you don't want to have to remember to add the
+<code>, RESET</code> at the end of each print line, you can set
+$Term::ANSIColor::AUTORESET to a true value.  Then, the display mode will
+automatically be reset if there is no comma after the constant.  In other
+words, with that variable set:</p>
+<pre>
+    <span class="keyword">print</span> <span class="variable">BOLD</span> <span class="variable">BLUE</span> <span class="string">"Text\n"</span><span class="operator">;</span>
+</pre>
+<p>will reset the display mode afterwards, whereas:</p>
+<pre>
+    <span class="keyword">print</span> <span class="variable">BOLD</span><span class="operator">,</span> <span class="variable">BLUE</span><span class="operator">,</span> <span class="string">"Text\n"</span><span class="operator">;</span>
+</pre>
+<p>will not.  If you are using background colors, you will probably want to
+print the newline with a separate print statement to avoid confusing the
+terminal.</p>
+<p>The subroutine interface has the advantage over the constants interface in
+that only two subroutines are exported into your namespace, versus
+twenty-two in the constants interface.  On the flip side, the constants
+interface has the advantage of better compile time error checking, since
+misspelled names of colors or attributes in calls to <code>color()</code> and <code>colored()</code>
+won't be caught until runtime whereas misspelled names of constants will be
+caught at compile time.  So, pollute your namespace with almost two dozen
+subroutines that you may not even use that often, or risk a silly bug by
+mistyping an attribute.  Your choice, TMTOWTDI after all.</p>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<dl>
+<dt><strong><a name="bad_escape_sequence_s" class="item">Bad escape sequence %s</a></strong>
+
+<dd>
+<p>(F) You passed an invalid ANSI escape sequence to <code>uncolor()</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="bareword_s_not_allowed_while_strict_subs_in_use" class="item">Bareword &quot;%s&quot; not allowed while &quot;strict subs&quot; in use</a></strong>
+
+<dd>
+<p>(F) You probably mistyped a constant color name such as:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$Foobar</span> <span class="operator">=</span> <span class="variable">FOOBAR</span> <span class="operator">.</span> <span class="string">"This line should be blue\n"</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>or:</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">@Foobar</span> <span class="operator">=</span> <span class="variable">FOOBAR</span><span class="operator">,</span> <span class="string">"This line should be blue\n"</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>This will only show up under use strict (another good reason to run under
+use strict).</p>
+</dd>
+</li>
+<dt><strong><a name="invalid_attribute_name_s" class="item">Invalid attribute name %s</a></strong>
+
+<dd>
+<p>(F) You passed an invalid attribute name to either <code>color()</code> or <code>colored()</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="name_s_used_only_once_possible_typo" class="item">Name &quot;%s&quot; used only once: possible typo</a></strong>
+
+<dd>
+<p>(W) You probably mistyped a constant color name such as:</p>
+</dd>
+<dd>
+<pre>
+    <span class="keyword">print</span> <span class="variable">FOOBAR</span> <span class="string">"This text is color FOOBAR\n"</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>It's probably better to always use commas after constant names in order to
+force the next error.</p>
+</dd>
+</li>
+<dt><strong><a name="no_comma_allowed_after_filehandle" class="item">No comma allowed after filehandle</a></strong>
+
+<dd>
+<p>(F) You probably mistyped a constant color name such as:</p>
+</dd>
+<dd>
+<pre>
+    <span class="keyword">print</span> <span class="variable">FOOBAR</span><span class="operator">,</span> <span class="string">"This text is color FOOBAR\n"</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>Generating this fatal compile error is one of the main advantages of using
+the constants interface, since you'll immediately know if you mistype a
+color name.</p>
+</dd>
+</li>
+<dt><strong><a name="no_name_for_escape_sequence_s" class="item">No name for escape sequence %s</a></strong>
+
+<dd>
+<p>(F) The ANSI escape sequence passed to <code>uncolor()</code> contains escapes which
+aren't recognized and can't be translated to names.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="environment">ENVIRONMENT</a></h1>
+<dl>
+<dt><strong><a name="ansi_colors_disabled" class="item">ANSI_COLORS_DISABLED</a></strong>
+
+<dd>
+<p>If this environment variable is set, all of the functions defined by this
+module (color(), <code>colored()</code>, and all of the constants not previously used in
+the program) will not output any escape sequences and instead will just
+return the empty string or pass through the original text as appropriate.
+This is intended to support easy use of scripts using this module on
+platforms that don't support ANSI escape sequences.</p>
+</dd>
+<dd>
+<p>For it to have its proper effect, this environment variable must be set
+before any color constants are used in the program.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="restrictions">RESTRICTIONS</a></h1>
+<p>It would be nice if one could leave off the commas around the constants
+entirely and just say:</p>
+<pre>
+    <span class="keyword">print</span> <span class="variable">BOLD</span> <span class="variable">BLUE</span> <span class="variable">ON_WHITE</span> <span class="string">"Text\n"</span> <span class="variable">RESET</span><span class="operator">;</span>
+</pre>
+<p>but the syntax of Perl doesn't allow this.  You need a comma after the
+string.  (Of course, you may consider it a bug that commas between all the
+constants aren't required, in which case you may feel free to insert commas
+unless you're using $Term::ANSIColor::AUTORESET.)</p>
+<p>For easier debugging, you may prefer to always use the commas when not
+setting $Term::ANSIColor::AUTORESET so that you'll get a fatal compile error
+rather than a warning.</p>
+<p>
+</p>
+<hr />
+<h1><a name="notes">NOTES</a></h1>
+<p>The codes generated by this module are standard terminal control codes,
+complying with ECMA-48 and ISO 6429 (generally referred to as &quot;ANSI color&quot;
+for the color codes).  The non-color control codes (bold, dark, italic,
+underline, and reverse) are part of the earlier ANSI X3.64 standard for
+control sequences for video terminals and peripherals.</p>
+<p>Note that not all displays are ISO 6429-compliant, or even X3.64-compliant
+(or are even attempting to be so).  This module will not work as expected on
+displays that do not honor these escape sequences, such as cmd.exe, 4nt.exe,
+and command.com under either Windows NT or Windows 2000.  They may just be
+ignored, or they may display as an ESC character followed by some apparent
+garbage.</p>
+<p>Jean Delvare provided the following table of different common terminal
+emulators and their support for the various attributes and others have helped
+me flesh it out:</p>
+<pre>
+              clear    bold     dark    under    blink   reverse  conceal
+ ------------------------------------------------------------------------
+ xterm         yes      yes      no      yes     bold      yes      yes
+ linux         yes      yes      yes    bold      yes      yes      no
+ rxvt          yes      yes      no      yes  bold/black   yes      no
+ dtterm        yes      yes      yes     yes    reverse    yes      yes
+ teraterm      yes    reverse    no      yes    rev/red    yes      no
+ aixterm      kinda   normal     no      yes      no       yes      yes
+ PuTTY         yes     color     no      yes      no       yes      no
+ Windows       yes      no       no      no       no       yes      no
+ Cygwin SSH    yes      yes      no     color    color    color     yes
+ Mac Terminal  yes      yes      no      yes      yes      yes      yes</pre>
+<p>Windows is Windows telnet, Cygwin SSH is the OpenSSH implementation under
+Cygwin on Windows NT, and Mac Terminal is the Terminal application in Mac OS
+X.  Where the entry is other than yes or no, that emulator displays the
+given attribute as something else instead.  Note that on an aixterm, clear
+doesn't reset colors; you have to explicitly set the colors back to what you
+want.  More entries in this table are welcome.</p>
+<p>Note that codes 3 (italic), 6 (rapid blink), and 9 (strikethrough) are
+specified in ANSI X3.64 and ECMA-048 but are not commonly supported by most
+displays and emulators and therefore aren't supported by this module at the
+present time.  ECMA-048 also specifies a large number of other attributes,
+including a sequence of attributes for font changes, Fraktur characters,
+double-underlining, framing, circling, and overlining.  As none of these
+attributes are widely supported or useful, they also aren't currently
+supported by this module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>ECMA-048 is available on-line (at least at the time of this writing) at
+<a href="http://www.ecma-international.org/publications/standards/ECMA-048.HTM">http://www.ecma-international.org/publications/standards/ECMA-048.HTM</a>.</p>
+<p>ISO 6429 is available from ISO for a charge; the author of this module does
+not own a copy of it.  Since the source material for ISO 6429 was ECMA-048
+and the latter is available for free, there seems little reason to obtain
+the ISO standard.</p>
+<p>The current version of this module is always available from its web site at
+<a href="http://www.eyrie.org/~eagle/software/ansicolor/">http://www.eyrie.org/~eagle/software/ansicolor/</a>.  It is also part of the
+Perl core distribution as of 5.6.0.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Original idea (using constants) by Zenin, reimplemented using subs by Russ
+Allbery &lt;<a href="mailto:rra@stanford.edu">rra@stanford.edu</a>&gt;, and then combined with the original idea by Russ
+with input from Zenin.  Russ Allbery now maintains this module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright 1996, 1997, 1998, 2000, 2001, 2002, 2005, 2006 Russ Allbery
+&lt;<a href="mailto:rra@stanford.edu">rra@stanford.edu</a>&gt; and Zenin.  This program is free software; you may
+redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

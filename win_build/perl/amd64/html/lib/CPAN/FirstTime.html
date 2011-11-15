@@ -1,0 +1,684 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>CPAN::FirstTime - Utility for CPAN::Config file Initialization</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>CPAN::FirstTime - Utility for CPAN::Config file Initialization</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>CPAN::FirstTime - Utility for CPAN::Config file Initialization</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>CPAN::FirstTime::init()</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The init routine asks a few questions and writes a CPAN/Config.pm or
+CPAN/MyConfig.pm file (depending on what it is currently using).</p>
+<p>In the following all questions and explanations regarding config
+variables are collected.</p>
+<dl>
+<dt><strong><a name="auto_commit" class="item">auto_commit</a></strong>
+
+<dd>
+<p>Normally CPAN.pm keeps config variables in memory and changes need to
+be saved in a separate 'o conf commit' command to make them permanent
+between sessions. If you set the 'auto_commit' option to true, changes
+to a config variable are always automatically committed to disk.</p>
+</dd>
+<dd>
+<p>Always commit changes to config variables to disk?</p>
+</dd>
+</li>
+<dt><strong><a name="build_cache" class="item">build_cache</a></strong>
+
+<dd>
+<p>CPAN.pm can limit the size of the disk area for keeping the build
+directories with all the intermediate files.</p>
+</dd>
+<dd>
+<p>Cache size for build directory (in MB)?</p>
+</dd>
+</li>
+<dt><strong><a name="build_dir" class="item">build_dir</a></strong>
+
+<dd>
+<p>Directory where the build process takes place?</p>
+</dd>
+</li>
+<dt><strong><a name="build_dir_reuse" class="item">build_dir_reuse</a></strong>
+
+<dd>
+<p>Until version 1.88 CPAN.pm never trusted the contents of the build_dir
+directory between sessions. Since 1.88_58 CPAN.pm has a YAML-based
+mechanism that makes it possible to share the contents of the
+build_dir/ directory between different sessions with the same version
+of perl. People who prefer to test things several days before
+installing will like this feature because it safes a lot of time.</p>
+</dd>
+<dd>
+<p>If you say yes to the following question, CPAN will try to store
+enough information about the build process so that it can pick up in
+future sessions at the same state of affairs as it left a previous
+session.</p>
+</dd>
+<dd>
+<p>Store and re-use state information about distributions between
+CPAN.pm sessions?</p>
+</dd>
+</li>
+<dt><strong><a name="build_requires_install_policy" class="item">build_requires_install_policy</a></strong>
+
+<dd>
+<p>When a module declares another one as a 'build_requires' prerequisite
+this means that the other module is only needed for building or
+testing the module but need not be installed permanently. In this case
+you may wish to install that other module nonetheless or just keep it
+in the 'build_dir' directory to have it available only temporarily.
+Installing saves time on future installations but makes the perl
+installation bigger.</p>
+</dd>
+<dd>
+<p>You can choose if you want to always install (yes), never install (no)
+or be always asked. In the latter case you can set the default answer
+for the question to yes (ask/yes) or no (ask/no).</p>
+</dd>
+<dd>
+<p>Policy on installing 'build_requires' modules (yes, no, ask/yes,
+ask/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="cache_metadata" class="item">cache_metadata</a></strong>
+
+<dd>
+<p>To considerably speed up the initial CPAN shell startup, it is
+possible to use Storable to create a cache of metadata. If Storable is
+not available, the normal index mechanism will be used.</p>
+</dd>
+<dd>
+<p>Note: this mechanism is not used when use_sqlite is on and SQLLite is
+running.</p>
+</dd>
+<dd>
+<p>Cache metadata (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="check_sigs" class="item">check_sigs</a></strong>
+
+<dd>
+<p>CPAN packages can be digitally signed by authors and thus verified
+with the security provided by strong cryptography. The exact mechanism
+is defined in the Module::Signature module. While this is generally
+considered a good thing, it is not always convenient to the end user
+to install modules that are signed incorrectly or where the key of the
+author is not available or where some prerequisite for
+Module::Signature has a bug and so on.</p>
+</dd>
+<dd>
+<p>With the check_sigs parameter you can turn signature checking on and
+off. The default is off for now because the whole tool chain for the
+functionality is not yet considered mature by some. The author of
+CPAN.pm would recommend setting it to true most of the time and
+turning it off only if it turns out to be annoying.</p>
+</dd>
+<dd>
+<p>Note that if you do not have Module::Signature installed, no signature
+checks will be performed at all.</p>
+</dd>
+<dd>
+<p>Always try to check and verify signatures if a SIGNATURE file is in
+the package and Module::Signature is installed (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="colorize_output" class="item">colorize_output</a></strong>
+
+<dd>
+<p>When you have Term::ANSIColor installed, you can turn on colorized
+output to have some visual differences between normal CPAN.pm output,
+warnings, debugging output, and the output of the modules being
+installed. Set your favorite colors after some experimenting with the
+Term::ANSIColor module.</p>
+</dd>
+<dd>
+<p>Do you want to turn on colored output?</p>
+</dd>
+</li>
+<dt><strong><a name="colorize_print" class="item">colorize_print</a></strong>
+
+<dd>
+<p>Color for normal output?</p>
+</dd>
+</li>
+<dt><strong><a name="colorize_warn" class="item">colorize_warn</a></strong>
+
+<dd>
+<p>Color for warnings?</p>
+</dd>
+</li>
+<dt><strong><a name="colorize_debug" class="item">colorize_debug</a></strong>
+
+<dd>
+<p>Color for debugging messages?</p>
+</dd>
+</li>
+<dt><strong><a name="commandnumber_in_prompt" class="item">commandnumber_in_prompt</a></strong>
+
+<dd>
+<p>The prompt of the cpan shell can contain the current command number
+for easier tracking of the session or be a plain string.</p>
+</dd>
+<dd>
+<p>Do you want the command number in the prompt (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="ftp_passive" class="item">ftp_passive</a></strong>
+
+<dd>
+<p>Shall we always set the FTP_PASSIVE environment variable when dealing
+with ftp download (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="getcwd" class="item">getcwd</a></strong>
+
+<dd>
+<p>CPAN.pm changes the current working directory often and needs to
+determine its own current working directory. Per default it uses
+Cwd::cwd but if this doesn't work on your system for some reason,
+alternatives can be configured according to the following table:</p>
+</dd>
+<dd>
+<pre>
+    cwd         Cwd::cwd
+    getcwd      Cwd::getcwd
+    fastcwd     Cwd::fastcwd
+    backtickcwd external command cwd</pre>
+</dd>
+<dd>
+<p>Preferred method for determining the current working directory?</p>
+</dd>
+</li>
+<dt><strong><a name="histfile" class="item">histfile</a></strong>
+
+<dd>
+<p>If you have one of the readline packages (Term::ReadLine::Perl,
+Term::ReadLine::Gnu, possibly others) installed, the interactive CPAN
+shell will have history support. The next two questions deal with the
+filename of the history file and with its size. If you do not want to
+set this variable, please hit SPACE RETURN to the following question.</p>
+</dd>
+<dd>
+<p>File to save your history?</p>
+</dd>
+</li>
+<dt><strong><a name="histsize" class="item">histsize</a></strong>
+
+<dd>
+<p>Number of lines to save?</p>
+</dd>
+</li>
+<dt><strong><a name="inactivity_timeout" class="item">inactivity_timeout</a></strong>
+
+<dd>
+<p>Sometimes you may wish to leave the processes run by CPAN alone
+without caring about them. Because the Makefile.PL or the Build.PL
+sometimes contains question you're expected to answer, you can set a
+timer that will kill a 'perl Makefile.PL' process after the specified
+time in seconds.</p>
+</dd>
+<dd>
+<p>If you set this value to 0, these processes will wait forever. This is
+the default and recommended setting.</p>
+</dd>
+<dd>
+<p>Timeout for inactivity during {Makefile,Build}.PL?</p>
+</dd>
+</li>
+<dt><strong><a name="index_expire" class="item">index_expire</a></strong>
+
+<dd>
+<p>The CPAN indexes are usually rebuilt once or twice per hour, but the
+typical CPAN mirror mirrors only once or twice per day. Depending on
+the quality of your mirror and your desire to be on the bleeding edge,
+you may want to set the following value to more or less than one day
+(which is the default). It determines after how many days CPAN.pm
+downloads new indexes.</p>
+</dd>
+<dd>
+<p>Let the index expire after how many days?</p>
+</dd>
+</li>
+<dt><strong><a name="inhibit_startup_message" class="item">inhibit_startup_message</a></strong>
+
+<dd>
+<p>When the CPAN shell is started it normally displays a greeting message
+that contains the running version and the status of readline support.</p>
+</dd>
+<dd>
+<p>Do you want to turn this message off?</p>
+</dd>
+</li>
+<dt><strong><a name="keep_source_where" class="item">keep_source_where</a></strong>
+
+<dd>
+<p>Unless you are accessing the CPAN on your filesystem via a file: URL,
+CPAN.pm needs to keep the source files it downloads somewhere. Please
+supply a directory where the downloaded files are to be kept.</p>
+</dd>
+<dd>
+<p>Download target directory?</p>
+</dd>
+</li>
+<dt><strong><a name="load_module_verbosity" class="item">load_module_verbosity</a></strong>
+
+<dd>
+<p>When CPAN.pm loads a module it needs for some optional feature, it
+usually reports about module name and version. Choose 'v' to get this
+message, 'none' to suppress it.</p>
+</dd>
+<dd>
+<p>Verbosity level for loading modules (none or v)?</p>
+</dd>
+</li>
+<dt><strong><a name="makepl_arg" class="item">makepl_arg</a></strong>
+
+<dd>
+<p>Every Makefile.PL is run by perl in a separate process. Likewise we
+run 'make' and 'make install' in separate processes. If you have
+any parameters (e.g. PREFIX, LIB, UNINST or the like) you want to
+pass to the calls, please specify them here.</p>
+</dd>
+<dd>
+<p>If you don't understand this question, just press ENTER.</p>
+</dd>
+<dd>
+<p>Typical frequently used settings:</p>
+</dd>
+<dd>
+<pre>
+    PREFIX=~/perl    # non-root users (please see manual for more hints)</pre>
+</dd>
+<dd>
+<p>Parameters for the 'perl Makefile.PL' command?</p>
+</dd>
+</li>
+<dt><strong><a name="make_arg" class="item">make_arg</a></strong>
+
+<dd>
+<p>Parameters for the 'make' command? Typical frequently used setting:</p>
+</dd>
+<dd>
+<pre>
+    -j3              # dual processor system (on GNU make)</pre>
+</dd>
+<dd>
+<p>Your choice:</p>
+</dd>
+</li>
+<dt><strong><a name="make_install_arg" class="item">make_install_arg</a></strong>
+
+<dd>
+<p>Parameters for the 'make install' command?
+Typical frequently used setting:</p>
+</dd>
+<dd>
+<pre>
+    UNINST=1         # to always uninstall potentially conflicting files</pre>
+</dd>
+<dd>
+<p>Your choice:</p>
+</dd>
+</li>
+<dt><strong><a name="make_install_make_command" class="item">make_install_make_command</a></strong>
+
+<dd>
+<p>Do you want to use a different make command for 'make install'?
+Cautious people will probably prefer:</p>
+</dd>
+<dd>
+<pre>
+    su root -c make
+ or
+    sudo make
+ or
+    /path1/to/sudo -u admin_account /path2/to/make</pre>
+</dd>
+<dd>
+<p>or some such. Your choice:</p>
+</dd>
+</li>
+<dt><strong><a name="mbuildpl_arg" class="item">mbuildpl_arg</a></strong>
+
+<dd>
+<p>A Build.PL is run by perl in a separate process. Likewise we run
+'./Build' and './Build install' in separate processes. If you have any
+parameters you want to pass to the calls, please specify them here.</p>
+</dd>
+<dd>
+<p>Typical frequently used settings:</p>
+</dd>
+<dd>
+<pre>
+    --install_base /home/xxx             # different installation directory</pre>
+</dd>
+<dd>
+<p>Parameters for the 'perl Build.PL' command?</p>
+</dd>
+</li>
+<dt><strong><a name="mbuild_arg" class="item">mbuild_arg</a></strong>
+
+<dd>
+<p>Parameters for the './Build' command? Setting might be:</p>
+</dd>
+<dd>
+<pre>
+    --extra_linker_flags -L/usr/foo/lib  # non-standard library location</pre>
+</dd>
+<dd>
+<p>Your choice:</p>
+</dd>
+</li>
+<dt><strong><a name="mbuild_install_arg" class="item">mbuild_install_arg</a></strong>
+
+<dd>
+<p>Parameters for the './Build install' command? Typical frequently used
+setting:</p>
+</dd>
+<dd>
+<pre>
+    --uninst 1                           # uninstall conflicting files</pre>
+</dd>
+<dd>
+<p>Your choice:</p>
+</dd>
+</li>
+<dt><strong><a name="mbuild_install_build_command" class="item">mbuild_install_build_command</a></strong>
+
+<dd>
+<p>Do you want to use a different command for './Build install'? Sudo
+users will probably prefer:</p>
+</dd>
+<dd>
+<pre>
+    su root -c ./Build
+ or
+    sudo ./Build
+ or
+    /path1/to/sudo -u admin_account ./Build</pre>
+</dd>
+<dd>
+<p>or some such. Your choice:</p>
+</dd>
+</li>
+<dt><strong><a name="pager" class="item">pager</a></strong>
+
+<dd>
+<p>What is your favorite pager program?</p>
+</dd>
+</li>
+<dt><strong><a name="prefer_installer" class="item">prefer_installer</a></strong>
+
+<dd>
+<p>When you have Module::Build installed and a module comes with both a
+Makefile.PL and a Build.PL, which shall have precedence?</p>
+</dd>
+<dd>
+<p>The main two standard installer modules are the old and well
+established ExtUtils::MakeMaker (for short: EUMM) which uses the
+Makefile.PL. And the next generation installer Module::Build (MB)
+which works with the Build.PL (and often comes with a Makefile.PL
+too). If a module comes only with one of the two we will use that one
+but if both are supplied then a decision must be made between EUMM and
+MB. See also <a href="http://rt.cpan.org/Ticket/Display.html?id=29235">http://rt.cpan.org/Ticket/Display.html?id=29235</a> for a
+discussion about the right default.</p>
+</dd>
+<dd>
+<p>Or, as a third option you can choose RAND which will make a random
+decision (something regular CPAN testers will enjoy).</p>
+</dd>
+<dd>
+<p>In case you can choose between running a Makefile.PL or a Build.PL,
+which installer would you prefer (EUMM or MB or RAND)?</p>
+</dd>
+</li>
+<dt><strong><a name="prefs_dir" class="item">prefs_dir</a></strong>
+
+<dd>
+<p>CPAN.pm can store customized build environments based on regular
+expressions for distribution names. These are YAML files where the
+default options for CPAN.pm and the environment can be overridden and
+dialog sequences can be stored that can later be executed by an
+Expect.pm object. The CPAN.pm distribution comes with some prefab YAML
+files that cover sample distributions that can be used as blueprints
+to store one own prefs. Please check out the distroprefs/ directory of
+the CPAN.pm distribution to get a quick start into the prefs system.</p>
+</dd>
+<dd>
+<p>Directory where to store default options/environment/dialogs for
+building modules that need some customization?</p>
+</dd>
+</li>
+<dt><strong><a name="prerequisites_policy" class="item">prerequisites_policy</a></strong>
+
+<dd>
+<p>The CPAN module can detect when a module which you are trying to build
+depends on prerequisites. If this happens, it can build the
+prerequisites for you automatically ('follow'), ask you for
+confirmation ('ask'), or just ignore them ('ignore'). Please set your
+policy to one of the three values.</p>
+</dd>
+<dd>
+<p>Policy on building prerequisites (follow, ask or ignore)?</p>
+</dd>
+</li>
+<dt><strong><a name="randomize_urllist" class="item">randomize_urllist</a></strong>
+
+<dd>
+<p>CPAN.pm can introduce some randomness when using hosts for download
+that are configured in the urllist parameter. Enter a numeric value
+between 0 and 1 to indicate how often you want to let CPAN.pm try a
+random host from the urllist. A value of one specifies to always use a
+random host as the first try. A value of zero means no randomness at
+all. Anything in between specifies how often, on average, a random
+host should be tried first.</p>
+</dd>
+<dd>
+<p>Randomize parameter</p>
+</dd>
+</li>
+<dt><strong><a name="scan_cache" class="item">scan_cache</a></strong>
+
+<dd>
+<p>By default, each time the CPAN module is started, cache scanning is
+performed to keep the cache size in sync. To prevent this, answer
+'never'.</p>
+</dd>
+<dd>
+<p>Perform cache scanning (atstart or never)?</p>
+</dd>
+</li>
+<dt><strong><a name="shell" class="item">shell</a></strong>
+
+<dd>
+<p>What is your favorite shell?</p>
+</dd>
+</li>
+<dt><strong><a name="show_unparsable_versions" class="item">show_unparsable_versions</a></strong>
+
+<dd>
+<p>During the 'r' command CPAN.pm finds modules without version number.
+When the command finishes, it prints a report about this. If you
+want this report to be very verbose, say yes to the following
+variable.</p>
+</dd>
+<dd>
+<p>Show all individual modules that have no $VERSION?</p>
+</dd>
+</li>
+<dt><strong><a name="show_upload_date" class="item">show_upload_date</a></strong>
+
+<dd>
+<p>The 'd' and the 'm' command normally only show you information they
+have in their in-memory database and thus will never connect to the
+internet. If you set the 'show_upload_date' variable to true, 'm' and
+'d' will additionally show you the upload date of the module or
+distribution. Per default this feature is off because it may require a
+net connection to get at the upload date.</p>
+</dd>
+<dd>
+<p>Always try to show upload date with 'd' and 'm' command (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="show_zero_versions" class="item">show_zero_versions</a></strong>
+
+<dd>
+<p>During the 'r' command CPAN.pm finds modules with a version number of
+zero. When the command finishes, it prints a report about this. If you
+want this report to be very verbose, say yes to the following
+variable.</p>
+</dd>
+<dd>
+<p>Show all individual modules that have a $VERSION of zero?</p>
+</dd>
+</li>
+<dt><strong><a name="tar_verbosity" class="item">tar_verbosity</a></strong>
+
+<dd>
+<p>When CPAN.pm uses the tar command, which switch for the verbosity
+shall be used? Choose 'none' for quiet operation, 'v' for file
+name listing, 'vv' for full listing.</p>
+</dd>
+<dd>
+<p>Tar command verbosity level (none or v or vv)?</p>
+</dd>
+</li>
+<dt><strong><a name="term_is_latin" class="item">term_is_latin</a></strong>
+
+<dd>
+<p>The next option deals with the charset (aka character set) your
+terminal supports. In general, CPAN is English speaking territory, so
+the charset does not matter much but some CPAN have names that are
+outside the ASCII range. If your terminal supports UTF-8, you should
+say no to the next question. If it expects ISO-8859-1 (also known as
+LATIN1) then you should say yes. If it supports neither, your answer
+does not matter because you will not be able to read the names of some
+authors anyway. If you answer no, names will be output in UTF-8.</p>
+</dd>
+<dd>
+<p>Your terminal expects ISO-8859-1 (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="term_ornaments" class="item">term_ornaments</a></strong>
+
+<dd>
+<p>When using Term::ReadLine, you can turn ornaments on so that your
+input stands out against the output from CPAN.pm.</p>
+</dd>
+<dd>
+<p>Do you want to turn ornaments on?</p>
+</dd>
+</li>
+<dt><strong><a name="test_report" class="item">test_report</a></strong>
+
+<dd>
+<p>The goal of the CPAN Testers project (http://testers.cpan.org/) is to
+test as many CPAN packages as possible on as many platforms as
+possible.  This provides valuable feedback to module authors and
+potential users to identify bugs or platform compatibility issues and
+improves the overall quality and value of CPAN.</p>
+</dd>
+<dd>
+<p>One way you can contribute is to send test results for each module
+that you install.  If you install the CPAN::Reporter module, you have
+the option to automatically generate and email test reports to CPAN
+Testers whenever you run tests on a CPAN package.</p>
+</dd>
+<dd>
+<p>See the CPAN::Reporter documentation for additional details and
+configuration settings.  If your firewall blocks outgoing email,
+you will need to configure CPAN::Reporter before sending reports.</p>
+</dd>
+<dd>
+<p>Email test reports if CPAN::Reporter is installed (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="use_sqlite" class="item">use_sqlite</a></strong>
+
+<dd>
+<p>CPAN::SQLite is a layer between the index files that are downloaded
+from the CPAN and CPAN.pm that speeds up metadata queries and reduces
+memory consumption of CPAN.pm considerably.</p>
+</dd>
+<dd>
+<p>Use CPAN::SQLite if available? (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="yaml_load_code" class="item">yaml_load_code</a></strong>
+
+<dd>
+<p>Both YAML.pm and YAML::Syck are capable of deserialising code. As this requires
+a string eval, which might be a security risk, you can use this option to
+enable or disable the deserialisation of code.</p>
+</dd>
+<dd>
+<p>Do you want to enable code deserialisation (yes/no)?</p>
+</dd>
+</li>
+<dt><strong><a name="yaml_module" class="item">yaml_module</a></strong>
+
+<dd>
+<p>At the time of this writing there are two competing YAML modules,
+YAML.pm and YAML::Syck. The latter is faster but needs a C compiler
+installed on your system. There may be more alternative YAML
+conforming modules but at the time of writing a potential third
+player, YAML::Tiny, seemed not powerful enough to work with CPAN.pm.</p>
+</dd>
+<dd>
+<p>Which YAML implementation would you prefer?</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

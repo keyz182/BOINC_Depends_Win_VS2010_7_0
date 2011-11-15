@@ -1,0 +1,158 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>ModuleInfo - Gather package and POD information from a perl module files</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>ModuleInfo - Gather package and POD information from a perl module files</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ModuleInfo - Gather package and POD information from a perl module files</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<dl>
+<dt><strong><a name="new_from_file" class="item">new_from_file($filename, collect_pod =&gt; 1)</a></strong>
+
+<dd>
+<p>Construct a ModuleInfo object given the path to a file. Takes an optional
+arguement <code>collect_pod</code> which is a boolean that determines whether
+POD data is collected and stored for reference. POD data is not
+collected by default. POD headings are always collected.</p>
+</dd>
+</li>
+<dt><strong><a name="new_from_module" class="item">new_from_module($module, collect_pod =&gt; 1, inc =&gt; \@dirs)</a></strong>
+
+<dd>
+<p>Construct a ModuleInfo object given a module or package name. In addition
+to accepting the <code>collect_pod</code> argument as described above, this
+method accepts a <code>inc</code> arguemnt which is a reference to an array of
+of directories to search for the module. If none are given, the
+default is @INC.</p>
+</dd>
+</li>
+<dt><strong><a name="name" class="item"><code>name()</code></a></strong>
+
+<dd>
+<p>Returns the name of the package represented by this module. If there
+are more than one packages, it makes a best guess based on the
+filename. If it's a script (i.e. not a *.pm) the package name is
+'main'.</p>
+</dd>
+</li>
+<dt><strong><a name="version" class="item"><code>version($package)</code></a></strong>
+
+<dd>
+<p>Returns the version as defined by the $VERSION variable for the
+package as returned by the <a href="#name"><code>name</code></a> method if no arguments are
+given. If given the name of a package it will attempt to return the
+version of that package if it is specified in the file.</p>
+</dd>
+</li>
+<dt><strong><a name="filename" class="item"><code>filename()</code></a></strong>
+
+<dd>
+<p>Returns the absolute path to the file.</p>
+</dd>
+</li>
+<dt><strong><a name="packages_inside" class="item"><code>packages_inside()</code></a></strong>
+
+<dd>
+<p>Returns a list of packages.</p>
+</dd>
+</li>
+<dt><strong><a name="pod_inside" class="item"><code>pod_inside()</code></a></strong>
+
+<dd>
+<p>Returns a list of POD sections.</p>
+</dd>
+</li>
+<dt><strong><a name="contains_pod" class="item"><code>contains_pod()</code></a></strong>
+
+<dd>
+<p>Returns true if there is any POD in the file.</p>
+</dd>
+</li>
+<dt><strong><a name="pod" class="item"><code>pod($section)</code></a></strong>
+
+<dd>
+<p>Returns the POD data in the given section.</p>
+</dd>
+</li>
+<dt><strong><a name="find_module_by_name" class="item">find_module_by_name($module, \@dirs)</a></strong>
+
+<dd>
+<p>Returns the path to a module given the module or package name. A list
+of directories can be passed in as an optional paramater, otherwise
+@INC is searched.</p>
+</dd>
+<dd>
+<p>Can be called as either an object or a class method.</p>
+</dd>
+</li>
+<dt><strong><a name="find_module_dir_by_name" class="item">find_module_dir_by_name($module, \@dirs)</a></strong>
+
+<dd>
+<p>Returns the entry in <code>@dirs</code> (or <a href="../../../lib/pods/perlvar.html#_inc"><code>@INC</code></a> by default) that contains
+the module <code>$module</code>. A list of directories can be passed in as an
+optional paramater, otherwise @INC is searched.</p>
+</dd>
+<dd>
+<p>Can be called as either an object or a class method.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ken Williams &lt;<a href="mailto:kwilliams@cpan.org">kwilliams@cpan.org</a>&gt;, Randy W. Sims &lt;<a href="mailto:RandyS@ThePierianSpring.org">RandyS@ThePierianSpring.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2001-2006 Ken Williams.  All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><code>perl(1)</code>, <a href="../../../lib/Module/Build.html">the Module::Build manpage</a>(3)</p>
+
+</body>
+
+</html>

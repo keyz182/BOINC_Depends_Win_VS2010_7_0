@@ -1,0 +1,554 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>DBD::SQLite - Self-contained RDBMS in a DBI Driver</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>DBD::SQLite - Self-contained RDBMS in a DBI Driver</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#conformance_with_dbi_specification">CONFORMANCE WITH DBI SPECIFICATION</a></li>
+	<li><a href="#driver_private_attributes">DRIVER PRIVATE ATTRIBUTES</a></li>
+	<ul>
+
+		<li><a href="#database_handle_attributes">Database Handle Attributes</a></li>
+	</ul>
+
+	<li><a href="#driver_private_methods">DRIVER PRIVATE METHODS</a></li>
+	<ul>
+
+		<li><a href="#_dbh__func__last_insert_rowid__">$dbh-&gt;func('last_insert_rowid')</a></li>
+		<li><a href="#_dbh__func__busy_timeout__">$dbh-&gt;func('busy_timeout')</a></li>
+		<li><a href="#_dbh__func___ms___busy_timeout___">$dbh-&gt;func( $ms, 'busy_timeout' )</a></li>
+		<li><a href="#_dbh__func___name___argc___code_ref__create_function__">$dbh-&gt;func( $name, $argc, $code_ref, &quot;create_function&quot; )</a></li>
+		<li><a href="#_dbh__func___name___code_ref__create_collation__">$dbh-&gt;func( $name, $code_ref, &quot;create_collation&quot; )</a></li>
+		<li><a href="#_dbh__func___name___argc___pkg___create_aggregate___">$dbh-&gt;func( $name, $argc, $pkg, 'create_aggregate' )</a></li>
+		<li><a href="#_dbh__func___n_opcodes___code_ref___progress_handler___">$dbh-&gt;func( $n_opcodes, $code_ref, 'progress_handler' )</a></li>
+	</ul>
+
+	<li><a href="#blobs">BLOBS</a></li>
+	<li><a href="#notes">NOTES</a></li>
+	<li><a href="#performance">PERFORMANCE</a></li>
+	<li><a href="#to_do">TO DO</a></li>
+	<ul>
+
+		<li><a href="#warnings_upgrade">Warnings Upgrade</a></li>
+		<li><a href="#leak_detection">Leak Detection</a></li>
+	</ul>
+
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#to_do">TO DO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>DBD::SQLite - Self-contained RDBMS in a DBI Driver</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DBI</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">"dbi:SQLite:dbname=dbfile"</span><span class="operator">,</span><span class="string">""</span><span class="operator">,</span><span class="string">""</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>SQLite is a public domain RDBMS database engine that you can find
+at <a href="http://www.sqlite.org/">http://www.sqlite.org/</a>.</p>
+<p>Rather than ask you to install SQLite first, because SQLite is public
+domain, <strong>DBD::SQLite</strong> includes the entire thing in the distribution.
+So in order to get a fast transaction capable RDBMS working for your
+perl project you simply have to install this module, and <strong>nothing</strong>
+else.</p>
+<p>SQLite supports the following features:</p>
+<dl>
+<dt><strong><a name="implements_a_large_subset_of_sql92" class="item">Implements a large subset of SQL92</a></strong>
+
+<dd>
+<p>See <a href="http://www.sqlite.org/lang.html">http://www.sqlite.org/lang.html</a> for details.</p>
+</dd>
+</li>
+<dt><strong><a name="a_complete_db_in_a_single_disk_file" class="item">A complete DB in a single disk file</a></strong>
+
+<dd>
+<p>Everything for your database is stored in a single disk file, making it
+easier to move things around than with <a href="../../lib/Bundle/DBD/CSV.html">the DBD::CSV manpage</a>.</p>
+</dd>
+</li>
+<dt><strong><a name="atomic_commit_and_rollback" class="item">Atomic commit and rollback</a></strong>
+
+<dd>
+<p>Yes, <strong>DBD::SQLite</strong> is small and light, but it supports full transactions!</p>
+</dd>
+</li>
+<dt><strong><a name="extensible" class="item">Extensible</a></strong>
+
+<dd>
+<p>User-defined aggregate or regular functions can be registered with the
+SQL parser.</p>
+</dd>
+</li>
+</dl>
+<p>There's lots more to it, so please refer to the docs on the SQLite web
+page, listed above, for SQL details. Also refer to <a href="../../lib/DBI.html">the DBI manpage</a> for details
+on how to use DBI itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="conformance_with_dbi_specification">CONFORMANCE WITH DBI SPECIFICATION</a></h1>
+<p>The API works like every DBI module does. Please see <a href="../../lib/DBI.html">the DBI manpage</a> for more
+details about core features.</p>
+<p>Currently many statement attributes are not implemented or are
+limited by the typeless nature of the SQLite database.</p>
+<p>
+</p>
+<hr />
+<h1><a name="driver_private_attributes">DRIVER PRIVATE ATTRIBUTES</a></h1>
+<p>
+</p>
+<h2><a name="database_handle_attributes">Database Handle Attributes</a></h2>
+<dl>
+<dt><strong><a name="sqlite_version" class="item">sqlite_version</a></strong>
+
+<dd>
+<p>Returns the version of the SQLite library which <strong>DBD::SQLite</strong> is using,
+e.g., &quot;2.8.0&quot;. Can only be read.</p>
+</dd>
+</li>
+<dt><strong><a name="unicode" class="item">unicode</a></strong>
+
+<dd>
+<p>If set to a true value, <strong>DBD::SQLite</strong> will turn the UTF-8 flag on for all text
+strings coming out of the database (this feature is currently disabled for perl &lt; 5.8.5). For more details on the UTF-8 flag see
+<a href="../../lib/pods/perlunicode.html">the perlunicode manpage</a>. The default is for the UTF-8 flag to be turned off.</p>
+</dd>
+<dd>
+<p>Also note that due to some bizarreness in SQLite's type system (see
+<a href="http://www.sqlite.org/datatype3.html">http://www.sqlite.org/datatype3.html</a>), if you want to retain
+blob-style behavior for <strong>some</strong> columns under <code>$dbh-&gt;{unicode} = 1</code> (say, to store images in the database), you have to state so
+explicitly using the 3-argument form of <a href="../../lib/DBI/bind_param.html">bind_param in the DBI manpage</a> when doing
+updates:</p>
+</dd>
+<dd>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DBI</span> <span class="string">qw(:sql_types)</span><span class="operator">;</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">unicode</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="string">"INSERT INTO mytable (blobcolumn) VALUES (?)"</span><span class="operator">);</span>
+  
+  <span class="comment"># Binary_data will be stored as is.</span>
+  <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">bind_param</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="variable">$binary_data</span><span class="operator">,</span> <span class="variable">SQL_BLOB</span><span class="operator">);</span>
+</pre>
+</dd>
+<dd>
+<p>Defining the column type as <code>BLOB</code> in the DDL is <strong>not</strong> sufficient.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="driver_private_methods">DRIVER PRIVATE METHODS</a></h1>
+<p>
+</p>
+<h2><a name="_dbh__func__last_insert_rowid__">$dbh-&gt;func('last_insert_rowid')</a></h2>
+<p>This method returns the last inserted rowid. If you specify an INTEGER PRIMARY
+KEY as the first column in your table, that is the column that is returned.
+Otherwise, it is the hidden ROWID column. See the sqlite docs for details.</p>
+<p>Generally you should not be using this method. Use the <a href="../../lib/DBI.html">the DBI manpage</a> last_insert_id
+method instead. The usage of this is:</p>
+<pre>
+  $h-&gt;last_insert_id($catalog, $schema, $table_name, $field_name [, \%attr ])</pre>
+<p>Running <code>$h-&gt;last_insert_id(&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;)</code> is the equivalent of running
+<code>$dbh-&gt;func('last_insert_rowid')</code> directly.</p>
+<p>
+</p>
+<h2><a name="_dbh__func__busy_timeout__">$dbh-&gt;func('busy_timeout')</a></h2>
+<p>Retrieve the current busy timeout.</p>
+<p>
+</p>
+<h2><a name="_dbh__func___ms___busy_timeout___">$dbh-&gt;func( $ms, 'busy_timeout' )</a></h2>
+<p>Set the current busy timeout. The timeout is in milliseconds.</p>
+<p>
+</p>
+<h2><a name="_dbh__func___name___argc___code_ref__create_function__">$dbh-&gt;func( $name, $argc, $code_ref, &quot;create_function&quot; )</a></h2>
+<p>This method will register a new function which will be useable in an SQL
+query. The method's parameters are:</p>
+<dl>
+<dt><strong><a name="_name" class="item">$name</a></strong>
+
+<dd>
+<p>The name of the function. This is the name of the function as it will
+be used from SQL.</p>
+</dd>
+</li>
+<dt><strong><a name="_argc" class="item">$argc</a></strong>
+
+<dd>
+<p>The number of arguments taken by the function. If this number is -1,
+the function can take any number of arguments.</p>
+</dd>
+</li>
+<dt><strong><a name="_code_ref" class="item">$code_ref</a></strong>
+
+<dd>
+<p>This should be a reference to the function's implementation.</p>
+</dd>
+</li>
+</dl>
+<p>For example, here is how to define a <code>now()</code> function which returns the
+current number of seconds since the epoch:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span> <span class="string">'now'</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">return</span> <span class="keyword">time</span> <span class="operator">},</span> <span class="string">'create_function'</span> <span class="operator">);</span>
+</pre>
+<p>After this, it could be use from SQL as:</p>
+<pre>
+  <span class="variable">INSERT</span> <span class="variable">INTO</span> <span class="variable">mytable</span> <span class="operator">(</span> <span class="variable">now</span><span class="operator">()</span> <span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h2><a name="_dbh__func___name___code_ref__create_collation__">$dbh-&gt;func( $name, $code_ref, &quot;create_collation&quot; )</a></h2>
+<p>This method will register a new function which will be useable in an SQL
+query as a COLLATE option for sorting. The method's parameters are:</p>
+<dl>
+<dt><strong>$name</strong>
+
+<dd>
+<p>The name of the function. This is the name of the function as it will
+be used from SQL.</p>
+</dd>
+</li>
+<dt><strong>$code_ref</strong>
+
+<dd>
+<p>This should be a reference to the function's implementation.
+The driver will check that this is a proper sorting function.</p>
+</dd>
+</li>
+</dl>
+<p>Collations <code>binary</code> and <code>nocase</code> are builtin within SQLite.
+Collations <code>perl</code> and <code>perllocale</code> are builtin within 
+the <strong>DBD::SQLite</strong> driver, and correspond to the 
+Perl <code>cmp</code> operator with or without the <a href="../../lib/locale.html">the locale manpage</a> pragma; 
+so you can write for example</p>
+<pre>
+  CREATE TABLE foo(
+      txt1 COLLATE perl,
+      txt2 COLLATE <a href="../../lib/pods/perllocale.html">perllocale</a>,
+      txt3 COLLATE nocase
+  )</pre>
+<p>or</p>
+<pre>
+  SELECT * FROM foo ORDER BY name COLLATE <a href="../../lib/pods/perllocale.html">perllocale</a></pre>
+<p>If the attribute <code>$dbh-&gt;{unicode}</code> is set, strings coming from
+the database and passed to the collation function will be properly
+tagged with the utf8 flag; but this only works if the 
+<a href="#unicode"><code>unicode</code></a> attribute is set <strong>before</strong> the call to 
+<code>create_collation</code>. The recommended way to activate unicode
+is to set the parameter at connection time :</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span>
+      <span class="string">"dbi:SQLite:dbname=foo"</span><span class="operator">,</span> <span class="string">""</span><span class="operator">,</span> <span class="string">""</span><span class="operator">,</span> 
+      <span class="operator">{</span>
+          <span class="string">RaiseError</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span>
+          <span class="string">unicode</span>    <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span>
+      <span class="operator">}</span>
+  <span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h2><a name="_dbh__func___name___argc___pkg___create_aggregate___">$dbh-&gt;func( $name, $argc, $pkg, 'create_aggregate' )</a></h2>
+<p>This method will register a new aggregate function which can then be used
+from SQL. The method's parameters are:</p>
+<dl>
+<dt><strong>$name</strong>
+
+<dd>
+<p>The name of the aggregate function, this is the name under which the
+function will be available from SQL.</p>
+</dd>
+</li>
+<dt><strong>$argc</strong>
+
+<dd>
+<p>This is an integer which tells the SQL parser how many arguments the
+function takes. If that number is -1, the function can take any number
+of arguments.</p>
+</dd>
+</li>
+<dt><strong><a name="_pkg" class="item">$pkg</a></strong>
+
+<dd>
+<p>This is the package which implements the aggregator interface.</p>
+</dd>
+</li>
+</dl>
+<p>The aggregator interface consists of defining three methods:</p>
+<dl>
+<dt><strong><a name="new" class="item"><code>new()</code></a></strong>
+
+<dd>
+<p>This method will be called once to create an object which should
+be used to aggregate the rows in a particular group. The <a href="#step"><code>step()</code></a> and
+<a href="#finalize"><code>finalize()</code></a> methods will be called upon the reference return by
+the method.</p>
+</dd>
+</li>
+<dt><strong><a name="step" class="item"><code>step(@_)</code></a></strong>
+
+<dd>
+<p>This method will be called once for each row in the aggregate.</p>
+</dd>
+</li>
+<dt><strong><a name="finalize" class="item"><code>finalize()</code></a></strong>
+
+<dd>
+<p>This method will be called once all rows in the aggregate were
+processed and it should return the aggregate function's result. When
+there is no rows in the aggregate, <a href="#finalize"><code>finalize()</code></a> will be called right
+after <a href="#new"><code>new()</code></a>.</p>
+</dd>
+</li>
+</dl>
+<p>Here is a simple aggregate function which returns the variance
+(example adapted from pysqlite):</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">variance</span><span class="operator">;</span>
+  
+  <span class="keyword">sub</span><span class="variable"> new </span><span class="operator">{</span> <span class="keyword">bless</span> <span class="operator">[]</span><span class="operator">,</span> <span class="keyword">shift</span><span class="operator">;</span> <span class="operator">}</span>
+  
+  <span class="keyword">sub</span><span class="variable"> step </span><span class="operator">{</span>
+      <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$self</span><span class="operator">,</span> <span class="variable">$value</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+  
+      <span class="keyword">push</span> <span class="variable">@$self</span><span class="operator">,</span> <span class="variable">$value</span><span class="operator">;</span>
+  <span class="operator">}</span>
+  
+  <span class="keyword">sub</span><span class="variable"> finalize </span><span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">;</span>
+  
+      <span class="keyword">my</span> <span class="variable">$n</span> <span class="operator">=</span> <span class="variable">@$self</span><span class="operator">;</span>
+  
+      <span class="comment"># Variance is NULL unless there is more than one row</span>
+      <span class="keyword">return</span> <span class="keyword">undef</span> <span class="keyword">unless</span> <span class="variable">$n</span> <span class="operator">||</span> <span class="variable">$n</span> <span class="operator">==</span> <span class="number">1</span><span class="operator">;</span>
+  
+      <span class="keyword">my</span> <span class="variable">$mu</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+      <span class="keyword">foreach</span> <span class="keyword">my</span> <span class="variable">$v</span> <span class="operator">(</span> <span class="variable">@$self</span> <span class="operator">)</span> <span class="operator">{</span>
+          <span class="variable">$mu</span> <span class="operator">+=</span> <span class="variable">$v</span><span class="operator">;</span>
+      <span class="operator">}</span>
+      <span class="variable">$mu</span> <span class="operator">/=</span> <span class="variable">$n</span><span class="operator">;</span>
+  
+      <span class="keyword">my</span> <span class="variable">$sigma</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+      <span class="keyword">foreach</span> <span class="keyword">my</span> <span class="variable">$v</span> <span class="operator">(</span> <span class="variable">@$self</span> <span class="operator">)</span> <span class="operator">{</span>
+          <span class="variable">$sigma</span> <span class="operator">+=</span> <span class="operator">(</span><span class="variable">$x</span> <span class="operator">-</span> <span class="variable">$mu</span><span class="operator">)**</span><span class="number">2</span><span class="operator">;</span>
+      <span class="operator">}</span>
+      <span class="variable">$sigma</span> <span class="operator">=</span> <span class="variable">$sigma</span> <span class="operator">/</span> <span class="operator">(</span><span class="variable">$n</span> <span class="operator">-</span> <span class="number">1</span><span class="operator">);</span>
+  
+      <span class="keyword">return</span> <span class="variable">$sigma</span><span class="operator">;</span>
+  <span class="operator">}</span>
+  
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span> <span class="string">"variance"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="string">'variance'</span><span class="operator">,</span> <span class="string">"create_aggregate"</span> <span class="operator">);</span>
+</pre>
+<p>The aggregate function can then be used as:</p>
+<pre>
+  <span class="variable">SELECT</span> <span class="variable">group_name</span><span class="operator">,</span> <span class="variable">variance</span><span class="operator">(</span><span class="variable">score</span><span class="operator">)</span>
+  <span class="variable">FROM</span> <span class="variable">results</span>
+  <span class="variable">GROUP</span> <span class="variable">BY</span> <span class="variable">group_name</span><span class="operator">;</span>
+</pre>
+<p>For more examples, see the <a href="../../lib/DBD/SQLite/Cookbook.html">the DBD::SQLite::Cookbook manpage</a>.</p>
+<p>
+</p>
+<h2><a name="_dbh__func___n_opcodes___code_ref___progress_handler___">$dbh-&gt;func( $n_opcodes, $code_ref, 'progress_handler' )</a></h2>
+<p>This method registers a handler to be invoked periodically during long
+running calls to SQLite.</p>
+<p>An example use for this interface is to keep a GUI updated during a
+large query. The parameters are:</p>
+<dl>
+<dt><strong><a name="_n_opcodes" class="item">$n_opcodes</a></strong>
+
+<dd>
+<p>The progress handler is invoked once for every <a href="#_n_opcodes"><code>$n_opcodes</code></a>
+virtual machine opcodes in SQLite.</p>
+</dd>
+</li>
+<dt><strong><a name="_handler" class="item">$handler</a></strong>
+
+<dd>
+<p>Reference to the handler subroutine.  If the progress handler returns
+non-zero, the SQLite operation is interrupted. This feature can be used to
+implement a &quot;Cancel&quot; button on a GUI dialog box.</p>
+</dd>
+<dd>
+<p>Set this argument to <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if you want to unregister a previous
+progress handler.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="blobs">BLOBS</a></h1>
+<p>As of version 1.11, blobs should &quot;just work&quot; in SQLite as text columns.
+However this will cause the data to be treated as a string, so SQL
+statements such as length(x) will return the length of the column as a NUL
+terminated string, rather than the size of the blob in bytes. In order to
+store natively as a BLOB use the following code:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DBI</span> <span class="string">qw(:sql_types)</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">"dbi:SQLite:dbfile"</span><span class="operator">,</span><span class="string">""</span><span class="operator">,</span><span class="string">""</span><span class="operator">);</span>
+  
+  <span class="keyword">my</span> <span class="variable">$blob</span> <span class="operator">=</span> <span class="string">`cat foo.jpg`</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="string">"INSERT INTO mytable VALUES (1, ?)"</span><span class="operator">);</span>
+  <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">bind_param</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="variable">$blob</span><span class="operator">,</span> <span class="variable">SQL_BLOB</span><span class="operator">);</span>
+  <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">();</span>
+</pre>
+<p>And then retrieval just works:</p>
+<pre>
+  <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="string">"SELECT * FROM mytable WHERE id = 1"</span><span class="operator">);</span>
+  <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">();</span>
+  <span class="keyword">my</span> <span class="variable">$row</span> <span class="operator">=</span> <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">fetch</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$blobo</span> <span class="operator">=</span> <span class="variable">$row</span><span class="operator">-&gt;</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">;</span>
+  
+  <span class="comment"># now $blobo == $blob</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="notes">NOTES</a></h1>
+<p>Although the database is stored in a single file, the directory containing the
+database file must be writable by SQLite because the library will create
+several temporary files there.</p>
+<p>To access the database from the command line, try using dbish which comes with
+the DBI module. Just type:</p>
+<pre>
+  dbish dbi:SQLite:foo.db</pre>
+<p>On the command line to access the file <em class="file">foo.db</em>.</p>
+<p>Alternatively you can install SQLite from the link above without conflicting
+with <strong>DBD::SQLite</strong> and use the supplied <code>sqlite</code> command line tool.</p>
+<p>
+</p>
+<hr />
+<h1><a name="performance">PERFORMANCE</a></h1>
+<p>SQLite is fast, very fast. I recently processed my 72MB log file with it,
+inserting the data (400,000+ rows) by using transactions and only committing
+every 1000 rows (otherwise the insertion is quite slow), and then performing
+queries on the data.</p>
+<p>Queries like count(*) and avg(bytes) took fractions of a second to return,
+but what surprised me most of all was:</p>
+<pre>
+  SELECT url, count(*) as count
+  FROM access_log
+  GROUP BY url
+  ORDER BY count desc
+  LIMIT 20</pre>
+<p>To discover the top 20 hit URLs on the site (<a href="http://axkit.org">http://axkit.org</a>), and it
+returned within 2 seconds. I'm seriously considering switching my log
+analysis code to use this little speed demon!</p>
+<p>Oh yeah, and that was with no indexes on the table, on a 400MHz PIII.</p>
+<p>For best performance be sure to tune your hdparm settings if you are
+using linux. Also you might want to set:</p>
+<pre>
+  PRAGMA default_synchronous = OFF</pre>
+<p>Which will prevent sqlite from doing fsync's when writing (which
+slows down non-transactional writes significantly) at the expense of some
+peace of mind. Also try playing with the cache_size pragma.</p>
+<p>The memory usage of SQLite can also be tuned using the cache_size pragma.</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">do</span><span class="operator">(</span><span class="string">"PRAGMA cache_size = 800000"</span><span class="operator">);</span>
+</pre>
+<p>The above will allocate 800M for DB cache; the default is 2M. Your sweet spot
+probably lies somewhere in between.</p>
+<p>
+</p>
+<hr />
+<h1><a name="to_do">TO DO</a></h1>
+<p>The following items remain to be done.</p>
+<p>
+</p>
+<h2><a name="warnings_upgrade">Warnings Upgrade</a></h2>
+<p>We currently use a horridly hacky method to issue and suppress warnings.
+It suffices for now, but just barely.</p>
+<p>Migrate all of the warning code to use the recommended DBI warnings.</p>
+<p>
+</p>
+<h2><a name="leak_detection">Leak Detection</a></h2>
+<p>Implement one or more leak detection tests that only run during
+AUTOMATED_TESTING and RELEASE_TESTING and validate that none of the C
+code we work with leaks.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>Bugs should be reported via the CPAN bug tracker at</p>
+<p><a href="http://rt.cpan.org/NoAuth/ReportBug.html?Queue=DBD-SQLite">http://rt.cpan.org/NoAuth/ReportBug.html</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="to_do">TO DO</a></h1>
+<p>There're several pended RT bugs/patches at the moment
+(mainly due to the lack of tests/patches or segfaults on tests).</p>
+<p>Here's the list.</p>
+<p><a href="http://rt.cpan.org/Public/Bug/Display.html?id=35449">http://rt.cpan.org/Public/Bug/Display.html</a>
+(breaks tests)</p>
+<p><a href="http://rt.cpan.org/Public/Bug/Display.html?id=29629">http://rt.cpan.org/Public/Bug/Display.html</a>
+(requires a patch)</p>
+<p><a href="http://rt.cpan.org/Public/Bug/Display.html?id=29058">http://rt.cpan.org/Public/Bug/Display.html</a>
+(requires a patch)</p>
+<p>Switch tests to <a href="../../lib/Test/More.html">the Test::More manpage</a> to support more advanced testing behaviours</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Matt Sergeant &lt;<a href="mailto:matt@sergeant.org">matt@sergeant.org</a>&gt;</p>
+<p>Francis J. Lacoste &lt;<a href="mailto:flacoste@logreport.org">flacoste@logreport.org</a>&gt;</p>
+<p>Wolfgang Sourdeau &lt;<a href="mailto:wolfgang@logreport.org">wolfgang@logreport.org</a>&gt;</p>
+<p>Adam Kennedy &lt;<a href="mailto:adamk@cpan.org">adamk@cpan.org</a>&gt;</p>
+<p>Max Maischein &lt;<a href="mailto:corion@cpan.org">corion@cpan.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>The bundled SQLite code in this distribution is Public Domain.</p>
+<p>DBD::SQLite is copyright 2002 - 2007 Matt Sergeant.</p>
+<p>Some parts copyright 2008 Francis J. Lacoste.</p>
+<p>Some parts copyright 2008 Wolfgang Sourdeau.</p>
+<p>Some parts copyright 2008 - 2009 Adam Kennedy.</p>
+<p>Some parts derived from <a href="../../DBD/SQLite/Amalgamation.html">the DBD::SQLite::Amalgamation manpage</a>
+copyright 2008 Audrey Tang.</p>
+<p>This program is free software; you can redistribute
+it and/or modify it under the same terms as Perl itself.</p>
+<p>The full text of the license can be found in the
+LICENSE file included with this module.</p>
+
+</body>
+
+</html>

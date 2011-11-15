@@ -1,0 +1,118 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Test::Harness::Results - object for tracking results from a single test file</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Test::Harness::Results - object for tracking results from a single test file</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#construction">CONSTRUCTION</a></li>
+	<ul>
+
+		<li><a href="#new__"><code>new()</code></a></li>
+	</ul>
+
+	<li><a href="#accessors">ACCESSORS</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Test::Harness::Results - object for tracking results from a single test file</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>One Test::Harness::Results object represents the results from one
+test file getting analyzed.</p>
+<p>
+</p>
+<hr />
+<h1><a name="construction">CONSTRUCTION</a></h1>
+<p>
+</p>
+<h2><a name="new__"><code>new()</code></a></h2>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">new</span> <span class="variable">Test::Harness::Results</span><span class="operator">;</span>
+</pre>
+<p>Create a test point object.  Typically, however, you'll not create
+one yourself, but access a Results object returned to you by
+Test::Harness::Results.</p>
+<p>
+</p>
+<hr />
+<h1><a name="accessors">ACCESSORS</a></h1>
+<p>The following data points are defined:</p>
+<pre>
+  passing           true if the whole test is considered a pass 
+                    (or skipped), false if its a failure</pre>
+<pre>
+  exit              the exit code of the test run, if from a file
+  wait              the wait code of the test run, if from a file</pre>
+<pre>
+  max               total tests which should have been run
+  seen              total tests actually seen
+  skip_all          if the whole test was skipped, this will 
+                      contain the reason.</pre>
+<pre>
+  ok                number of tests which passed 
+                      (including todo and skips)</pre>
+<pre>
+  todo              number of todo tests seen
+  bonus             number of todo tests which 
+                      unexpectedly passed</pre>
+<pre>
+  skip              number of tests skipped</pre>
+<p>So a successful test should have max == seen == ok.</p>
+<p>There is one final item, the details.</p>
+<pre>
+  details           an array ref reporting the result of 
+                    each test looks like this:</pre>
+<pre>
+    <span class="variable">$results</span><span class="operator">{</span><span class="string">details</span><span class="operator">}[</span><span class="variable">$test_num</span> <span class="operator">-</span> <span class="number">1</span><span class="operator">]</span> <span class="operator">=</span> 
+            <span class="operator">{</span> <span class="string">ok</span>          <span class="operator">=&gt;</span> <span class="variable">is</span> <span class="variable">the</span> <span class="variable">test</span> <span class="variable">considered</span> <span class="variable">ok</span><span class="operator">?</span>
+              <span class="string">actual_ok</span>   <span class="operator">=&gt;</span> <span class="variable">did</span> <span class="variable">it</span> <span class="variable">literally</span> <span class="keyword">say</span> <span class="string">'ok'</span><span class="operator">?</span>
+              <span class="string">name</span>        <span class="operator">=&gt;</span> <span class="variable">name</span> <span class="variable">of</span> <span class="variable">the</span> <span class="variable">test</span> <span class="operator">(</span><span class="keyword">if</span> <span class="variable">any</span><span class="operator">)</span>
+              <span class="string">diagnostics</span> <span class="operator">=&gt;</span> <span class="variable">test</span> <span class="variable">diagnostics</span> <span class="operator">(</span><span class="keyword">if</span> <span class="variable">any</span><span class="operator">)</span>
+              <span class="string">type</span>        <span class="operator">=&gt;</span> <span class="string">'skip'</span> <span class="keyword">or</span> <span class="string">'todo'</span> <span class="operator">(</span><span class="keyword">if</span> <span class="variable">any</span><span class="operator">)</span>
+              <span class="string">reason</span>      <span class="operator">=&gt;</span> <span class="variable">reason</span> <span class="keyword">for</span> <span class="variable">the</span> <span class="variable">above</span> <span class="operator">(</span><span class="keyword">if</span> <span class="variable">any</span><span class="operator">)</span>
+            <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>Element 0 of the details is test #1.  I tried it with element 1 being
+#1 and 0 being empty, this is less awkward.</p>
+<p>Each of the following fields has a getter and setter method.</p>
+<ul>
+<li><strong><a name="wait" class="item">wait</a></strong>
+
+<li><strong><a name="exit" class="item">exit</a></strong>
+
+</dl>
+
+</body>
+
+</html>

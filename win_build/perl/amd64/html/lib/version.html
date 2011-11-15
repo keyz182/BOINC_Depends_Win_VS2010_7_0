@@ -1,0 +1,746 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>version - Perl extension for Version Objects</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>version - Perl extension for Version Objects</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#best_practices">BEST PRACTICES</a></li>
+		<li><a href="#using_modules_that_use_version_pm">Using modules that use version.pm</a></li>
+		<li><a href="#what_is_a_version">What IS a version</a></li>
+		<li><a href="#numeric_versions">Numeric Versions</a></li>
+		<li><a href="#extended_versions">Extended Versions</a></li>
+		<li><a href="#numeric_alpha_versions">Numeric Alpha Versions</a></li>
+		<li><a href="#object_methods">Object Methods</a></li>
+		<li><a href="#quoting">Quoting</a></li>
+		<li><a href="#what_about_v_strings">What about v-strings?</a></li>
+		<li><a href="#types_of_versions_objects">Types of Versions Objects</a></li>
+		<li><a href="#replacement_universal__version">Replacement UNIVERSAL::VERSION</a></li>
+	</ul>
+
+	<li><a href="#subclassing">SUBCLASSING</a></li>
+	<li><a href="#export">EXPORT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>version - Perl extension for Version Objects</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">version</span><span class="operator">;</span>
+  <span class="variable">$version</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"12.2.1"</span><span class="operator">);</span> <span class="comment"># must be quoted for Perl &lt; 5.8.1</span>
+  <span class="keyword">print</span> <span class="variable">$version</span><span class="operator">;</span>               <span class="comment"># v12.2.1</span>
+  <span class="keyword">print</span> <span class="variable">$version</span><span class="operator">-&gt;</span><span class="variable">numify</span><span class="operator">;</span>       <span class="comment"># 12.002001</span>
+  <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$version</span> <span class="keyword">gt</span> <span class="string">"12.2"</span> <span class="operator">)</span>     <span class="comment"># true</span>
+</pre>
+<pre>
+  <span class="variable">$alphaver</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"1.02_03"</span><span class="operator">);</span> <span class="comment"># must be quoted!</span>
+  <span class="keyword">print</span> <span class="variable">$alphaver</span><span class="operator">;</span>              <span class="comment"># 1.02_0300</span>
+  <span class="keyword">print</span> <span class="variable">$alphaver</span><span class="operator">-&gt;</span><span class="variable">is_alpha</span><span class="operator">();</span>  <span class="comment"># true</span>
+  
+  <span class="variable">$ver</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">"1.2.0"</span><span class="operator">);</span>           <span class="comment"># v1.2.0</span>
+</pre>
+<pre>
+  <span class="variable">$perlver</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">5.005_03</span><span class="operator">);</span> <span class="comment"># must not be quoted!</span>
+  <span class="keyword">print</span> <span class="variable">$perlver</span><span class="operator">;</span>               <span class="comment"># 5.005030</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Overloaded version objects for all modern versions of Perl.  This module
+implements all of the features of version objects which are part
+of Perl 5.10.0.  All previous releases (i.e. before 0.74) are deprecated
+and should not be used due to incompatible API changes.  If you 'use
+version' in your code, you are strongly urged to set a minimum, e.g.</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">version</span> <span class="number">0</span><span class="operator">.</span><span class="number">74</span><span class="operator">;</span> <span class="comment"># to remain compatible with Perl v5.10.0</span>
+</pre>
+<p>
+</p>
+<h2><a name="best_practices">BEST PRACTICES</a></h2>
+<p>If you intend for your module to be used by different releases of Perl,
+and/or for your $VERSION scalar to mean what you think it means, there 
+are a few simple rules to follow:</p>
+<ul>
+<li><strong><a name="be_consistent" class="item">Be consistent</a></strong>
+
+<p>Whichever of the two types of version objects that you choose to employ, 
+you should stick to either <a href="#numeric_versions">Numeric Versions</a> or <a href="#extended_versions">Extended Versions</a>
+and not mix them together.  While this is <em>possible</em>, it is very 
+confusing to the average user.</p>
+<p>If you intend to use <a href="#extended_versions">Extended Versions</a>, you are strongly encouraged 
+to use the <a href="#qv">qv()</a> operator with a quoted term, e.g.:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">version</span><span class="operator">;</span> <span class="keyword">our</span> <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">"1.2.3"</span><span class="operator">);</span>
+</pre>
+<p>on a single line as above.</p>
+<p>At the very least, decide on which of the several ways to initialize 
+your version objects you prefer and stick with it.  It is also best to 
+be explicit about what value you intend to assign your version object 
+and to not rely on hidden behavior of the parser.</p>
+</li>
+<li><strong><a name="be_careful" class="item">Be careful</a></strong>
+
+<p>If you are using Module::Build or ExtUtils::MakeMaker, so that you can
+release your module to CPAN, you have to recognize that neither of those
+programs completely handles version objects natively (yet).  If you use
+version objects with Module::Build, you should add an explicit dependency
+to the release of version.pm in your Build.PL:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$builder</span> <span class="operator">=</span> <span class="variable">Module::Build</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+     <span class="operator">...</span>
+     <span class="string">requires</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+         <span class="operator">...</span> <span class="operator">,</span>
+         <span class="string">'version'</span>    <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">.</span><span class="number">50</span><span class="operator">,</span>
+         <span class="operator">...,</span>
+     <span class="operator">}</span><span class="operator">,</span>
+     <span class="operator">...</span>
+  <span class="operator">);</span>
+</pre>
+<p>and it should Just Work(TM).  Module::Build will [hopefully soon] 
+include full support for version objects; there are no current plans 
+to patch ExtUtils::MakeMaker to support version objects.</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="using_modules_that_use_version_pm">Using modules that use version.pm</a></h2>
+<p>As much as possible, the version.pm module remains compatible with all
+current code.  However, if your module is using a module that has defined
+<code>$VERSION</code> using the version class, there are a couple of things to be
+aware of.  For purposes of discussion, we will assume that we have the
+following module installed:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Example</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">version</span><span class="operator">;</span>  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">'1.2.2'</span><span class="operator">);</span>
+  <span class="operator">...</span><span class="variable">module</span> <span class="variable">code</span> <span class="variable">here</span><span class="operator">...</span>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<dl>
+<dt><strong><a name="numeric_versions_always_work" class="item">Numeric versions always work</a></strong>
+
+<dd>
+<p>Code of the form:</p>
+</dd>
+<dd>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Example</span> <span class="number">1.002003</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>will always work correctly.  The <a href="../lib/pods/perlfunc.html#use"><code>use</code></a> will perform an automatic
+<code>$VERSION</code> comparison using the floating point number given as the first
+term after the module name (e.g. above 1.002.003).  In this case, the
+installed module is too old for the requested line, so you would see an
+error like:</p>
+</dd>
+<dd>
+<pre>
+  Example version 1.002003 (v1.2.3) required--this is only version 1.002002 (v1.2.2)...</pre>
+</dd>
+</li>
+<dt><strong><a name="extended_version_work_sometimes" class="item">Extended version work sometimes</a></strong>
+
+<dd>
+<p>With Perl &gt;= 5.6.2, you can also use a line like this:</p>
+</dd>
+<dd>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Example</span> <span class="number">1.2</span><span class="operator">.</span><span class="number">3</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>and it will again work (i.e. give the error message as above), even with
+releases of Perl which do not normally support v-strings (see <a href="#what_about_v_strings">What about v-strings</a> below).  This has to do with that fact that <a href="../lib/pods/perlfunc.html#use"><code>use</code></a> only checks
+to see if the second term <em>looks like a number</em> and passes that to the
+replacement <a href="../UNIVERSAL/VERSION.html">the UNIVERSAL::VERSION manpage</a>.  This is not true in Perl 5.005_04,
+however, so you are <strong>strongly encouraged</strong> to always use a numeric version
+in your code, even for those versions of Perl which support the extended
+version.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="what_is_a_version">What IS a version</a></h2>
+<p>For the purposes of this module, a version &quot;number&quot; is a sequence of
+positive integer values separated by one or more decimal points and 
+optionally a single underscore.  This corresponds to what Perl itself 
+uses for a version, as well as extending the &quot;version as number&quot; that 
+is discussed in the various editions of the Camel book.</p>
+<p>There are actually two distinct kinds of version objects:</p>
+<ul>
+<li><strong><a name="numeric_versions2" class="item">Numeric Versions</a></strong>
+
+<p>Any initial parameter which &quot;looks like a number&quot;, see <a href="#numeric_versions">Numeric Versions</a>.  This also covers versions with a single decimal point and
+a single embedded underscore, see <a href="#numeric_alpha_versions">Numeric Alpha Versions</a>, even though
+these must be quoted to preserve the underscore formatting.</p>
+</li>
+<li><strong><a name="extended_versions2" class="item">Extended Versions</a></strong>
+
+<p>Any initial parameter which contains more than one decimal point
+and an optional embedded underscore, see <a href="#extended_versions">Extended Versions</a>.  This 
+is what is commonly used in most open source software as the &quot;external&quot;
+version (the one used as part of the tag or tarfile name).  The use
+of the exported <a href="#qv">qv()</a> function also produces this kind of version
+object.</p>
+</li>
+</ul>
+<p>Both of these methods will produce similar version objects, in that
+the default stringification will yield the version <a href="#normal_form">Normal Form</a> only 
+if required:</p>
+<pre>
+  <span class="variable">$v</span>  <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">1.002</span><span class="operator">);</span>     <span class="comment"># 1.002, but compares like 1.2.0</span>
+  <span class="variable">$v</span>  <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">1.002003</span><span class="operator">);</span>  <span class="comment"># 1.002003</span>
+  <span class="variable">$v2</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"1.2.3"</span><span class="operator">);</span>   <span class="comment"># v1.2.3</span>
+</pre>
+<p>In specific, version numbers initialized as <a href="#numeric_versions">Numeric Versions</a> will
+stringify as they were originally created (i.e. the same string that was
+passed to <code>new()</code>.  Version numbers initialized as <a href="#extended_versions">Extended Versions</a>
+will be stringified as <a href="#normal_form">Normal Form</a>.</p>
+<p>
+</p>
+<h2><a name="numeric_versions">Numeric Versions</a></h2>
+<p>These correspond to historical versions of Perl itself prior to 5.6.0,
+as well as all other modules which follow the Camel rules for the
+$VERSION scalar.  A numeric version is initialized with what looks like
+a floating point number.  Leading zeros <strong>are</strong> significant and trailing
+zeros are implied so that a minimum of three places is maintained
+between subversions.  What this means is that any subversion (digits
+to the right of the decimal place) that contains less than three digits
+will have trailing zeros added to make up the difference, but only for
+purposes of comparison with other version objects.  For example:</p>
+<pre>
+                                   <span class="comment"># Prints     Equivalent to  </span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>      <span class="number">1.2</span><span class="operator">);</span>    <span class="comment"># 1.2        v1.200.0</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>     <span class="number">1.02</span><span class="operator">);</span>    <span class="comment"># 1.02       v1.20.0</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>    <span class="number">1.002</span><span class="operator">);</span>    <span class="comment"># 1.002      v1.2.0</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>   <span class="number">1.0023</span><span class="operator">);</span>    <span class="comment"># 1.0023     v1.2.300</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>  <span class="number">1.00203</span><span class="operator">);</span>    <span class="comment"># 1.00203    v1.2.30</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="number">1.002003</span><span class="operator">);</span>    <span class="comment"># 1.002003   v1.2.3</span>
+</pre>
+<p>All of the preceding examples are true whether or not the input value is 
+quoted.  The important feature is that the input value contains only a 
+single decimal.  See also <a href="#alpha_versions">Alpha Versions</a> for how to handle</p>
+<p>IMPORTANT NOTE: As shown above, if your numeric version contains more 
+than 3 significant digits after the decimal place, it will be split on 
+each multiple of 3, so 1.0003 is equivalent to v1.0.300, due to the need 
+to remain compatible with Perl's own 5.005_03 == 5.5.30 interpretation.  
+Any trailing zeros are ignored for mathematical comparison purposes.</p>
+<p>
+</p>
+<h2><a name="extended_versions">Extended Versions</a></h2>
+<p>These are the newest form of versions, and correspond to Perl's own
+version style beginning with 5.6.0.  Starting with Perl 5.10.0,
+and most likely Perl 6, this is likely to be the preferred form.  This
+method normally requires that the input parameter be quoted, although 
+Perl's after 5.8.1 can use v-strings as a special form of quoting, but
+this is highly discouraged.</p>
+<p>Unlike <a href="#numeric_versions">Numeric Versions</a>, Extended Versions have more than
+a single decimal point, e.g.:</p>
+<pre>
+                                   <span class="comment"># Prints</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">"v1.200"</span><span class="operator">);</span>    <span class="comment"># v1.200.0</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"v1.20.0"</span><span class="operator">);</span>    <span class="comment"># v1.20.0</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">"v1.2.3"</span><span class="operator">);</span>               <span class="comment"># v1.2.3</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">"1.2.3"</span><span class="operator">);</span>                <span class="comment"># v1.2.3</span>
+                                     <span class="variable">$v</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">"1.20"</span><span class="operator">);</span>                 <span class="comment"># v1.20.0</span>
+</pre>
+<p>In general, Extended Versions permit the greatest amount of freedom
+to specify a version, whereas Numeric Versions enforce a certain
+uniformity.  See also <a href="#new_operator">New Operator</a> for an additional method of
+initializing version objects.</p>
+<p>Just like <a href="#numeric_versions">Numeric Versions</a>, Extended Versions can be used as 
+<a href="#alpha_versions">Alpha Versions</a>.</p>
+<p>
+</p>
+<h2><a name="numeric_alpha_versions">Numeric Alpha Versions</a></h2>
+<p>The one time that a numeric version must be quoted is when a alpha form is
+used with an otherwise numeric version (i.e. a single decimal point).  This
+is commonly used for CPAN releases, where CPAN or CPANPLUS will ignore alpha
+versions for automatic updating purposes.  Since some developers have used
+only two significant decimal places for their non-alpha releases, the
+version object will automatically take that into account if the initializer
+is quoted.  For example Module::Example was released to CPAN with the
+following sequence of $VERSION's:</p>
+<pre>
+  # $VERSION    Stringified
+  0.01          0.01
+  0.02          0.02
+  0.02_01       0.02_01
+  0.02_02       0.02_02
+  0.03          0.03
+  etc.</pre>
+<p>The stringified form of numeric versions will always be the same string
+that was used to initialize the version object.</p>
+<p>
+</p>
+<h2><a name="object_methods">Object Methods</a></h2>
+<p>Overloading has been used with version objects to provide a natural
+interface for their use.  All mathematical operations are forbidden,
+since they don't make any sense for base version objects.  Consequently,
+there is no overloaded numification available.  If you want to use a
+version object in a numeric context for some reason, see the <em>numify</em>
+object method.</p>
+<ul>
+<li><strong><a name="new_operator" class="item">New Operator</a></strong>
+
+<p>Like all OO interfaces, the <code>new()</code> operator is used to initialize
+version objects.  One way to increment versions when programming is to
+use the CVS variable $Revision, which is automatically incremented by
+CVS every time the file is committed to the repository.</p>
+<p>In order to facilitate this feature, the following
+code can be employed:</p>
+<pre>
+  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">qw$Revision: 2.7 $</span><span class="operator">);</span>
+</pre>
+<p>and the version object will be created as if the following code
+were used:</p>
+<pre>
+  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"v2.7"</span><span class="operator">);</span>
+</pre>
+<p>In other words, the version will be automatically parsed out of the
+string, and it will be quoted to preserve the meaning CVS normally
+carries for versions.  The CVS $Revision$ increments differently from
+numeric versions (i.e. 1.10 follows 1.9), so it must be handled as if
+it were a <a href="#extended_version">Extended Version</a>.</p>
+<p>A new version object can be created as a copy of an existing version
+object, either as a class method:</p>
+<pre>
+  <span class="variable">$v1</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">12.3</span><span class="operator">);</span>
+  <span class="variable">$v2</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$v1</span><span class="operator">);</span>
+</pre>
+<p>or as an object method:</p>
+<pre>
+  <span class="variable">$v1</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">12.3</span><span class="operator">);</span>
+  <span class="variable">$v2</span> <span class="operator">=</span> <span class="variable">$v1</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">12.3</span><span class="operator">);</span>
+</pre>
+<p>and in each case, $v1 and $v2 will be identical.  NOTE: if you create
+a new object using an existing object like this:</p>
+<pre>
+  <span class="variable">$v2</span> <span class="operator">=</span> <span class="variable">$v1</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">();</span>
+</pre>
+<p>the new object <strong>will not</strong> be a clone of the existing object.  In the
+example case, $v2 will be an empty object of the same type as $v1.</p>
+</li>
+</ul>
+<ul>
+<li><strong><a name="qv" class="item"><code>qv()</code></a></strong>
+
+<p>An alternate way to create a new version object is through the exported
+<a href="#qv"><code>qv()</code></a> sub.  This is not strictly like other q? operators (like qq, qw),
+in that the only delimiters supported are parentheses (or spaces).  It is
+the best way to initialize a short version without triggering the floating
+point interpretation.  For example:</p>
+<pre>
+  <span class="variable">$v1</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="number">1.2</span><span class="operator">);</span>         <span class="comment"># 1.2.0</span>
+  <span class="variable">$v2</span> <span class="operator">=</span> <span class="variable">qv</span><span class="operator">(</span><span class="string">"1.2"</span><span class="operator">);</span>       <span class="comment"># also 1.2.0</span>
+</pre>
+<p>As you can see, either a bare number or a quoted string can usually 
+be used interchangably, except in the case of a trailing zero, which
+must be quoted to be converted properly.  For this reason, it is strongly
+recommended that all initializers to <a href="#qv"><code>qv()</code></a> be quoted strings instead of
+bare numbers.</p>
+<p>To prevent the <a href="#qv"><code>qv()</code></a> function from being exported to the caller's namespace,
+either use version with a null parameter:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">version</span> <span class="operator">();</span>
+</pre>
+<p>or just require version, like this:</p>
+<pre>
+  <span class="keyword">require</span> <span class="variable">version</span><span class="operator">;</span>
+</pre>
+<p>Both methods will prevent the <a href="../lib/pods/perlfunc.html#import"><code>import()</code></a> method from firing and exporting the
+<a href="#qv"><code>qv()</code></a> sub.  This is true of subclasses of version as well, see
+<em>SUBCLASSING</em> for details.</p>
+</li>
+</ul>
+<p>For the subsequent examples, the following three objects will be used:</p>
+<pre>
+  <span class="variable">$ver</span>   <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"1.2.3.4"</span><span class="operator">);</span> <span class="comment"># see "Quoting" below</span>
+  <span class="variable">$alpha</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"1.2.3_4"</span><span class="operator">);</span> <span class="comment"># see "Alpha versions" below</span>
+  <span class="variable">$nver</span>  <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">1.002</span><span class="operator">);</span>     <span class="comment"># see "Numeric Versions" above</span>
+</pre>
+<ul>
+<li><strong><a name="normal_form" class="item">Normal Form</a></strong>
+
+<p>For any version object which is initialized with multiple decimal
+places (either quoted or if possible v-string), or initialized using
+the <a href="#qv">qv()</a> operator, the stringified representation is returned in
+a normalized or reduced form (no extraneous zeros), and with a leading 'v':</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$ver</span><span class="operator">-&gt;</span><span class="variable">normal</span><span class="operator">;</span>         <span class="comment"># prints as v1.2.3.4</span>
+  <span class="keyword">print</span> <span class="variable">$ver</span><span class="operator">-&gt;</span><span class="variable">stringify</span><span class="operator">;</span>      <span class="comment"># ditto</span>
+  <span class="keyword">print</span> <span class="variable">$ver</span><span class="operator">;</span>                 <span class="comment"># ditto</span>
+  <span class="keyword">print</span> <span class="variable">$nver</span><span class="operator">-&gt;</span><span class="variable">normal</span><span class="operator">;</span>        <span class="comment"># prints as v1.2.0</span>
+  <span class="keyword">print</span> <span class="variable">$nver</span><span class="operator">-&gt;</span><span class="variable">stringify</span><span class="operator">;</span>     <span class="comment"># prints as 1.002, see "Stringification"</span>
+</pre>
+<p>In order to preserve the meaning of the processed version, the 
+normalized representation will always contain at least three sub terms.
+In other words, the following is guaranteed to always be true:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$newver</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$ver</span><span class="operator">-&gt;</span><span class="variable">stringify</span><span class="operator">);</span>
+  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$newver</span> <span class="keyword">eq</span> <span class="variable">$ver</span> <span class="operator">)</span> <span class="comment"># always true</span>
+    <span class="operator">{...}</span>
+</pre>
+</li>
+</ul>
+<ul>
+<li><strong><a name="numification" class="item">Numification</a></strong>
+
+<p>Although all mathematical operations on version objects are forbidden
+by default, it is possible to retrieve a number which corresponds 
+to the version object through the use of the $obj-&gt;numify
+method.  For formatting purposes, when displaying a number which
+corresponds a version object, all sub versions are assumed to have
+three decimal places.  So for example:</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$ver</span><span class="operator">-&gt;</span><span class="variable">numify</span><span class="operator">;</span>         <span class="comment"># prints 1.002003004</span>
+  <span class="keyword">print</span> <span class="variable">$nver</span><span class="operator">-&gt;</span><span class="variable">numify</span><span class="operator">;</span>        <span class="comment"># prints 1.002</span>
+</pre>
+<p>Unlike the stringification operator, there is never any need to append
+trailing zeros to preserve the correct version value.</p>
+</li>
+</ul>
+<ul>
+<li><strong><a name="stringification" class="item">Stringification</a></strong>
+
+<p>The default stringification for version objects returns exactly the same
+string as was used to create it, whether you used <code>new()</code> or <a href="#qv"><code>qv()</code></a>,
+with one exception.  The sole exception is if the object was created using
+<a href="#qv"><code>qv()</code></a> and the initializer did not have two decimal places or a leading
+'v' (both optional), then the stringified form will have a leading 'v'
+prepended, in order to support round-trip processing.</p>
+<p>For example:</p>
+<pre>
+  Initialized as          Stringifies to
+  ==============          ==============
+  version-&gt;new(&quot;1.2&quot;)       1.2
+  version-&gt;new(&quot;v1.2&quot;)     v1.2
+  qv(&quot;1.2.3&quot;)               1.2.3
+  qv(&quot;v1.3.5&quot;)             v1.3.5
+  qv(&quot;1.2&quot;)                v1.2   ### exceptional case</pre>
+<p>See also <a href="../UNIVERSAL/VERSION.html">the UNIVERSAL::VERSION manpage</a>, as this also returns the stringified form
+when used as a class method.</p>
+<p>IMPORTANT NOTE: There is one exceptional cases shown in the above table
+where the &quot;initializer&quot; is not stringwise equivalent to the stringified
+representation.  If you use the <a href="#qv"><code>qv()</code></a> operator on a version without a
+leading 'v' <strong>and</strong> with only a single decimal place, the stringified output
+will have a leading 'v', to preserve the sense.  See the <a href="#qv">qv()</a> operator
+for more details.</p>
+<p>IMPORTANT NOTE 2: Attempting to bypass the normal stringification rules by
+manually applying <em>numify()</em> and <em>normal()</em> will sometimes yield
+surprising results:</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"v1.0"</span><span class="operator">)-&gt;</span><span class="variable">numify</span><span class="operator">)-&gt;</span><span class="variable">normal</span><span class="operator">;</span> <span class="comment"># v1.0.0</span>
+</pre>
+<p>The reason for this is that the <em>numify()</em> operator will turn &quot;v1.0&quot;
+into the equivalent string &quot;1.000000&quot;.  Forcing the outer version object
+to <em>normal()</em> form will display the mathematically equivalent &quot;v1.0.0&quot;.</p>
+<p>As the example in <em>new()</em> shows, you can always create a copy of an
+existing version object with the same value by the very compact:</p>
+<pre>
+  <span class="variable">$v2</span> <span class="operator">=</span> <span class="variable">$v1</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$v1</span><span class="operator">);</span>
+</pre>
+<p>and be assured that both <code>$v1</code> and <code>$v2</code> will be completely equivalent,
+down to the same internal representation as well as stringification.</p>
+</li>
+</ul>
+<ul>
+<li><strong><a name="comparison_operators" class="item">Comparison operators</a></strong>
+
+<p>Both <code>cmp</code> and <code>&lt;=&gt;</code> operators perform the same comparison between
+terms (upgrading to a version object automatically).  Perl automatically
+generates all of the other comparison operators based on those two.
+In addition to the obvious equalities listed below, appending a single
+trailing 0 term does not change the value of a version for comparison
+purposes.  In other words &quot;v1.2&quot; and &quot;1.2.0&quot; will compare as identical.</p>
+<p>For example, the following relations hold:</p>
+<pre>
+  As Number        As String           Truth Value
+  -------------    ----------------    -----------
+  $ver &gt;  1.0      $ver gt &quot;1.0&quot;       true
+  $ver &lt;  2.5      $ver lt             true
+  $ver != 1.3      $ver ne &quot;1.3&quot;       true
+  $ver == 1.2      $ver eq &quot;1.2&quot;       false
+  $ver == 1.2.3.4  $ver eq &quot;1.2.3.4&quot;   see discussion below</pre>
+<p>It is probably best to chose either the numeric notation or the string
+notation and stick with it, to reduce confusion.  Perl6 version objects
+<strong>may</strong> only support numeric comparisons.  See also <em>Quoting</em>.</p>
+<p>WARNING: Comparing version with unequal numbers of decimal points (whether
+explicitly or implicitly initialized), may yield unexpected results at
+first glance.  For example, the following inequalities hold:</p>
+<pre>
+  <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">0</span><span class="operator">.</span><span class="number">96</span><span class="operator">)</span>     <span class="operator">&gt;</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">0</span><span class="operator">.</span><span class="number">95</span><span class="operator">);</span> <span class="comment"># 0.960.0 &gt; 0.950.0</span>
+  <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"0.96.1"</span><span class="operator">)</span> <span class="operator">&lt;</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">0</span><span class="operator">.</span><span class="number">95</span><span class="operator">);</span> <span class="comment"># 0.096.1 &lt; 0.950.0</span>
+</pre>
+<p>For this reason, it is best to use either exclusively <a href="#numeric_versions">Numeric Versions</a> or
+<a href="#extended_versions">Extended Versions</a> with multiple decimal points.</p>
+</li>
+</ul>
+<ul>
+<li><strong><a name="logical_operators" class="item">Logical Operators</a></strong>
+
+<p>If you need to test whether a version object
+has been initialized, you can simply test it directly:</p>
+<pre>
+  <span class="variable">$vobj</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$something</span><span class="operator">);</span>
+  <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$vobj</span> <span class="operator">)</span>   <span class="comment"># true only if $something was non-blank</span>
+</pre>
+<p>You can also test whether a version object is an <a href="#alpha_version">Alpha version</a>, for
+example to prevent the use of some feature not present in the main
+release:</p>
+<pre>
+  <span class="variable">$vobj</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"1.2_3"</span><span class="operator">);</span> <span class="comment"># MUST QUOTE</span>
+  <span class="operator">...</span><span class="variable">later</span><span class="operator">...</span>
+  <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$vobj</span><span class="operator">-&gt;</span><span class="variable">is_alpha</span> <span class="operator">)</span>       <span class="comment"># True</span>
+</pre>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="quoting">Quoting</a></h2>
+<p>Because of the nature of the Perl parsing and tokenizing routines,
+certain initialization values <strong>must</strong> be quoted in order to correctly
+parse as the intended version, especially when using the <a href="#qv">qv()</a> operator.
+In all cases, a floating point number passed to version-&gt;<code>new()</code> will be
+identically converted whether or not the value itself is quoted.  This is
+not true for <a href="#qv">qv()</a>, however, when trailing zeros would be stripped on
+an unquoted input, which would result in a very different version object.</p>
+<p>In addition, in order to be compatible with earlier Perl version styles,
+any use of versions of the form 5.006001 will be translated as v5.6.1.  
+In other words, a version with a single decimal point will be parsed as
+implicitly having three digits between subversions, but only for internal
+comparison purposes.</p>
+<p>The complicating factor is that in bare numbers (i.e. unquoted), the
+underscore is a legal numeric character and is automatically stripped
+by the Perl tokenizer before the version code is called.  However, if
+a number containing one or more decimals and an underscore is quoted, i.e.
+not bare, that is considered a <a href="#alpha_version">Alpha Version</a> and the underscore is
+significant.</p>
+<p>If you use a mathematic formula that resolves to a floating point number,
+you are dependent on Perl's conversion routines to yield the version you
+expect.  You are pretty safe by dividing by a power of 10, for example,
+but other operations are not likely to be what you intend.  For example:</p>
+<pre>
+  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">((</span><span class="string">qw$Revision: 1.4)[1]/10);
+  print $</span><span class="variable">VERSION</span><span class="operator">;</span>          <span class="comment"># yields 0.14</span>
+  <span class="variable">$V2</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="number">100</span><span class="operator">/</span><span class="number">9</span><span class="operator">);</span> <span class="comment"># Integer overflow in decimal number</span>
+  <span class="keyword">print</span> <span class="variable">$V2</span><span class="operator">;</span>               <span class="comment"># yields something like 11.111.111.100</span>
+</pre>
+<p>Perl 5.8.1 and beyond will be able to automatically quote v-strings but
+that is not possible in earlier versions of Perl.  In other words:</p>
+<pre>
+  <span class="variable">$version</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"v2.5.4"</span><span class="operator">);</span>  <span class="comment"># legal in all versions of Perl</span>
+  <span class="variable">$newvers</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">v2</span><span class="number">.5</span><span class="operator">.</span><span class="number">4</span><span class="operator">);</span>    <span class="comment"># legal only in Perl &gt;= 5.8.1</span>
+</pre>
+<p>
+</p>
+<h2><a name="what_about_v_strings">What about v-strings?</a></h2>
+<p>Beginning with Perl 5.6.0, an alternate method to code arbitrary strings
+of bytes was introduced, called v-strings.  They were intended to be an
+easy way to enter, for example, Unicode strings (which contain two bytes
+per character).  Some programs have used them to encode printer control
+characters (e.g. CRLF).  They were also intended to be used for $VERSION,
+but their use as such has been problematic from the start.</p>
+<p>There are two ways to enter v-strings: a bare number with two or more
+decimal points, or a bare number with one or more decimal points and a 
+leading 'v' character (also bare).  For example:</p>
+<pre>
+  <span class="variable">$vs1</span> <span class="operator">=</span> <span class="number">1.2</span><span class="operator">.</span><span class="number">3</span><span class="operator">;</span> <span class="comment"># encoded as \1\2\3</span>
+  <span class="variable">$vs2</span> <span class="operator">=</span> <span class="variable">v1</span><span class="number">.2</span><span class="operator">;</span>  <span class="comment"># encoded as \1\2</span>
+</pre>
+<p>However, the use of bare v-strings to initialize version objects is
+<strong>strongly</strong> discouraged in all circumstances (especially the leading 
+'v' style), since the meaning will change depending on which Perl you 
+are running.  It is better to directly use <a href="#extended_versions">Extended Versions</a> to 
+ensure the proper interpretation.</p>
+<p>If you insist on using bare v-strings with Perl &gt; 5.6.0, be aware of the 
+following limitations:</p>
+<p>1) For Perl releases 5.6.0 through 5.8.0, the v-string code merely guesses, 
+based on some characteristics of v-strings.  You <strong>must</strong> use a three part
+version, e.g. 1.2.3 or v1.2.3 in order for this heuristic to be successful.</p>
+<p>2) For Perl releases 5.8.1 and later, v-strings have changed in the Perl
+core to be magical, which means that the version.pm code can automatically
+determine whether the v-string encoding was used.</p>
+<p>3) In all cases, a version created using v-strings will have a stringified
+form that has a leading 'v' character, for the simple reason that sometimes
+it is impossible to tell whether one was present initially.</p>
+<p>
+</p>
+<h2><a name="types_of_versions_objects">Types of Versions Objects</a></h2>
+<p>There are two types of Version Objects:</p>
+<ul>
+<li><strong><a name="ordinary_versions" class="item">Ordinary versions</a></strong>
+
+<p>These are the versions that normal modules will use.  Can contain as
+many subversions as required.  In particular, those using RCS/CVS can
+use the following:</p>
+<pre>
+  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">qw$Revision: 2.7 $</span><span class="operator">);</span>
+</pre>
+<p>and the current RCS Revision for that file will be inserted
+automatically.  If the file has been moved to a branch, the Revision
+will have three or more elements; otherwise, it will have only two.
+This allows you to automatically increment your module version by
+using the Revision number from the primary file in a distribution, see
+<a href="../lib/ExtUtils/MakeMaker.html#version_from">VERSION_FROM in the ExtUtils::MakeMaker manpage</a>.</p>
+</li>
+<li><strong><a name="alpha_versions" class="item">Alpha Versions</a></strong>
+
+<p>For module authors using CPAN, the convention has been to note
+unstable releases with an underscore in the version string, see
+<a href="../lib/CPAN.html">the CPAN manpage</a>.  Alpha releases will test as being newer than the more recent
+stable release, and less than the next stable release.  For example:</p>
+<pre>
+  <span class="variable">$alphaver</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"12.03_01"</span><span class="operator">);</span> <span class="comment"># must be quoted</span>
+</pre>
+<p>obeys the relationship</p>
+<pre>
+  12.03 &lt; $alphaver &lt; 12.04</pre>
+<p>Alpha versions with a single decimal point will be treated exactly as if
+they were <a href="#numeric_versions">Numeric Versions</a>, for parsing and output purposes.  The
+underscore will be output when an alpha version is stringified, in the same
+place as it was when input.</p>
+<p>Alpha versions with more than a single decimal point will be treated 
+exactly as if they were <a href="#extended_versions">Extended Versions</a>, and will display without any
+trailing (or leading) zeros, in the <a href="#version_normal">Version Normal</a> form.  For example,</p>
+<pre>
+  <span class="variable">$newver</span> <span class="operator">=</span> <span class="variable">version</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"12.3.1_1"</span><span class="operator">);</span>
+  <span class="keyword">print</span> <span class="variable">$newver</span><span class="operator">;</span> <span class="comment"># v12.3.1_1</span>
+</pre>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="replacement_universal__version">Replacement UNIVERSAL::VERSION</a></h2>
+<p>In addition to the version objects, this modules also replaces the core
+UNIVERSAL::VERSION function with one that uses version objects for its
+comparisons.  The return from this operator is always the stringified form,
+but the warning message generated includes either the stringified form or
+the normal form, depending on how it was called.</p>
+<p>For example:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Foo</span><span class="operator">;</span>
+  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="number">1.2</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Bar</span><span class="operator">;</span>
+  <span class="variable">$VERSION</span> <span class="operator">=</span> <span class="string">"1.3.5"</span><span class="operator">;</span> <span class="comment"># works with all Perl's (since it is quoted)</span>
+</pre>
+<pre>
+  <span class="keyword">package</span> <span class="variable">main</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">version</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$Foo::VERSION</span><span class="operator">;</span> <span class="comment"># prints 1.2</span>
+</pre>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$Bar::VERSION</span><span class="operator">;</span> <span class="comment"># prints 1.003005</span>
+</pre>
+<pre>
+  <span class="keyword">eval</span> <span class="string">"use foo 10"</span><span class="operator">;</span>
+  <span class="keyword">print</span> <span class="variable">$@</span><span class="operator">;</span> <span class="comment"># prints "foo version 10 required..."</span>
+  <span class="keyword">eval</span> <span class="string">"use foo 1.3.5; # work in Perl 5.6.1 or better
+  print $@; # prints "</span><span class="variable">foo</span> <span class="variable">version</span> <span class="number">1.3</span><span class="operator">.</span><span class="number">5</span> <span class="variable">required</span><span class="operator">...</span><span class="string">"
+  </span>
+</pre>
+<pre>
+  <span class="keyword">eval</span> <span class="string">"use bar 1.3.6"</span><span class="operator">;</span>
+  <span class="keyword">print</span> <span class="variable">$@</span><span class="operator">;</span> <span class="comment"># prints "bar version 1.3.6 required..."</span>
+  <span class="keyword">eval</span> <span class="string">"use bar 1.004"</span><span class="operator">;</span> <span class="comment"># note numeric version</span>
+  <span class="keyword">print</span> <span class="variable">$@</span><span class="operator">;</span> <span class="comment"># prints "bar version 1.004 required..."</span>
+</pre>
+<p>IMPORTANT NOTE: This may mean that code which searches for a specific
+string (to determine whether a given module is available) may need to be
+changed.  It is always better to use the built-in comparison implicit in
+<a href="../lib/pods/perlfunc.html#use"><code>use</code></a> or <a href="../lib/pods/perlfunc.html#require"><code>require</code></a>, rather than manually poking at <code>class-</code>VERSION&gt;
+and then doing a comparison yourself.</p>
+<p>The replacement UNIVERSAL::VERSION, when used as a function, like this:</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$module</span><span class="operator">-&gt;</span><span class="variable">VERSION</span><span class="operator">;</span>
+</pre>
+<p>will also exclusively return the stringified form.  See <a href="#stringification">Stringification</a>
+for more details.</p>
+<p>
+</p>
+<hr />
+<h1><a name="subclassing">SUBCLASSING</a></h1>
+<p>This module is specifically designed and tested to be easily subclassed.
+In practice, you only need to override the methods you want to change, but
+you have to take some care when overriding <code>new()</code> (since that is where all
+of the parsing takes place).  For example, this is a perfect acceptable
+derived class:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">myversion</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">base</span> <span class="variable">version</span><span class="operator">;</span>
+  <span class="keyword">sub</span><span class="variable"> new </span><span class="operator">{</span> 
+      <span class="keyword">my</span><span class="operator">(</span><span class="variable">$self</span><span class="operator">,</span><span class="variable">$n</span><span class="operator">)=</span><span class="variable">@_</span><span class="operator">;</span>
+      <span class="keyword">my</span> <span class="variable">$obj</span><span class="operator">;</span>
+      <span class="comment"># perform any special input handling here</span>
+      <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">SUPER::new</span><span class="operator">(</span><span class="variable">$n</span><span class="operator">);</span>
+      <span class="comment"># and/or add additional hash elements here</span>
+      <span class="keyword">return</span> <span class="variable">$obj</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>See also <a href="../version/AlphaBeta.html">the version::AlphaBeta manpage</a> on CPAN for an alternate representation of
+version strings.</p>
+<p><strong>NOTE:</strong> Although the <a href="#qv">qv</a> operator is not a true class method, but rather a
+function exported into the caller's namespace, a subclass of version will 
+inherit an <a href="../lib/pods/perlfunc.html#import"><code>import()</code></a> function which will perform the correct magic on behalf
+of the subclass.</p>
+<p>
+</p>
+<hr />
+<h1><a name="export">EXPORT</a></h1>
+<p>qv - Extended Version initialization operator</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>John Peacock &lt;<a href="mailto:jpeacock@cpan.org">jpeacock@cpan.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../lib/pods/perl.html">the perl manpage</a>.</p>
+
+</body>
+
+</html>

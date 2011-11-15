@@ -1,0 +1,497 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Unicode::String - String of Unicode characters</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Unicode::String - String of Unicode characters</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#methods">METHODS</a></li>
+		<li><a href="#class_methods">Class methods</a></li>
+		<li><a href="#encoding_methods">Encoding methods</a></li>
+		<li><a href="#string_operations">String Operations</a></li>
+	</ul>
+
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Unicode::String - String of Unicode characters (UTF-16BE)</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Unicode::String</span> <span class="string">qw(utf8 latin1 utf16be)</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">$u</span> <span class="operator">=</span> <span class="variable">utf8</span><span class="operator">(</span><span class="string">"string"</span><span class="operator">);</span>
+ <span class="variable">$u</span> <span class="operator">=</span> <span class="variable">latin1</span><span class="operator">(</span><span class="string">"string"</span><span class="operator">);</span>
+ <span class="variable">$u</span> <span class="operator">=</span> <span class="variable">utf16be</span><span class="operator">(</span><span class="string">"\0s\0t\0r\0i\0n\0g"</span><span class="operator">);</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="variable">$u</span><span class="operator">-&gt;</span><span class="variable">utf32be</span><span class="operator">;</span>   <span class="comment"># 4 byte characters</span>
+ <span class="keyword">print</span> <span class="variable">$u</span><span class="operator">-&gt;</span><span class="variable">utf16le</span><span class="operator">;</span>   <span class="comment"># 2 byte characters + surrogates</span>
+ <span class="keyword">print</span> <span class="variable">$u</span><span class="operator">-&gt;</span><span class="variable">utf8</span><span class="operator">;</span>      <span class="comment"># 1-4 byte characters</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>A <code>Unicode::String</code> object represents a sequence of Unicode
+characters.  Methods are provided to convert between various external
+formats (encodings) and <code>Unicode::String</code> objects, and methods are
+provided for common string manipulations.</p>
+<p>The functions utf32be(), utf32le(), utf16be(), utf16le(), utf8(),
+utf7(), latin1(), <a href="#uhex"><code>uhex()</code></a>, <code>uchr()</code> can be imported from the
+<code>Unicode::String</code> module and will work as constructors initializing
+strings of the corresponding encoding.</p>
+<p>The <code>Unicode::String</code> objects overload various operators, which means
+that they in most cases can be treated like plain strings.</p>
+<p>Internally a <code>Unicode::String</code> object is represented by a string of 2
+byte numbers in network byte order (big-endian). This representation
+is not visible by the API provided, but it might be useful to know in
+order to predict the efficiency of the provided methods.</p>
+<p>
+</p>
+<h2><a name="methods">METHODS</a></h2>
+<p>
+</p>
+<h2><a name="class_methods">Class methods</a></h2>
+<p>The following class methods are available:</p>
+<dl>
+<dt><strong><a name="stringify_as" class="item">Unicode::String-&gt;stringify_as</a></strong>
+
+<dt><strong>Unicode::String-&gt;stringify_as( $enc )</strong>
+
+<dd>
+<p>This method is used to specify which encoding will be used when
+<code>Unicode::String</code> objects are implicitly converted to and from plain
+strings.</p>
+</dd>
+<dd>
+<p>If an argument is provided it sets the current encoding.  The argument
+should have one of the following: &quot;ucs4&quot;, &quot;utf32&quot;, &quot;utf32be&quot;,
+&quot;utf32le&quot;, &quot;ucs2&quot;, &quot;utf16&quot;, &quot;utf16be&quot;, &quot;utf16le&quot;, &quot;utf8&quot;, &quot;utf7&quot;,
+&quot;latin1&quot; or &quot;hex&quot;.  The default is &quot;utf8&quot;.</p>
+</dd>
+<dd>
+<p>The <a href="#stringify_as"><code>stringify_as()</code></a> method returns a reference to the current encoding
+function.</p>
+</dd>
+</li>
+<dt><strong><a name="new" class="item">$us = Unicode::String-&gt;new</a></strong>
+
+<dt><strong>$us = Unicode::String-&gt;new( $initial_value )</strong>
+
+<dd>
+<p>This is the object constructor.  Without argument, it creates an empty
+<code>Unicode::String</code> object.  If an $initial_value argument is given, it
+is decoded according to the specified <a href="#stringify_as"><code>stringify_as()</code></a> encoding, UTF-8
+by default.</p>
+</dd>
+<dd>
+<p>In general it is recommended to import and use one of the encoding
+specific constructor functions instead of invoking this method.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="encoding_methods">Encoding methods</a></h2>
+<p>These methods get or set the value of the <code>Unicode::String</code> object by
+passing strings in the corresponding encoding.  If a new value is
+passed as argument it will set the value of the <code>Unicode::String</code>,
+and the previous value is returned.  If no argument is passed then the
+current value is returned.</p>
+<p>To illustrate the encodings we show how the 2 character sample string
+of &quot;µm&quot; (micro meter) is encoded for each one.</p>
+<dl>
+<dt><strong><a name="utf32be" class="item">$us-&gt;utf32be</a></strong>
+
+<dt><strong>$us-&gt;utf32be( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the UTF-32 encoding with bytes in big
+endian order.  The sample &quot;µm&quot; is &quot;\0\0\0\xB5\0\0\0m&quot; in this encoding.</p>
+</dd>
+<dd>
+<p>Alternative names for this method are utf32() and ucs4().</p>
+</dd>
+</li>
+<dt><strong><a name="utf32le" class="item">$us-&gt;utf32le</a></strong>
+
+<dt><strong>$us-&gt;utf32le( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the UTF-32 encoding with bytes in little
+endian order.  The sample &quot;µm&quot; is is &quot;\xB5\0\0\0m\0\0\0&quot; in this encoding.</p>
+</dd>
+</li>
+<dt><strong><a name="utf16be" class="item">$us-&gt;utf16be</a></strong>
+
+<dt><strong>$us-&gt;utf16be( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the UTF-16 encoding with bytes in big
+endian order. The sample &quot;µm&quot; is &quot;\0\xB5\0m&quot; in this encoding.</p>
+</dd>
+<dd>
+<p>Alternative names for this method are utf16() and ucs2().</p>
+</dd>
+<dd>
+<p>If the string passed to utf16be() starts with the Unicode byte order
+mark in little endian order, the result is as if utf16le() was called
+instead.</p>
+</dd>
+</li>
+<dt><strong><a name="utf16le" class="item">$us-&gt;utf16le</a></strong>
+
+<dt><strong>$us-&gt;utf16le( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the UTF-16 encoding with bytes in
+little endian order.  The sample &quot;µm&quot; is is &quot;\xB5\0m\0&quot; in this
+encoding.  This is the encoding used by the Microsoft Windows API.</p>
+</dd>
+<dd>
+<p>If the string passed to utf16le() starts with the Unicode byte order
+mark in big endian order, the result is as if utf16le() was called
+instead.</p>
+</dd>
+</li>
+<dt><strong><a name="utf8" class="item">$us-&gt;utf8</a></strong>
+
+<dt><strong>$us-&gt;utf8( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the UTF-8 encoding. The sample &quot;µm&quot; is
+&quot;\xC2\xB5m&quot; in this encoding.</p>
+</dd>
+</li>
+<dt><strong><a name="utf7" class="item">$us-&gt;utf7</a></strong>
+
+<dt><strong>$us-&gt;utf7( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the UTF-7 encoding. The sample &quot;µm&quot; is
+&quot;+ALU-m&quot; in this encoding.</p>
+</dd>
+<dd>
+<p>The UTF-7 encoding only use plain US-ASCII characters for the
+encoding.  This makes it safe for transport through 8-bit stripping
+protocols.  Characters outside the US-ASCII range are base64-encoded
+and '+' is used as an escape character.  The UTF-7 encoding is
+described in <a href="http://www.ietf.org/rfc/rfc1642.txt" class="rfc">RFC 1642</a>.</p>
+</dd>
+<dd>
+<p>If the (global) variable $Unicode::String::UTF7_OPTIONAL_DIRECT_CHARS
+is TRUE, then a wider range of characters are encoded as themselves.
+It is even TRUE by default.  The characters affected by this are:</p>
+</dd>
+<dd>
+<pre>
+   ! &quot; # $ % &amp; * ; &lt; = &gt; @ [ ] ^ _ ` { | }</pre>
+</dd>
+</li>
+<dt><strong><a name="latin1" class="item">$us-&gt;latin1</a></strong>
+
+<dt><strong>$us-&gt;latin1( $newval )</strong>
+
+<dd>
+<p>The string passed should be in the ISO-8859-1 encoding. The sample &quot;µm&quot; is
+&quot;\xB5m&quot; in this encoding.</p>
+</dd>
+<dd>
+<p>Characters outside the &quot;\x00&quot; .. &quot;\xFF&quot; range are simply removed from
+the return value of the latin1() method.  If you want more control
+over the mapping from Unicode to ISO-8859-1, use the <code>Unicode::Map8</code>
+class.  This is also the way to deal with other 8-bit character sets.</p>
+</dd>
+</li>
+<dt><strong><a name="hex" class="item">$us-&gt;hex</a></strong>
+
+<dt><strong>$us-&gt;hex( $newval )</strong>
+
+<dd>
+<p>The string passed should be plain ASCII where each Unicode character
+is represented by the &quot;U+XXXX&quot; string and separated by a single space
+character.  The &quot;U+&quot; prefix is optional when setting the value.  The
+sample &quot;µm&quot; is &quot;U+00b5 U+006d&quot; in this encoding.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="string_operations">String Operations</a></h2>
+<p>The following methods are available:</p>
+<dl>
+<dt><strong><a name="as_string" class="item">$us-&gt;as_string</a></strong>
+
+<dd>
+<p>Converts a <code>Unicode::String</code> to a plain string according to the
+setting of <a href="#stringify_as"><code>stringify_as()</code></a>.  The default <a href="#stringify_as"><code>stringify_as()</code></a> encoding is
+&quot;utf8&quot;.</p>
+</dd>
+</li>
+<dt><strong><a name="as_num" class="item">$us-&gt;as_num</a></strong>
+
+<dd>
+<p>Converts a <code>Unicode::String</code> to a number.  Currently only the digits
+in the range 0x30 .. 0x39 are recognized.  The plan is to eventually
+support all Unicode digit characters.</p>
+</dd>
+</li>
+<dt><strong><a name="as_bool" class="item">$us-&gt;as_bool</a></strong>
+
+<dd>
+<p>Converts a <code>Unicode::String</code> to a boolean value.  Only the empty
+string is FALSE.  A string consisting of only the character U+0030 is
+considered TRUE, even if Perl consider &quot;0&quot; to be FALSE.</p>
+</dd>
+</li>
+<dt><strong><a name="repeat" class="item">$us-&gt;repeat( $count )</a></strong>
+
+<dd>
+<p>Returns a new <code>Unicode::String</code> where the content of $us is repeated
+$count times.  This operation is also overloaded as:</p>
+</dd>
+<dd>
+<pre>
+  $us x $count</pre>
+</dd>
+</li>
+<dt><strong><a name="concat" class="item">$us-&gt;concat( $other_string )</a></strong>
+
+<dd>
+<p>Concatenates the string $us and the string $other_string.  If
+$other_string is not an <code>Unicode::String</code> object, then it is first
+passed to the Unicode::String-&gt;new constructor function.  This
+operation is also overloaded as:</p>
+</dd>
+<dd>
+<pre>
+  $us . $other_string</pre>
+</dd>
+</li>
+<dt><strong><a name="append" class="item">$us-&gt;append( $other_string )</a></strong>
+
+<dd>
+<p>Appends the string $other_string to the value of $us.  If
+$other_string is not an <code>Unicode::String</code> object, then it is first
+passed to the Unicode::String-&gt;new constructor function.  This
+operation is also overloaded as:</p>
+</dd>
+<dd>
+<pre>
+  $us .= $other_string</pre>
+</dd>
+</li>
+<dt><strong><a name="copy" class="item">$us-&gt;copy</a></strong>
+
+<dd>
+<p>Returns a copy of the current <code>Unicode::String</code> object.  This
+operation is overloaded as the assignment operator.</p>
+</dd>
+</li>
+<dt><strong><a name="length" class="item">$us-&gt;length</a></strong>
+
+<dd>
+<p>Returns the length of the <code>Unicode::String</code>.  Surrogate pairs are
+still counted as 2.</p>
+</dd>
+</li>
+<dt><strong><a name="byteswap" class="item">$us-&gt;byteswap</a></strong>
+
+<dd>
+<p>This method will swap the bytes in the internal representation of the
+<code>Unicode::String</code> object.</p>
+</dd>
+<dd>
+<p>Unicode reserve the character U+FEFF character as a byte order mark.
+This works because the swapped character, U+FFFE, is reserved to not
+be valid.  For strings that have the byte order mark as the first
+character, we can guaranty to get the byte order right with the
+following code:</p>
+</dd>
+<dd>
+<pre>
+   <span class="variable">$ustr</span><span class="operator">-&gt;</span><span class="variable">byteswap</span> <span class="keyword">if</span> <span class="variable">$ustr</span><span class="operator">-&gt;</span><span class="variable">ord</span> <span class="operator">==</span> <span class="number">0xFFFE</span><span class="operator">;</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="unpack" class="item">$us-&gt;unpack</a></strong>
+
+<dd>
+<p>Returns a list of integers each representing an UCS-2 character code.</p>
+</dd>
+</li>
+<dt><strong><a name="pack" class="item">$us-&gt;pack( @uchr )</a></strong>
+
+<dd>
+<p>Sets the value of $us as a sequence of UCS-2 characters with the
+characters codes given as parameter.</p>
+</dd>
+</li>
+<dt><strong><a name="ord" class="item">$us-&gt;ord</a></strong>
+
+<dd>
+<p>Returns the character code of the first character in $us.  The <a href="#ord"><code>ord()</code></a>
+method deals with surrogate pairs, which gives us a result-range of
+0x0 .. 0x10FFFF.  If the $us string is empty, undef is returned.</p>
+</dd>
+</li>
+<dt><strong><a name="chr" class="item">$us-&gt;chr( $code )</a></strong>
+
+<dd>
+<p>Sets the value of $us to be a string containing the character assigned
+code $code.  The argument $code must be an integer in the range 0x0
+.. 0x10FFFF.  If the code is greater than 0xFFFF then a surrogate pair
+created.</p>
+</dd>
+</li>
+<dt><strong><a name="name" class="item">$us-&gt;name</a></strong>
+
+<dd>
+<p>In scalar context returns the official Unicode name of the first
+character in $us.  In array context returns the name of all characters
+in $us.  Also see <a href="../../lib/Unicode/CharName.html">the Unicode::CharName manpage</a>.</p>
+</dd>
+</li>
+<dt><strong><a name="substr" class="item">$us-&gt;substr( $offset )</a></strong>
+
+<dt><strong>$us-&gt;substr( $offset, $length )</strong>
+
+<dt><strong>$us-&gt;substr( $offset, $length, $subst )</strong>
+
+<dd>
+<p>Returns a sub-string of $us.  Works similar to the builtin <a href="#substr"><code>substr()</code></a>
+function.</p>
+</dd>
+</li>
+<dt><strong><a name="index" class="item">$us-&gt;index( $other )</a></strong>
+
+<dt><strong>$us-&gt;index( $other, $pos )</strong>
+
+<dd>
+<p>Locates the position of $other within $us, possibly starting the
+search at position $pos.</p>
+</dd>
+</li>
+<dt><strong><a name="chop" class="item">$us-&gt;chop</a></strong>
+
+<dd>
+<p>Chops off the last character of $us and returns it (as a
+<code>Unicode::String</code> object).</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>The following functions are provided.  None of these are exported by default.</p>
+<dl>
+<dt><strong><a name="byteswap2" class="item">byteswap2( $str, ... )</a></strong>
+
+<dd>
+<p>This function will swap 2 and 2 bytes in the strings passed as
+arguments.  If this function is called in void context,
+then it will modify its arguments in-place.  Otherwise, the swapped
+strings are returned.</p>
+</dd>
+</li>
+<dt><strong><a name="byteswap4" class="item">byteswap4( $str, ... )</a></strong>
+
+<dd>
+<p>The byteswap4 function works similar to byteswap2, but will reverse
+the order of 4 and 4 bytes.</p>
+</dd>
+</li>
+<dt><strong>latin1( $str )</strong>
+
+<dt><strong>utf7( $str )</strong>
+
+<dt><strong>utf8( $str )</strong>
+
+<dt><strong>utf16le( $str )</strong>
+
+<dt><strong>utf16be( $str )</strong>
+
+<dt><strong>utf32le( $str )</strong>
+
+<dt><strong>utf32be( $str )</strong>
+
+<dd>
+<p>Constructor functions for the various Unicode encodings.  These return
+new <code>Unicode::String</code> objects.  The provided argument should be
+encoded correspondingly.</p>
+</dd>
+</li>
+<dt><strong><a name="uhex" class="item">uhex( $str )</a></strong>
+
+<dd>
+<p>Constructs a new <code>Unicode::String</code> object from a string of hex
+values.  See <a href="#hex"><code>hex()</code></a> method above for description of the format.</p>
+</dd>
+</li>
+<dt><strong><a name="uchar" class="item">uchar( $num )</a></strong>
+
+<dd>
+<p>Constructs a new one character <code>Unicode::String</code> object from a
+Unicode character code.  This works similar to perl's builtin <a href="#chr"><code>chr()</code></a>
+function.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../lib/Unicode/CharName.html">the Unicode::CharName manpage</a>,
+<a href="../../Unicode/Map8.html">the Unicode::Map8 manpage</a></p>
+<p><a href="http://www.unicode.org/">http://www.unicode.org/</a></p>
+<p><a href="../../lib/pods/perlunicode.html">the perlunicode manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright 1997-2000,2005 Gisle Aas.</p>
+<p>This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,786 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>DBD::ODBC - ODBC Driver for DBI</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>DBD::ODBC - ODBC Driver for DBI</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#change_log_and_faqs">Change log and FAQs</a></li>
+		<li><a href="#important_note_about_the_tests">Important note about the tests</a></li>
+		<li><a href="#version_control">Version Control</a></li>
+		<li><a href="#contributing">Contributing</a></li>
+		<li><a href="#private_attributes_common_to_connection_and_statement_handles">Private attributes common to connection and statement handles</a></li>
+		<ul>
+
+			<li><a href="#odbc_ignore_named_placeholders">odbc_ignore_named_placeholders</a></li>
+			<li><a href="#odbc_default_bind_type">odbc_default_bind_type</a></li>
+			<li><a href="#odbc_force_rebind">odbc_force_rebind</a></li>
+			<li><a href="#odbc_async_exec">odbc_async_exec</a></li>
+			<li><a href="#odbc_query_timeout">odbc_query_timeout</a></li>
+		</ul>
+
+		<li><a href="#private_connection_attributes">Private connection attributes</a></li>
+		<ul>
+
+			<li><a href="#odbc_err_handler">odbc_err_handler</a></li>
+			<li><a href="#odbc_sql_rowset_size">odbc_SQL_ROWSET_SIZE</a></li>
+			<li><a href="#odbc_exec_direct">odbc_exec_direct</a></li>
+			<li><a href="#sql_driver_odbc_ver">SQL_DRIVER_ODBC_VER</a></li>
+			<li><a href="#odbc_cursortype">odbc_cursortype</a></li>
+			<li><a href="#odbc_has_unicode">odbc_has_unicode</a></li>
+			<li><a href="#odbc_version">odbc_version</a></li>
+		</ul>
+
+		<li><a href="#private_statement_attributes">Private statement attributes</a></li>
+		<ul>
+
+			<li><a href="#odbc_more_results">odbc_more_results</a></li>
+		</ul>
+
+		<li><a href="#private_dbd__odbc_functions">Private DBD::ODBC Functions</a></li>
+		<ul>
+
+			<li><a href="#getinfo">GetInfo</a></li>
+			<li><a href="#sqlgettypeinfo">SQLGetTypeInfo</a></li>
+			<li><a href="#getfunctions">GetFunctions</a></li>
+			<li><a href="#getstatistics">GetStatistics</a></li>
+			<li><a href="#getforeignkeys">GetForeignKeys</a></li>
+			<li><a href="#getprimarykeys">GetPrimaryKeys</a></li>
+			<li><a href="#data_sources">data_sources</a></li>
+			<li><a href="#getspecialcolumns">GetSpecialColumns</a></li>
+		</ul>
+
+		<li><a href="#tracing">Tracing</a></li>
+		<li><a href="#deviations_from_the_dbi_specification">Deviations from the DBI specification</a></li>
+		<ul>
+
+			<li><a href="#mixed_placeholder_types">Mixed placeholder types</a></li>
+			<li><a href="#using_the_same_placeholder_more_than_once">Using the same placeholder more than once</a></li>
+			<li><a href="#binding_named_placeholders">Binding named placeholders</a></li>
+		</ul>
+
+		<li><a href="#others_todo">Others/todo?</a></li>
+		<li><a href="#connect_without_dsn">Connect without DSN</a></li>
+		<li><a href="#using_dbd__odbc_with_web_servers_under_win32_">Using DBD::ODBC with web servers under Win32.</a></li>
+		<li><a href="#connect_without_dsn">Connect without DSN</a></li>
+		<li><a href="#random_links">Random Links</a></li>
+		<li><a href="#frequently_asked_questions">Frequently Asked Questions</a></li>
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>DBD::ODBC - ODBC Driver for DBI</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DBI</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">'dbi:ODBC:DSN'</span><span class="operator">,</span> <span class="string">'user'</span><span class="operator">,</span> <span class="string">'password'</span><span class="operator">);</span>
+</pre>
+<p>See <a href="../../lib/DBI.html">the DBI manpage</a> for more information.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<h2><a name="change_log_and_faqs">Change log and FAQs</a></h2>
+<p>Please note that the change log has been moved to
+DBD::ODBC::Changes.pm. To access this documentation, use
+<code>perldoc DBD::ODBC::Changes</code>.</p>
+<p>The FAQs have also moved to DBD::ODBC::FAQ.pm. To access the FAQs use
+<code>perldoc DBD::ODBC::FAQ</code>.</p>
+<p>
+</p>
+<h2><a name="important_note_about_the_tests">Important note about the tests</a></h2>
+<p>Please note that some tests may fail or report they are unsupported on
+this platform.  Notably Oracle's ODBC driver will fail the &quot;advanced&quot;
+binding tests in t/08bind2.t.  These tests run perfectly under SQL
+Server 2000. This is normal and expected.  Until Oracle fixes their
+drivers to do the right thing from an ODBC perspective, it's going to
+be tough to fix the issue.  The workaround for Oracle is to bind date
+types with SQL_TIMESTAMP.  Also note that some tests may be skipped,
+such as t/09multi.t, if your driver doesn't seem to support returning
+multiple result sets.  This is normal.</p>
+<p>
+</p>
+<h2><a name="version_control">Version Control</a></h2>
+<p>DBD::ODBC source code is under version control at svn.perl.org.  If
+you would like to use the &quot;bleeding&quot; edge version, you can get the
+latest from svn.perl.org via Subversion version control.  Note there
+is no guarantee that this version is any different than what you get
+from the tarball from CPAN, but it might be :)</p>
+<p>You may read about Subversion at <a href="http://subversion.tigris.org">http://subversion.tigris.org</a></p>
+<p>You can get a subversion client from there and check dbd-odbc out via:</p>
+<pre>
+   svn checkout <a href="http://svn.perl.org/modules/dbd-odbc/trunk">http://svn.perl.org/modules/dbd-odbc/trunk</a> &lt;your directory name here&gt;</pre>
+<p>Which will pull all the files from the subversion trunk to your
+specified directory. If you want to see what has changed since the
+last release of DBD::ODBC read the Changes file or use &quot;svn log&quot; to
+get a list of checked in changes.</p>
+<p>
+</p>
+<h2><a name="contributing">Contributing</a></h2>
+<p>Please use Subversion (see above) to get the latest version of
+DBD::ODBC from the trunk and submit any patches against that.</p>
+<p>Please, before submitting a patch:</p>
+<pre>
+   svn update
+   &lt;try and included a test which demonstrates the fix/change working&gt;
+   &lt;test your patch&gt;
+   svn diff &gt; describe_my_diffs.patch</pre>
+<p>and send the resulting file to me and cc the <a href="mailto:dbi-users@perl.org">dbi-users@perl.org</a>
+mailing list (if you are not a member - why not!).</p>
+<p>
+</p>
+<h2><a name="private_attributes_common_to_connection_and_statement_handles">Private attributes common to connection and statement handles</a></h2>
+<p>
+</p>
+<h3><a name="odbc_ignore_named_placeholders">odbc_ignore_named_placeholders</a></h3>
+<p>Use this if you have special needs (such as Oracle triggers, etc)
+where :new or :name mean something special and are not just place
+holder names You <em>must</em> then use ? for binding parameters.  Example:</p>
+<pre>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">odbc_ignore_named_placeholders</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+ <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">do</span><span class="operator">(</span><span class="string">"create trigger foo as if :new.x &lt;&gt; :old.x then ... etc"</span><span class="operator">);</span>
+</pre>
+<p>Without this, DBD::ODBC will think :new and :old are placeholders for
+binding and get confused.</p>
+<p>
+</p>
+<h3><a name="odbc_default_bind_type">odbc_default_bind_type</a></h3>
+<p>This value defaults to 0.</p>
+<p>Older versions of DBD::ODBC assumed that the binding type was 12
+(SQL_VARCHAR).  Newer versions default to 0, which means that
+DBD::ODBC will attempt to query the driver via SQLDescribeParam to
+determine the correct type.  If the driver doesn't support
+SQLDescribeParam, then DBD::ODBC falls back to using SQL_VARCHAR as
+the default, unless overridden by <code>bind_param()</code>.</p>
+<p>
+</p>
+<h3><a name="odbc_force_rebind">odbc_force_rebind</a></h3>
+<p>This is to handle special cases, especially when using multiple result sets.
+Set this before execute to &quot;force&quot; DBD::ODBC to re-obtain the result set's
+number of columns and column types for each execute.  Especially useful for
+calling stored procedures which may return different result sets each
+execute.  The only performance penalty is during <code>execute()</code>, but I didn't
+want to incur that penalty for all circumstances.  It is probably fairly
+rare that this occurs.  This attribute will be automatically set when
+multiple result sets are triggered.  Most people shouldn't have to worry
+about this.</p>
+<p>
+</p>
+<h3><a name="odbc_async_exec">odbc_async_exec</a></h3>
+<p>Allow asynchronous execution of queries.  This causes a spin-loop
+(with a small &quot;sleep&quot;) until the SQL is complete.  This is useful,
+however, if you want the error handling and asynchronous messages (see
+the <a href="#odbc_err_handler">odbc_err_handler</a> and t/20SQLServer.t for an example of this.</p>
+<p>
+</p>
+<h3><a name="odbc_query_timeout">odbc_query_timeout</a></h3>
+<p>This allows you to change the ODBC query timeout (the ODBC statement
+attribute SQL_ATTR_QUERY_TIMEOUT). ODBC defines the query time out as
+the number of seconds to wait for a SQL statement to execute before
+returning to the application. A value of 0 (the default) means there
+is no time out. <strong>Do not confuse this with the ODBC attributes
+SQL_ATTR_LOGIN_TIMEOUT and SQL_ATTR_CONNECTION_TIMEOUT</strong>. Add</p>
+<pre>
+  <span class="operator">{</span> <span class="string">odbc_query_timeout</span> <span class="operator">=&gt;</span> <span class="number">30</span> <span class="operator">}</span>
+</pre>
+<p>to your connect, set on the dbh before creating a statement or
+explicitly set it on your statement handle. The odbc_query_timeout on
+a statement is inherited from the parent connection.</p>
+<p>Note that internally DBD::ODBC only sets the query timeout if you set it
+explicitly and the default of 0 (no time out) is implemented by the
+ODBC driver and not DBD::ODBC.</p>
+<p>Note that some ODBC drivers implement a maximum query timeout value
+and will limit time outs set above their maximum. You may see a
+warning if your time out is capped by the driver but there is
+currently no way to retrieve the capped value back from the driver.</p>
+<p>Note that some drivers may not support this attribute.</p>
+<p>See t/20SqlServer.t for an example.</p>
+<p>
+</p>
+<h2><a name="private_connection_attributes">Private connection attributes</a></h2>
+<p>
+</p>
+<h3><a name="odbc_err_handler">odbc_err_handler</a></h3>
+<p>Allow errors to be handled by the application.  A call-back function
+supplied by the application to handle or ignore messages.</p>
+<p>The callback function receives three parameters: state (string),
+error (string) and the native error code (number).</p>
+<p>If the error handler returns 0, the error is ignored, otherwise the
+error is passed through the normal DBI error handling.</p>
+<p>This can also be used for procedures under MS SQL Server (Sybase too,
+probably) to obtain messages from system procedures such as DBCC.
+Check t/20SQLServer.t and t/10handler.t.</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">RaiseError</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+  <span class="keyword">sub</span><span class="variable"> err_handler </span><span class="operator">{</span>
+     <span class="operator">(</span><span class="variable">$state</span><span class="operator">,</span> <span class="variable">$msg</span><span class="operator">,</span> <span class="variable">$native</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$state</span> <span class="operator">=</span> <span class="string">'12345'</span><span class="operator">)</span>
+         <span class="keyword">return</span> <span class="number">0</span><span class="operator">;</span> <span class="comment"># ignore this error</span>
+     <span class="keyword">else</span>
+         <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span> <span class="comment"># propagate error</span>
+  <span class="operator">}</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">odbc_err_handler</span><span class="operator">}</span> <span class="operator">=</span> <span class="operator">\</span><span class="variable">$err_handler</span><span class="operator">;</span>
+  <span class="comment"># do something to cause an error</span>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">odbc_err_handler</span><span class="operator">}</span> <span class="operator">=</span> <span class="keyword">undef</span><span class="operator">;</span> <span class="comment"># cancel the handler</span>
+</pre>
+<p>
+</p>
+<h3><a name="odbc_sql_rowset_size">odbc_SQL_ROWSET_SIZE</a></h3>
+<p>Here is the information from the original patch, however, I've learned
+since from other sources that this could/has caused SQL Server to
+&quot;lock up&quot;.  Please use at your own risk!</p>
+<p>SQL_ROWSET_SIZE attribute patch from Andrew Brown
+&gt; There are only 2 additional lines allowing for the setting of
+&gt; SQL_ROWSET_SIZE as db handle option.
+&gt;
+&gt; The purpose to my madness is simple. SqlServer (7 anyway) by default
+&gt; supports only one select statement at once (using std ODBC cursors).
+&gt; According to the SqlServer documentation you can alter the default setting
+&gt; of
+&gt; three values to force the use of server cursors - in which case multiple
+&gt; selects are possible.
+&gt;
+&gt; The code change allows for:
+&gt; $dbh-&gt;{SQL_ROWSET_SIZE} = 2;    # Any value &gt; 1
+&gt;
+&gt; For this very purpose.
+&gt;
+&gt; The setting of SQL_ROWSET_SIZE only affects the extended fetch command as
+&gt; far as I can work out and thus setting this option shouldn't affect
+&gt; DBD::ODBC operations directly in any way.
+&gt;
+&gt; Andrew
+&gt;</p>
+<p>
+</p>
+<h3><a name="odbc_exec_direct">odbc_exec_direct</a></h3>
+<p>Force DBD::ODBC to use SQLExecDirect instead of SQLPrepare/SQLExecute.</p>
+<p>There are drivers that only support SQLExecDirect and the DBD::ODBC
+<a href="../../lib/pods/perlfunc.html#do"><code>do()</code></a> override does not allow returning result sets.  Therefore, the
+way to do this now is to set the attribute odbc_exec_direct.</p>
+<p>NOTE: You may also want to use this option if you are creating
+temporary objects (e.g., tables) in MS SQL Server and for some
+reason cannot use the <a href="../../lib/pods/perlfunc.html#do"><code>do</code></a> method. see
+<a href="http://technet.microsoft.com/en-US/library/ms131667.aspx">http://technet.microsoft.com/en-US/library/ms131667.aspx</a> which says
+<em>Prepared statements cannot be used to create temporary objects on
+SQL Server 2000 or later...</em>. Without odbc_exec_direct, the temporary
+object will disappear before you can use it.</p>
+<p>There are currently two ways to get this:</p>
+<pre>
+    <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="variable">$sql</span><span class="operator">,</span> <span class="operator">{</span> <span class="string">odbc_exec_direct</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>and</p>
+<pre>
+    <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">odbc_exec_direct</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h3><a name="sql_driver_odbc_ver">SQL_DRIVER_ODBC_VER</a></h3>
+<p>This, while available via <code>get_info()</code> is captured here.  I may get rid
+of this as I only used it for debugging purposes.</p>
+<p>
+</p>
+<h3><a name="odbc_cursortype">odbc_cursortype</a></h3>
+<p>This allows multiple concurrent statements on SQL*Server.  In your
+connect, add</p>
+<pre>
+  <span class="operator">{</span> <span class="string">odbc_cursortype</span> <span class="operator">=&gt;</span> <span class="number">2</span> <span class="operator">}.</span>
+</pre>
+<p>If you are using DBI &gt; 1.41, you should also be able to use</p>
+<pre>
+ <span class="operator">{</span> <span class="string">odbc_cursortype</span> <span class="operator">=&gt;</span> <span class="variable">DBI::SQL_CURSOR_DYNAMIC</span> <span class="operator">}</span>
+</pre>
+<p>instead.  For example:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">"dbi:ODBC:</span><span class="variable">$DSN</span><span class="string">"</span><span class="operator">,</span> <span class="variable">$user</span><span class="operator">,</span> <span class="variable">$pass</span><span class="operator">,</span>
+                  <span class="operator">{</span> <span class="string">RaiseError</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">odbc_cursortype</span> <span class="operator">=&gt;</span> <span class="number">2</span><span class="operator">}</span><span class="operator">);</span>
+    <span class="keyword">my</span> <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="string">"one statement"</span><span class="operator">);</span>
+    <span class="keyword">my</span> <span class="variable">$sth2</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">prepare</span><span class="operator">(</span><span class="string">"two statement"</span><span class="operator">);</span>
+    <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">;</span>
+    <span class="keyword">my</span> <span class="variable">@row</span><span class="operator">;</span>
+    <span class="keyword">while</span> <span class="operator">(</span><span class="variable">@row</span> <span class="operator">=</span> <span class="variable">$sth</span><span class="operator">-&gt;</span><span class="variable">fetchrow_array</span><span class="operator">)</span> <span class="operator">{</span>
+       <span class="variable">$sth2</span><span class="operator">-&gt;</span><span class="variable">execute</span><span class="operator">(</span><span class="variable">$row</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<p>See t/20SqlServer.t for an example.</p>
+<p>
+</p>
+<h3><a name="odbc_has_unicode">odbc_has_unicode</a></h3>
+<p>A read-only attribute signifying whether DBD::ODBC was built with the
+C macro WITH_UNICODE or not. A value of 1 indicates DBD::ODBC was built
+with WITH_UNICODE else the value returned is 0.</p>
+<p>Building WITH_UNICODE affects columns and parameters which are
+SQL_C_WCHAR, SQL_WCHAR, SQL_WVARCHAR, and SQL_WLONGVARCHAR.</p>
+<p>When odbc_has_unicode is 1, DBD::ODBC will:</p>
+<dl>
+<dt><strong><a name="bind_columns_the_database_declares_as_wide_characters_as_sql_wxxx" class="item">bind columns the database declares as wide characters as SQL_Wxxx</a></strong>
+
+<dd>
+<p>This means that UNICODE data stored in these columns will be returned
+to Perl in UTF-8 and with the UTF8 flag set.</p>
+</dd>
+</li>
+<dt><strong><a name="bind_parameters_the_database_declares_as_wide_characters_as_sql_wxxx" class="item">bind parameters the database declares as wide characters as SQL_Wxxx</a></strong>
+
+<dd>
+<p>Parameters bound where the database declares the parameter as being
+a wide character (or where the parameter type is explicitly set to a
+wide type - SQL_Wxxx) can be UTF8 in Perl and will be mapped to UTF16
+before passing to the driver.</p>
+</dd>
+</li>
+</dl>
+<p>NOTE: You will need at least Perl 5.8.1 to use UNICODE with DBD::ODBC.</p>
+<p>NOTE: At this time SQL statements are still treated as native encoding
+i.e. DBD::ODBC does not call SQLPrepareW with UNICODE strings. If you
+need a unicode constant in an SQL statement, you have to pass it as
+parameter or use SQL functions to convert your constant from native
+encoding to Unicode.</p>
+<p>NOTE: Binding of unicode output parameters is coded but untested.</p>
+<p>NOTE: When building DBD::ODBC on Windows ($^O eq 'MSWin32') the
+WITH_UNICODE macro is automatically added. To disable specify -nou as
+an argument to Makefile.PL (e.g. nmake Makefile.PL -nou). On non-Windows
+platforms the WITH_UNICODE macro is <strong>not</strong> enabled by default and to enable
+you need to specify the -u argument to Makefile.PL. Please bare in mind
+that some ODBC drivers do not support SQL_Wxxx columns or parameters.</p>
+<p>NOTE: Unicode support on Windows 64 bit platforms is currently
+untested.  Let me know how you get on with it.</p>
+<p>UNICODE support in ODBC Drivers differs considerably. Please read the
+README.unicode file for further details.</p>
+<p>
+</p>
+<h3><a name="odbc_version">odbc_version</a></h3>
+<p>This was added prior to the move to ODBC 3.x to allow the caller to
+&quot;force&quot; ODBC 3.0 compatibility.  It's probably not as useful now, but
+it allowed get_info and get_type_info to return correct/updated
+information that ODBC 2.x didn't permit/provide.  Since DBD::ODBC is
+now 3.x, this can be used to force 2.x behavior via something like: my</p>
+<pre>
+  <span class="variable">$dbh</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">"dbi:ODBC:</span><span class="variable">$DSN</span><span class="string">"</span><span class="operator">,</span> <span class="variable">$user</span><span class="operator">,</span> <span class="variable">$pass</span><span class="operator">,</span>
+                      <span class="operator">{</span> <span class="string">odbc_version</span> <span class="operator">=&gt;</span><span class="number">2</span><span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h2><a name="private_statement_attributes">Private statement attributes</a></h2>
+<p>
+</p>
+<h3><a name="odbc_more_results">odbc_more_results</a></h3>
+<p>Use this attribute to determine if there are more result sets
+available.  SQL Server supports this feature.  Use this as follows:</p>
+<p>do {
+   my @row;
+   while (@row = $sth-&gt;fetchrow_array()) {
+      # do stuff here
+   }
+} while ($sth-&gt;{odbc_more_results});</p>
+<p>Note that with multiple result sets and output parameters (i.e. using
+bind_param_inout, don't expect output parameters to be bound until ALL
+result sets have been retrieved.</p>
+<p>
+</p>
+<h2><a name="private_dbd__odbc_functions">Private DBD::ODBC Functions</a></h2>
+<p>You use DBD::ODBC private functions like this:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">arg</span><span class="operator">,</span> <span class="variable">private_function_name</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h3><a name="getinfo">GetInfo</a></h3>
+<p><strong>This private function is now superceded by DBI's get_info method.</strong></p>
+<p>This function maps to the ODBC SQLGetInfo call and the argument
+should be a valid ODBC information type (see ODBC specification).
+e.g.</p>
+<pre>
+  <span class="variable">$value</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="number">6</span><span class="operator">,</span> <span class="string">'GetInfo'</span><span class="operator">);</span>
+</pre>
+<p>which returns the SQL_DRIVER_NAME.</p>
+<p>This function returns a scalar value, which can be a numeric or string
+value depending on the information value requested.</p>
+<p>
+</p>
+<h3><a name="sqlgettypeinfo">SQLGetTypeInfo</a></h3>
+<p><strong>This private function is now superceded by DBI's type_info and
+type_info_all methods.</strong></p>
+<p>This function maps to the ODBC SQLGetTypeInfo API and the argument
+should be a SQL type number (e.g. SQL_VARCHAR) or
+SQL_ALL_TYPES. SQLGetTypeInfo returns information about a data type
+supported by the data source.</p>
+<p>e.g.</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DBI</span> <span class="string">qw(:sql_types)</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">$sth</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">SQL_ALL_TYPES</span><span class="operator">,</span> <span class="variable">GetTypeInfo</span><span class="operator">);</span>
+  <span class="variable">DBI::dump_results</span><span class="operator">(</span><span class="variable">$sth</span><span class="operator">);</span>
+</pre>
+<p>This function returns a DBI statement handle for the SQLGetTypeInfo
+result-set containing many columns of type attributes (see ODBC
+specification).</p>
+<p>NOTE: It is VERY important that the use DBI includes the
+qw(:sql_types) so that values like SQL_VARCHAR are correctly
+interpreted.  This &quot;imports&quot; the sql type names into the program's
+name space.  A very common mistake is to forget the qw(:sql_types) and
+obtain strange results.</p>
+<p>
+</p>
+<h3><a name="getfunctions">GetFunctions</a></h3>
+<p>This function maps to the ODBC SQLGetFunctions API which returns
+information on whether a function is supported by the ODBC driver.</p>
+<p>The argument should be SQL_API_ALL_FUNCTIONS (0) for all functions or
+a valid ODBC function number (e.g. SQL_API_SQLDESCRIBEPARAM which is
+58). See ODBC specification or examine your sqlext.h and sql.h header
+files for all the SQL_API_XXX macros.</p>
+<p>If called with SQL_API_ALL_FUNCTIONS (0), then a 100 element array is
+returned where each element will contain a '1' if the ODBC function with
+that SQL_API_XXX index is supported or '' if it is not.</p>
+<p>If called with a specific SQL_API_XXX value for a single function it will
+return true if the ODBC driver supports that function, otherwise false.</p>
+<p>e.g.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">@x</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span><span class="string">"GetFunctions"</span><span class="operator">);</span>
+    <span class="keyword">print</span> <span class="string">"SQLDescribeParam is supported\n"</span> <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$x</span><span class="operator">[</span><span class="number">58</span><span class="operator">]</span><span class="operator">);</span>
+</pre>
+<p>or</p>
+<pre>
+    <span class="keyword">print</span> <span class="string">"SQLDescribeParam is supported\n"</span>
+        <span class="keyword">if</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="number">58</span><span class="operator">,</span> <span class="string">"GetFunctions"</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h3><a name="getstatistics">GetStatistics</a></h3>
+<p><strong>This private function is now superceded by DBI's statistics_info
+method.</strong></p>
+<p>See the ODBC specification for the SQLStatistics API.
+You call SQLStatistics like this:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">$catalog</span><span class="operator">,</span> <span class="variable">$schema</span><span class="operator">,</span> <span class="variable">$table</span><span class="operator">,</span> <span class="variable">$unique</span><span class="operator">,</span> <span class="string">'GetStatistics'</span><span class="operator">);</span>
+</pre>
+<p>Prior to DBD::ODBC 1.16 $unique was not defined as being true/false or
+SQL_INDEX_UNIQUE/SQL_INDEX_ALL. In fact, whatever value you provided
+for $unique was passed through to the ODBC API SQLStatistics call
+unchanged. This changed in 1.16, where $unique became a true/false
+value which is interpreted into SQL_INDEX_UNIQUE for true and
+SQL_INDEX_ALL for false.</p>
+<p>
+</p>
+<h3><a name="getforeignkeys">GetForeignKeys</a></h3>
+<p><strong>This private function is now superceded by DBI's foreign_key_info
+method.</strong></p>
+<p>See the ODBC specification for the SQLForeignKeys API.
+You call SQLForeignKeys like this:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">$pcatalog</span><span class="operator">,</span> <span class="variable">$pschema</span><span class="operator">,</span> <span class="variable">$ptable</span><span class="operator">,</span>
+             <span class="variable">$fcatalog</span><span class="operator">,</span> <span class="variable">$fschema</span><span class="operator">,</span> <span class="variable">$ftable</span><span class="operator">,</span>
+             <span class="string">"GetForeignKeys"</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h3><a name="getprimarykeys">GetPrimaryKeys</a></h3>
+<p><strong>This private function is now superceded by DBI's primary_key_info
+method.</strong></p>
+<p>See the ODBC specification for the SQLPrimaryKeys API.
+You call SQLPrimaryKeys like this:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">$catalog</span><span class="operator">,</span> <span class="variable">$schema</span><span class="operator">,</span> <span class="variable">$table</span><span class="operator">,</span> <span class="string">"GetPrimaryKeys"</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h3><a name="data_sources">data_sources</a></h3>
+<p><strong>This private function is now superceded by DBI's data_sources
+method.</strong></p>
+<p>You call data_sources like this:</p>
+<pre>
+  <span class="variable">@dsns</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="string">"data_sources);
+  </span>
+</pre>
+<p>Handled since 0.21.</p>
+<p>
+</p>
+<h3><a name="getspecialcolumns">GetSpecialColumns</a></h3>
+<p>See the ODBC specification for the SQLSpecialColumns API.
+You call SQLSpecialColumns like this:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">$identifier</span><span class="operator">,</span> <span class="variable">$catalog</span><span class="operator">,</span> <span class="variable">$schema</span><span class="operator">,</span> <span class="variable">$table</span><span class="operator">,</span> <span class="variable">$scope</span><span class="operator">,</span>
+             <span class="variable">$nullable</span><span class="operator">,</span> <span class="string">'GetSpecialColumns'</span><span class="operator">);</span>
+</pre>
+<p>Handled as of version 0.28</p>
+<p>head3 ColAttributes</p>
+<p><strong>This private function is now superceded by DBI's statement attributes
+NAME, TYPE, PRECISION, SCLARE, NULLABLE etc).</strong></p>
+<p>See the ODBC specification for the SQLColAttributes API.
+You call SQLColAttributes like this:</p>
+<pre>
+  <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">$column</span><span class="operator">,</span> <span class="variable">$ftype</span><span class="operator">,</span> <span class="string">"ColAttributes"</span><span class="operator">);</span>
+</pre>
+<p>head3 DescribeCol</p>
+<p><strong>This private function is now superceded by DBI's statement attributes
+NAME, TYPE, PRECISION, SCLARE, NULLABLE etc).</strong></p>
+<p>See the ODBC specification for the SQLDescribeCol API.
+You call SQLDescribeCol like this:</p>
+<pre>
+  <span class="variable">@info</span> <span class="operator">=</span> <span class="variable">$dbh</span><span class="operator">-&gt;</span><span class="variable">func</span><span class="operator">(</span><span class="variable">$column</span><span class="operator">,</span> <span class="string">"DescribeCol"</span><span class="operator">);</span>
+</pre>
+<p>The returned array contains the column attributes in the order described
+in the ODBC specification for SQLDescribeCol.</p>
+<p>
+</p>
+<h2><a name="tracing">Tracing</a></h2>
+<p>DBD::ODBC now supports the parse_trace_flag and parse_trace_flags
+methods introduced in DBI 1.42 (see DBI for a full description).  As
+of DBI 1.604, the only trace flag defined which is relevant to
+DBD::ODBC is 'SQL' which DBD::ODBC supports by outputting the SQL
+strings (after modification) passed to the prepare and do methods.</p>
+<p>Currently DBD::ODBC only supports one private trace flag.  The
+'odbcdev' trace flag is used to output development tracing so it
+should not be relevant in normal use.</p>
+<p>To enable tracing of particular flags you use:</p>
+<pre>
+  <span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">trace</span><span class="operator">(</span><span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">parse_trace_flags</span><span class="operator">(</span><span class="string">'SQL|odbcdev'</span><span class="operator">));</span>
+  <span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">trace</span><span class="operator">(</span><span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">parse_trace_flags</span><span class="operator">(</span><span class="string">'1|odbcdev'</span><span class="operator">));</span>
+</pre>
+<p>In the first case 'SQL' and 'odbcdev' tracing is enabled on $h. In the
+second case trace level 1 is set and 'odbcdev' tracing is enabled.</p>
+<p>If you want to enable a DBD::ODBC private trace flag before connecting
+you need to do something like:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DBD::ODBC</span><span class="operator">;</span>
+  <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">trace</span><span class="operator">(</span><span class="variable">DBD::ODBC</span><span class="operator">-&gt;</span><span class="variable">parse_trace_flag</span><span class="operator">(</span><span class="string">'odbcdev'</span><span class="operator">);</span>
+</pre>
+<p>DBD::ODBC outputs tracing at levels 3 and above (as levels 1 and 2 are
+reserved for DBI).</p>
+<p>
+</p>
+<h2><a name="deviations_from_the_dbi_specification">Deviations from the DBI specification</a></h2>
+<p>
+</p>
+<h3><a name="mixed_placeholder_types">Mixed placeholder types</a></h3>
+<p>There are 3 conventions for place holders in DBI. These are '?', ':N'
+and ':name' (where 'N' is a number and 'name' is an alpha numeric
+string not beginning with a number). DBD::ODBC supports all these methods
+for naming placeholders but you must only use one method throughout
+a particular SQL string. If you mix placeholder methods you will get
+an error like:</p>
+<pre>
+  Can't mix placeholder styles (1/2)</pre>
+<p>
+</p>
+<h3><a name="using_the_same_placeholder_more_than_once">Using the same placeholder more than once</a></h3>
+<p>DBD::ODBC does not support (currently) the use of one placeholder
+more than once in the a single SQL string. i.e.,</p>
+<pre>
+  <span class="variable">insert</span> <span class="variable">into</span> <span class="variable">foo</span> <span class="keyword">values</span> <span class="operator">(:</span><span class="variable">bar</span><span class="operator">,</span> <span class="operator">:</span><span class="variable">p1</span><span class="operator">,</span> <span class="operator">:</span><span class="variable">p2</span><span class="operator">,</span> <span class="operator">:</span><span class="variable">bar</span><span class="operator">);</span>
+</pre>
+<p>is not supported because 'bar' is used more than once but:</p>
+<pre>
+  insert into foo values(:bar, :p1, :p2)</pre>
+<p>is ok. If you do the former you will get an error like:</p>
+<pre>
+  DBD::ODBC does not yet support binding a named parameter more than once</pre>
+<p>
+</p>
+<h3><a name="binding_named_placeholders">Binding named placeholders</a></h3>
+<p>Although the DBI documentation (as of 1.604) does not say how named
+parameters are bound Tim Bunce has said that in Oracle they are bound
+with the leading ':' as part of the name and that has always been the
+case. i.e.,</p>
+<pre>
+  <span class="variable">prepare</span><span class="operator">(</span><span class="string">"insert into mytable values (:fred)"</span><span class="operator">);</span>
+  <span class="variable">bind_param</span><span class="operator">(</span><span class="string">":foo"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">);</span>
+</pre>
+<p>DBD::ODBC does not support binding named parameters with the ':' introducer.
+In the above example you must use:</p>
+<pre>
+  <span class="variable">bind_param</span><span class="operator">(</span><span class="string">"foo"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">);</span>
+</pre>
+<p>In discussion on the dbi-dev list is was suggested that the ':' could
+be made optional and there were no basic objections but it has not
+made it's way into the pod yet.</p>
+<p>
+</p>
+<h2><a name="others_todo">Others/todo?</a></h2>
+<p>Level 1</p>
+<pre>
+    SQLTables (use tables()) call</pre>
+<p>Level 2</p>
+<pre>
+    SQLColumnPrivileges
+    SQLProcedureColumns
+    SQLProcedures
+    SQLTablePrivileges
+    SQLDrivers
+    SQLNativeSql</pre>
+<p>
+</p>
+<h2><a name="connect_without_dsn">Connect without DSN</a></h2>
+<p>The ability to connect without a full DSN is introduced in version
+0.21.</p>
+<p><table cellspacing="0" cellpadding="0"><tr><td>Example (using MS Access):
+<tr><td><td>my $DSN = 'driver=Microsoft Access Driver (*.mdb);dbq=\\\\cheese\\g$\\perltest.mdb';
+<tr><td><td>my $dbh = DBI-&gt;connect(&quot;dbi:ODBC:$DSN&quot;, '','')
+<tr><td><td>or die &quot;$DBI::errstr\n&quot;;</table></p>
+<p>
+</p>
+<h2><a name="using_dbd__odbc_with_web_servers_under_win32_">Using DBD::ODBC with web servers under Win32.</a></h2>
+<dl>
+<dt><strong><a name="general_commentary_re_web_database_access" class="item">General Commentary re web database access</a></strong>
+
+<dd>
+<p>This should be a DBI faq, actually, but this has somewhat of an
+Win32/ODBC twist to it.</p>
+</dd>
+<dd>
+<p>Typically, the Web server is installed as an NT service or a Windows
+95/98 service.  This typically means that the web server itself does
+not have the same environment and permissions the web developer does.
+This situation, of course, can and does apply to Unix web servers.
+Under Win32, however, the problems are usually slightly different.</p>
+</dd>
+</li>
+<dt><strong><a name="defining_your_dsn_which_type_should_i_use" class="item">Defining your DSN -- which type should I use?</a></strong>
+
+<dd>
+<p>Under Win32 take care to define your DSN as a system DSN, not as a user
+DSN.  The system DSN is a &quot;global&quot; one, while the user is local to a
+user.  Typically, as stated above, the web server is &quot;logged in&quot; as a
+different user than the web developer.  This helps cause the situation
+where someone asks why a script succeeds from the command line, but
+fails when called from the web server.</p>
+</dd>
+</li>
+<dt><strong><a name="defining_your_dsn_careful_selection_of_the_file_itself_is_important" class="item">Defining your DSN -- careful selection of the file itself is important!</a></strong>
+
+<dd>
+<p>For file based drivers, rather than client server drivers, the file
+path is VERY important.  There are a few things to keep in mind.  This
+applies to, for example, MS Access databases.</p>
+</dd>
+<dd>
+<p>1) If the file is on an NTFS partition, check to make sure that the Web
+<strong>service</strong> user has permissions to access that file.</p>
+</dd>
+<dd>
+<p>2) If the file is on a remote computer, check to make sure the Web
+<strong>service</strong> user has permissions to access the file.</p>
+</dd>
+<dd>
+<p>3) If the file is on a remote computer, try using a UNC path the file,
+rather than a X:\ notation.  This can be VERY important as services
+don't quite get the same access permissions to the mapped drive letters
+<strong>and</strong>, more importantly, the drive letters themselves are GLOBAL to
+the machine.  That means that if the service tries to access Z:, the Z:
+it gets can depend upon the user who is logged into the machine at the
+time.  (I've tested this while I was developing a service -- it's ugly
+and worth avoiding at all costs).</p>
+</dd>
+<dd>
+<p>Unfortunately, the Access ODBC driver that I have does not allow one to
+specify the UNC path, only the X:\ notation.  There is at least one way
+around that.  The simplest is probably to use Regedit and go to
+(assuming it's a system DSN, of course)
+HKEY_LOCAL_USERS\SOFTWARE\ODBC\&quot;YOUR DSN&quot; You will see a few settings
+which are typically driver specific.  The important value to change for
+the Access driver, for example, is the DBQ value.  That's actually the
+file name of the Access database.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="connect_without_dsn">Connect without DSN</a></h2>
+<p>The ability to connect without a full DSN is introduced in version 0.21.</p>
+<p>Example (using MS Access):
+	my $DSN = 'driver=Microsoft Access Driver
+(*.mdb);dbq=\\\\cheese\\g$\\perltest.mdb';
+	my $dbh = DBI-&gt;connect(&quot;dbi:ODBC:$DSN&quot;, '','')
+		or die &quot;$DBI::errstr\n&quot;;</p>
+<p>The above sample uses Microsoft's UNC naming convention to point to the MSAccess
+file (\\\\cheese\\g$\\perltest.mdb).  The dbq parameter tells the access driver
+which file to use for the database.</p>
+<p>Example (using MSSQL Server):
+      my $DSN = 'driver={SQL Server};Server=server_name;
+      database=database_name;uid=user;pwd=password;';
+      my $dbh  = DBI-&gt;<a href="../../lib/pods/perlfunc.html#connect"><code>connect(&quot;dbi:ODBC:$DSN&quot;)</code></a> or die &quot;$DBI::errstr\n&quot;;</p>
+<p>
+</p>
+<h2><a name="random_links">Random Links</a></h2>
+<p>These are in need of sorting and annotating. Some are relevant only
+to ODBC developers.</p>
+<p>You can find DBD::ODBC on ohloh now at:</p>
+<p><a href="http://www.ohloh.net/projects/perl_dbd_odbc">http://www.ohloh.net/projects/perl_dbd_odbc</a></p>
+<p>There is a good search engine for the various Perl DBI lists at the
+following URLS:</p>
+<p><a href="http://perl.markmail.org/search/list:org.perl.dbi-users">http://perl.markmail.org/search/list:org.perl.dbi-users</a></p>
+<p><a href="http://perl.markmail.org/search/list:org.perl.dbi-dev">http://perl.markmail.org/search/list:org.perl.dbi-dev</a></p>
+<p><a href="http://perl.markmail.org/search/list:org.perl.dbi-announce">http://perl.markmail.org/search/list:org.perl.dbi-announce</a></p>
+<p><a href="http://www.syware.com">http://www.syware.com</a></p>
+<p><a href="http://www.microsoft.com/odbc">http://www.microsoft.com/odbc</a></p>
+<p>For Linux/Unix folks, compatible ODBC driver managers can be found at:</p>
+<p><a href="http://www.unixodbc.org">http://www.unixodbc.org</a> (unixODBC source and rpms)</p>
+<p><a href="http://www.iodbc.org">http://www.iodbc.org</a> (iODBC driver manager source)</p>
+<p>For Linux/Unix folks, you can checkout the following for ODBC Drivers and
+Bridges:</p>
+<p><a href="http://www.easysoft.com">http://www.easysoft.com</a></p>
+<p><a href="http://www.openlinksw.com">http://www.openlinksw.com</a></p>
+<p><a href="http://www.datadirect.com">http://www.datadirect.com</a></p>
+<p><a href="http://www.atinet.com/support/openrda_samples.asp">http://www.atinet.com/support/openrda_samples.asp</a></p>
+<p>Some useful tutorials:</p>
+<p>Debugging Perl DBI:</p>
+<p><a href="http://www.easysoft.com/developer/languages/perl/dbi-debugging.html">http://www.easysoft.com/developer/languages/perl/dbi-debugging.html</a></p>
+<p>Enabling ODBC support in Perl with Perl DBI and DBD::ODBC:</p>
+<p><a href="http://www.easysoft.com/developer/languages/perl/dbi_dbd_odbc.html">http://www.easysoft.com/developer/languages/perl/dbi_dbd_odbc.html</a></p>
+<p>Perl DBI/DBD::ODBC Tutorial Part 1 - Drivers, Data Sources and Connection:</p>
+<p><a href="http://www.easysoft.com/developer/languages/perl/dbd_odbc_tutorial_part_1.html">http://www.easysoft.com/developer/languages/perl/dbd_odbc_tutorial_part_1.html</a></p>
+<p>Perl DBI/DBD::ODBC Tutorial Part 2 - Introduction to retrieving data from your database:</p>
+<p><a href="http://www.easysoft.com/developer/languages/perl/index.html">http://www.easysoft.com/developer/languages/perl/index.html</a></p>
+<p>Perl DBI/DBD::ODBC Tutorial Part 3 - Connecting Perl on UNIX or Linux to Microsoft SQL Server:</p>
+<p><a href="http://www.easysoft.com/developer/languages/perl/sql_server_unix_tutorial.html">http://www.easysoft.com/developer/languages/perl/sql_server_unix_tutorial.html</a></p>
+<p>Perl DBI - Put Your Data On The Web:</p>
+<p><a href="http://www.easysoft.com/developer/languages/perl/tutorial_data_web.html">http://www.easysoft.com/developer/languages/perl/tutorial_data_web.html</a></p>
+<p>
+</p>
+<h2><a name="frequently_asked_questions">Frequently Asked Questions</a></h2>
+<p>Frequently asked questions are now in DBD::ODBC::FAQ. Run
+<code>perldoc DBD::ODBC::FAQ</code> to view them.</p>
+
+</body>
+
+</html>

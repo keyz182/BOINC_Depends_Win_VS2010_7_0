@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Module::CoreList - what modules shipped with versions of perl</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Module::CoreList - what modules shipped with versions of perl</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#history">HISTORY</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Module::CoreList - what modules shipped with versions of perl</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Module::CoreList</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="variable">$Module::CoreList::version</span><span class="operator">{</span><span class="number">5.00503</span><span class="operator">}{</span><span class="string">CPAN</span><span class="operator">}</span><span class="operator">;</span> <span class="comment"># prints 1.48</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="variable">Module::CoreList</span><span class="operator">-&gt;</span><span class="variable">first_release</span><span class="operator">(</span><span class="string">'File::Spec'</span><span class="operator">);</span>         <span class="comment"># prints 5.00405</span>
+ <span class="keyword">print</span> <span class="variable">Module::CoreList</span><span class="operator">-&gt;</span><span class="variable">first_release_by_date</span><span class="operator">(</span><span class="string">'File::Spec'</span><span class="operator">);</span> <span class="comment"># prints 5.005</span>
+ <span class="keyword">print</span> <span class="variable">Module::CoreList</span><span class="operator">-&gt;</span><span class="variable">first_release</span><span class="operator">(</span><span class="string">'File::Spec'</span><span class="operator">,</span> <span class="number">0</span><span class="operator">.</span><span class="number">82</span><span class="operator">);</span>   <span class="comment"># prints 5.006001</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="keyword">join</span> <span class="string">', '</span><span class="operator">,</span> <span class="variable">Module::CoreList</span><span class="operator">-&gt;</span><span class="variable">find_modules</span><span class="operator">(</span><span class="string">qr/Data/</span><span class="operator">);</span>
+    <span class="comment"># prints 'Data::Dumper'</span>
+ <span class="keyword">print</span> <span class="keyword">join</span> <span class="string">', '</span><span class="operator">,</span> <span class="variable">Module::CoreList</span><span class="operator">-&gt;</span><span class="variable">find_modules</span><span class="operator">(</span><span class="string">qr/test::h.*::.*s/i</span><span class="operator">,</span> <span class="number">5.008008</span><span class="operator">);</span>
+    <span class="comment"># prints 'Test::Harness::Assert, Test::Harness::Straps'</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="keyword">join</span> <span class="string">", "</span><span class="operator">,</span> <span class="variable">@</span><span class="operator">{</span> <span class="variable">$Module::CoreList::families</span><span class="operator">{</span><span class="number">5.005</span><span class="operator">}</span> <span class="operator">}</span><span class="operator">;</span>
+    <span class="comment"># prints "5.005, 5.00503, 5.00504"</span>
+</pre>
+<pre>
+ <span class="keyword">print</span> <span class="keyword">join</span> <span class="string">" "</span><span class="operator">,</span> <span class="variable">@</span><span class="operator">{</span> <span class="variable">$Module::CoreList::patchlevel</span><span class="operator">{</span><span class="number">5.008001</span><span class="operator">}</span> <span class="operator">}</span><span class="operator">;</span>
+    <span class="comment"># prints "maint-5.8 21377"</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Module::CoreList contains the hash of hashes
+%Module::CoreList::version, that is keyed on perl version as indicated
+in $].  The second level hash is module =&gt; version pairs.</p>
+<p>Note, it is possible for the version of a module to be unspecified,
+whereby the value is undef, so use <code>exists $version{$foo}{$bar}</code> if
+that's what you're testing for.</p>
+<p>It also contains %Module::CoreList::released hash, which has ISO
+formatted versions of the release dates, as gleaned from <a href="../../lib/pods/perlhist.html">the perlhist manpage</a>.</p>
+<p>New, in 1.96 is also the %Module::CoreList::families hash, which
+clusters known perl releases by their major versions.</p>
+<p>In 2.01 %Module::CoreList::patchlevel contains the branch and patchlevel
+corresponding to the specified perl version in the Perforce repository where
+the perl sources are kept.</p>
+<p>Starting with 2.10, the special module name <code>Unicode</code> refers to the version of
+the Unicode Character Database bundled with Perl.</p>
+<p>Since 2.11, Module::CoreList::first_release() returns the first release
+in the order of perl version numbers. If you want to get the earliest
+perl release instead, use Module::CoreList::first_release_by_date().</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>Module::CoreList currently covers the 5.000, 5.001, 5.002, 5.003_07, 5.004,
+5.004_05, 5.005, 5.005_03, 5.005_04, 5.6.0, 5.6.1, 5.6.2, 5.7.3, 5.8.0, 5.8.1,
+5.8.2, 5.8.3, 5.8.4, 5.8.5, 5.8.6, 5.8.7, 5.8.8, 5.9.0, 5.9.1, 5.9.2, 5.9.3,
+5.9.4, 5.9.5 and 5.10.0 releases of perl.</p>
+<p>
+</p>
+<hr />
+<h1><a name="history">HISTORY</a></h1>
+<p>Moved to Changes file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Richard Clamp &lt;<a href="mailto:richardc@unixbeard.net">richardc@unixbeard.net</a>&gt;</p>
+<p>Currently maintained by the perl 5 porters &lt;<a href="mailto:perl5-porters@perl.org">perl5-porters@perl.org</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2002-2007 Richard Clamp.  All Rights Reserved.</p>
+<p>This module is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><em>corelist</em>, <a href="../../Module/Info.html">the Module::Info manpage</a>, <a href="../../lib/pods/perl.html">the perl manpage</a></p>
+
+</body>
+
+</html>

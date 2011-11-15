@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>SQL::Statement - SQL parsing and processing engine</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>SQL::Statement - SQL parsing and processing engine</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#installation">INSTALLATION</a></li>
+	<li><a href="#usage">USAGE</a></li>
+	<ul>
+
+		<li><a href="#how_can_i_use_sql__statement_to_access_and_modify_data">How can I use SQL::Statement to access and modify data?</a></li>
+		<li><a href="#how_can_i_use_it_to_parse_and_examine_the_structure_of_sql_statements">How can I use it to parse and examine the structure of SQL statements?</a></li>
+		<li><a href="#how_can_i_use_it_to_embed_a_sql_engine_in_a_dbd_or_other_module">How can I use it to embed a SQL engine in a DBD or other module?</a></li>
+		<li><a href="#what_sql_syntax_is_supported">What SQL Syntax is supported?</a></li>
+		<li><a href="#how_can_i_extend_the_supported_sql_syntax">How can I extend the supported SQL syntax?</a></li>
+	</ul>
+
+	<li><a href="#how_can_i_participate_in_ongoing_development">How can I participate in ongoing development?</a></li>
+	<li><a href="#where_can_i_go_for_more_help">Where can I go for more help?</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#author_and_copyright">AUTHOR AND COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>SQL::Statement - SQL parsing and processing engine</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="comment"># ... depends on what you want to do, see below</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The SQL::Statement module implements a pure Perl SQL parsing and execution engine.  While it by no means implements full ANSI standard, it does support many features including column and table aliases, built-in and user-defined functions, implicit and explicit joins, complexly nested search conditions, and other features.</p>
+<p>SQL::Statement is a small embeddable Database Management System (DBMS),  This means that it provides all of the services of a simple DBMS except that instead of a persistant storage mechanism, it has two things: 1) an in-memory storage mechanism that allows you to prepare, execute, and fetch from SQL statements using temporary tables and 2) a set of software sockets where any author can plug in any storage mechanism.</p>
+<p>There are three main uses for SQL::Statement. One or another (hopefully not all) may be irrelevant for your needs: 1) to access and manipulate data in CSV, XML, and other formats 2) to build your own DBD for a new data source 3) to parse and examine the structure of SQL statements.</p>
+<p>
+</p>
+<hr />
+<h1><a name="installation">INSTALLATION</a></h1>
+<p>There are no prerequisites for using this as a standalone parser.  If you want to access persistant stored data, you either need to write a subclass or use one of the DBI DBD drivers.  You can install this module using CPAN.pm, CPANPLUS.pm, PPM, apt-get, or other packaging tools.  Or you can download the tar.gz file form CPAN and use the standard perl mantra</p>
+<pre>
+ perl Makefile.PL
+ make
+ make test
+ make install</pre>
+<p>It works fine on all platforms it's been tested on.  On Windows, you can use ppm or with the mantra use nmake, dmake, or make depending on which is available.</p>
+<p>
+</p>
+<hr />
+<h1><a name="usage">USAGE</a></h1>
+<p>
+</p>
+<h2><a name="how_can_i_use_sql__statement_to_access_and_modify_data">How can I use SQL::Statement to access and modify data?</a></h2>
+<p>SQL::Statement provides the SQL engine for a number of existing DBI drivers including <a href="../../lib/Bundle/DBD/CSV.html">the DBD::CSV manpage</a>, <a href="../../lib/DBD/DBM.html">the DBD::DBM manpage</a>, <a href="../../DBD/AnyData.html">the DBD::AnyData manpage</a>, <a href="../../DBD/Excel.html">the DBD::Excel manpage</a>, <a href="../../DBD/Amazon.html">the DBD::Amazon manpage</a>, and others.</p>
+<p>These modules provide access to Comma Separated Values, Fixed Length, XML, HTML and many other kinds of text files, to Excel Spreadsheets, to BerkeleyDB and other DBM formats, and to non-traditional data sources like on-the-fly Amazon searches.</p>
+<p>If your interest is in actually accessing and manipulating persistent data, you don't really want to use SQL::Statement directly.  Instead, use <a href="../../lib/DBI.html">the DBI manpage</a> along with one of the DBDs mentioned above.  You'll be using SQL::Statement, but under the hood of the DBD.   See <a href="http://dbi.perl.org">http://dbi.perl.org</a> for help with DBI and see <a href="../../lib/SQL/Statement/Syntax.html">the SQL::Statement::Syntax manpage</a> for a description of the SQL syntax that SQL::Statement provides for these modules and see the documentation for whichever DBD you are using for additional details.</p>
+<p>
+</p>
+<h2><a name="how_can_i_use_it_to_parse_and_examine_the_structure_of_sql_statements">How can I use it to parse and examine the structure of SQL statements?</a></h2>
+<p>SQL::Statement can be used stand-alone (without a subclass, without DBI) to parse and examine the structure of SQL statements.  See <a href="../../lib/SQL/Statement/Structure.html">the SQL::Statement::Structure manpage</a> for details.</p>
+<p>
+</p>
+<h2><a name="how_can_i_use_it_to_embed_a_sql_engine_in_a_dbd_or_other_module">How can I use it to embed a SQL engine in a DBD or other module?</a></h2>
+<p>SQL::Statement is designed to be easily embedded in other modules and is especially suited for developing new DBI drivers (DBDs).  See <a href="../../lib/SQL/Statement/Embed.html">the SQL::Statement::Embed manpage</a>.</p>
+<p>
+</p>
+<h2><a name="what_sql_syntax_is_supported">What SQL Syntax is supported?</a></h2>
+<p>SQL::Statement supports a small but powerful subset of SQL commands. See <a href="../../lib/SQL/Statement/Syntax.html">the SQL::Statement::Syntax manpage</a>.</p>
+<p>
+</p>
+<h2><a name="how_can_i_extend_the_supported_sql_syntax">How can I extend the supported SQL syntax?</a></h2>
+<p>You can modify and extend the SQL syntax either by issuing SQL commands or by subclassing SQL::Statement.  See <a href="../../lib/SQL/Statement/Syntax.html">the SQL::Statement::Syntax manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="how_can_i_participate_in_ongoing_development">How can I participate in ongoing development?</a></h1>
+<p>SQL::Statement is a large module with many potential future directions.  You are invited to help plan, code, test, document, or kibbitz about these directions.  A sourceforge site will be available soon.  If you want to join the development team, or just hear more about the development, write Jeff a note (&lt;jzuckerATcpan.org&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="where_can_i_go_for_more_help">Where can I go for more help?</a></h1>
+<p>For questions about installation or usage, please ask on the <a href="mailto:dbi-users@perl.org">dbi-users@perl.org</a> mailing list or post a question on PerlMonks (<a href="http://www.perlmonks.org/">http://www.perlmonks.org/</a>, where Jeff is known as jZed).  If you have a bug report, a patch, a suggestion, write Jeff at the email shown below.</p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Jochen Wiedmann created the original module as an XS (C) extension in 1998. Jeff Zucker took over the maintenance in 2001 and rewrote all of the C portions in perl and began extending the SQL support.  More recently Ilya Sterin provided help with SQL::Parser, Tim Bunce provided both general and specific support, Dan Wright and Dean Arnold have contributed extensively to the code, and dozens of people from around the world have submitted patches, bug reports, and suggestions.  Thanks to all!</p>
+<p>If you're interested in helping develop SQL::Statement or want to use it with your own modules, feel free to contact Jeff.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author_and_copyright">AUTHOR AND COPYRIGHT</a></h1>
+<p>Copyright (c) 2001,2005 by Jeff Zucker: jzuckerATcpan.org</p>
+<p>Portions Copyright (C) 1998 by Jochen Wiedmann: jwiedATcpan.org</p>
+<p>All rights reserved.</p>
+<p>You may distribute this module under the terms of either the GNU
+General Public License or the Artistic License, as specified in
+the Perl README file.</p>
+
+</body>
+
+</html>

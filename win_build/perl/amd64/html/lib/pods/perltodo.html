@@ -1,0 +1,973 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>perltodo - Perl TO-DO List</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>perltodo - Perl TO-DO List</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#tasks_that_only_need_perl_knowledge">Tasks that only need Perl knowledge</a></li>
+	<ul>
+
+		<li><a href="#remove_duplication_of_test_setup_">Remove duplication of test setup.</a></li>
+		<li><a href="#merge_common_code_in_installperl_and_installman">merge common code in installperl and installman</a></li>
+		<li><a href="#common_test_code_for_timed_bail_out">common test code for timed bail out</a></li>
+		<li><a href="#pod____html_conversion_in_the_core_still_sucks">POD -&gt; HTML conversion in the core still sucks</a></li>
+		<li><a href="#merge_checkpods_and_podchecker">merge checkpods and podchecker</a></li>
+		<li><a href="#perlmodlib_pl_rewrite">perlmodlib.PL rewrite</a></li>
+		<li><a href="#parallel_testing">Parallel testing</a></li>
+		<li><a href="#make_schwern_poorer">Make Schwern poorer</a></li>
+		<li><a href="#improve_the_coverage_of_the_core_tests">Improve the coverage of the core tests</a></li>
+		<li><a href="#test_b">test B</a></li>
+		<li><a href="#deparse_inlined_constants">Deparse inlined constants</a></li>
+		<li><a href="#a_decent_benchmark">A decent benchmark</a></li>
+		<li><a href="#fix_tainting_bugs">fix tainting bugs</a></li>
+		<li><a href="#dual_life_everything">Dual life everything</a></li>
+		<li><a href="#improving_threads__shared">Improving <code>threads::shared</code></a></li>
+		<li><a href="#posix_memory_footprint">POSIX memory footprint</a></li>
+		<li><a href="#embed_pl_makedef_pl">embed.pl/makedef.pl</a></li>
+		<li><a href="#use_strict__and_autoload">use strict; and AutoLoad</a></li>
+	</ul>
+
+	<li><a href="#tasks_that_need_a_little_sysadmin_type_knowledge">Tasks that need a little sysadmin-type knowledge</a></li>
+	<ul>
+
+		<li><a href="#make_html_install_work">make HTML install work</a></li>
+		<li><a href="#compressed_man_pages">compressed man pages</a></li>
+		<li><a href="#add_a_code_coverage_target_to_the_makefile">Add a code coverage target to the Makefile</a></li>
+		<li><a href="#make_config_pm_cope_with_differences_between_built_and_installed_perl">Make Config.pm cope with differences between built and installed perl</a></li>
+		<li><a href="#linker_specification_files">linker specification files</a></li>
+		<li><a href="#cross_compile_support">Cross-compile support</a></li>
+		<li><a href="#roffitall">roffitall</a></li>
+	</ul>
+
+	<li><a href="#tasks_that_need_a_little_c_knowledge">Tasks that need a little C knowledge</a></li>
+	<ul>
+
+		<li><a href="#exterminate_pl_na_">Exterminate PL_na!</a></li>
+		<li><a href="#modernize_the_order_of_directories_in__inc">Modernize the order of directories in @INC</a></li>
+		<li><a href="#_duse32bit_">-Duse32bit*</a></li>
+		<li><a href="#make_it_clear_from__v_if_this_is_the_exact_official_release">Make it clear from -v if this is the exact official release</a></li>
+		<li><a href="#profile_perl___am_i_hot_or_not">Profile Perl - am I hot or not?</a></li>
+		<li><a href="#allocate_ops_from_arenas">Allocate OPs from arenas</a></li>
+		<li><a href="#improve_win32_wince_c">Improve win32/wince.c</a></li>
+		<li><a href="#use_secure_crt_functions_when_building_with_vc8_on_win32">Use secure CRT functions when building with VC8 on Win32</a></li>
+		<li><a href="#strcat____strcpy____strncat____strncpy____sprintf____vsprintf__"><code>strcat()</code>, <code>strcpy()</code>, <code>strncat()</code>, <code>strncpy()</code>, <a href="../../lib/pods/perlfunc.html#sprintf"><code>sprintf()</code></a>, <code>vsprintf()</code></a></li>
+		<li><a href="#_d_fortify_source_2___fstack_protector">-D_FORTIFY_SOURCE=2, -fstack-protector</a></li>
+	</ul>
+
+	<li><a href="#tasks_that_need_a_knowledge_of_xs">Tasks that need a knowledge of XS</a></li>
+	<ul>
+
+		<li><a href="#autovivification">autovivification</a></li>
+		<li><a href="#unicode_in_filenames">Unicode in Filenames</a></li>
+		<li><a href="#unicode_in__env">Unicode in %ENV</a></li>
+		<li><a href="#unicode_and_glob__">Unicode and <a href="../../lib/pods/perlfunc.html#glob"><code>glob()</code></a></a></li>
+		<li><a href="#unicode_and_lc_uc_operators">Unicode and lc/uc operators</a></li>
+		<li><a href="#use_less__memory_">use less 'memory'</a></li>
+		<li><a href="#re_implement__unique_in_a_way_that_is_actually_thread_safe">Re-implement <code>:unique</code> in a way that is actually thread-safe</a></li>
+		<li><a href="#make_tainting_consistent">Make tainting consistent</a></li>
+		<li><a href="#readpipe_list_">readpipe(LIST)</a></li>
+		<li><a href="#audit_the_code_for_destruction_ordering_assumptions">Audit the code for destruction ordering assumptions</a></li>
+		<li><a href="#extend_perlio_and_perlio__scalar">Extend PerlIO and PerlIO::Scalar</a></li>
+		<li><a href="#_c_on_the____line">-C on the #! line</a></li>
+		<li><a href="#propagate_const_outwards_from_perl_moreswitches__">Propagate const outwards from <code>Perl_moreswitches()</code></a></li>
+		<li><a href="#duplicate_logic_in_s_method_common___and_perl_gv_fetchmethod_autoload__">Duplicate logic in <code>S_method_common()</code> and <code>Perl_gv_fetchmethod_autoload()</code></a></li>
+		<li><a href="#organize_error_messages">Organize error messages</a></li>
+	</ul>
+
+	<li><a href="#tasks_that_need_a_knowledge_of_the_interpreter">Tasks that need a knowledge of the interpreter</a></li>
+	<ul>
+
+		<li><a href="#utf_8_revamp">UTF-8 revamp</a></li>
+		<li><a href="#properly_unicode_safe_tokeniser_and_pads_">Properly Unicode safe tokeniser and pads.</a></li>
+		<li><a href="#state_variable_initialization_in_list_context">state variable initialization in list context</a></li>
+		<li><a href="#implement__value____0_____range">Implement $value ~~ 0 .. $range</a></li>
+		<li><a href="#a_does___built_in">A <code>does()</code> built-in</a></li>
+		<li><a href="#tied_filehandles_and_write___don_t_mix">Tied filehandles and <a href="../../lib/pods/perlfunc.html#write"><code>write()</code></a> don't mix</a></li>
+		<li><a href="#attach_detach_debugger_from_running_program">Attach/detach debugger from running program</a></li>
+		<li><a href="#optimize_away_empty_destructors">Optimize away empty destructors</a></li>
+		<li><a href="#lvalue_functions_for_lists">LVALUE functions for lists</a></li>
+		<li><a href="#lvalue_functions_in_the_debugger">LVALUE functions in the debugger</a></li>
+		<li><a href="#regexp_optimiser_optional">regexp optimiser optional</a></li>
+		<li><a href="#delete__function">delete &amp;function</a></li>
+		<li><a href="#_w_regex_modifier"><a href="../../lib/pods/perlrun.html#w"><code>/w</code></a> regex modifier</a></li>
+		<li><a href="#optional_optimizer">optional optimizer</a></li>
+		<li><a href="#you_want__how__many">You WANT *how* many</a></li>
+		<li><a href="#lexical_aliases">lexical aliases</a></li>
+		<li><a href="#entersub_xs_vs_perl">entersub XS vs Perl</a></li>
+		<li><a href="#self_ties">Self-ties</a></li>
+		<li><a href="#optimize_away___">Optimize away @_</a></li>
+		<li><a href="#the_yada_yada_yada_operators">The yada yada yada operators</a></li>
+		<li><a href="#virtualize_operating_system_access">Virtualize operating system access</a></li>
+		<li><a href="#investigate_padtmp_hash_pessimisation">Investigate PADTMP hash pessimisation</a></li>
+	</ul>
+
+	<li><a href="#big_projects">Big projects</a></li>
+	<ul>
+
+		<li><a href="#make_ithreads_more_robust">make ithreads more robust</a></li>
+		<li><a href="#icow">iCOW</a></li>
+		<li><a href="#________closures_in_regexps">(?{...}) closures in regexps</a></li>
+		<li><a href="#a_re_entrant_regexp_engine">A re-entrant regexp engine</a></li>
+		<li><a href="#add_class_set_operations_to_regexp_engine">Add class set operations to regexp engine</a></li>
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>perltodo - Perl TO-DO List</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is a list of wishes for Perl. The tasks we think are smaller or easier
+are listed first. Anyone is welcome to work on any of these, but it's a good
+idea to first contact <em><a href="mailto:perl5-porters@perl.org">perl5-porters@perl.org</a></em> to avoid duplication of
+effort. By all means contact a pumpking privately first if you prefer.</p>
+<p>Whilst patches to make the list shorter are most welcome, ideas to add to
+the list are also encouraged. Check the perl5-porters archives for past
+ideas, and any discussion about them. One set of archives may be found at:</p>
+<pre>
+    <a href="http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/">http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/</a></pre>
+<p>What can we offer you in return? Fame, fortune, and everlasting glory? Maybe
+not, but if your patch is incorporated, then we'll add your name to the
+<em class="file">AUTHORS</em> file, which ships in the official distribution. How many other
+programming languages offer you 1 line of immortality?</p>
+<p>
+</p>
+<hr />
+<h1><a name="tasks_that_only_need_perl_knowledge">Tasks that only need Perl knowledge</a></h1>
+<p>
+</p>
+<h2><a name="remove_duplication_of_test_setup_">Remove duplication of test setup.</a></h2>
+<p>Schwern notes, that there's duplication of code - lots and lots of tests have
+some variation on the big block of <code>$Is_Foo</code> checks.  We can safely put this
+into a file, change it to build an <code>%Is</code> hash and require it.  Maybe just put
+it into <em class="file">test.pl</em>. Throw in the handy tainting subroutines.</p>
+<p>
+</p>
+<h2><a name="merge_common_code_in_installperl_and_installman">merge common code in installperl and installman</a></h2>
+<p>There are some common subroutines and a common <code>BEGIN</code> block in <em class="file">installperl</em>
+and <em class="file">installman</em>. These should probably be merged. It would also be good to
+check for duplication in all the utility scripts supplied in the source
+tarball. It might be good to move them all to a subdirectory, but this would
+require careful checking to find all places that call them, and change those
+correctly.</p>
+<p>
+</p>
+<h2><a name="common_test_code_for_timed_bail_out">common test code for timed bail out</a></h2>
+<p>Write portable self destruct code for tests to stop them burning CPU in
+infinite loops. This needs to avoid using alarm, as some of the tests are
+testing alarm/sleep or timers.</p>
+<p>
+</p>
+<h2><a name="pod____html_conversion_in_the_core_still_sucks">POD -&gt; HTML conversion in the core still sucks</a></h2>
+<p>Which is crazy given just how simple POD purports to be, and how simple HTML
+can be. It's not actually <em>as</em> simple as it sounds, particularly with the
+flexibility POD allows for <code>=item</code>, but it would be good to improve the
+visual appeal of the HTML generated, and to avoid it having any validation
+errors. See also <a href="#make_html_install_work">make HTML install work</a>, as the layout of installation tree
+is needed to improve the cross-linking.</p>
+<p>The addition of <code>Pod::Simple</code> and its related modules may make this task
+easier to complete.</p>
+<p>
+</p>
+<h2><a name="merge_checkpods_and_podchecker">merge checkpods and podchecker</a></h2>
+<p><em class="file">pod/checkpods.PL</em> (and <code>make check</code> in the <em class="file">pod/</em> subdirectory)
+implements a very basic check for pod files, but the errors it discovers
+aren't found by podchecker. Add this check to podchecker, get rid of
+checkpods and have <code>make check</code> use podchecker.</p>
+<p>
+</p>
+<h2><a name="perlmodlib_pl_rewrite">perlmodlib.PL rewrite</a></h2>
+<p>Currently perlmodlib.PL needs to be run from a source directory where perl
+has been built, or some modules won't be found, and others will be
+skipped. Make it run from a clean perl source tree (so it's reproducible).</p>
+<p>
+</p>
+<h2><a name="parallel_testing">Parallel testing</a></h2>
+<p>(This probably impacts much more than the core: also the Test::Harness
+and TAP::* modules on CPAN.)</p>
+<p>The core regression test suite is getting ever more comprehensive, which has
+the side effect that it takes longer to run. This isn't so good. Investigate
+whether it would be feasible to give the harness script the <strong>option</strong> of
+running sets of tests in parallel. This would be useful for tests in
+<em class="file">t/op/*.t</em> and <em class="file">t/uni/*.t</em> and maybe some sets of tests in <em class="file">lib/</em>.</p>
+<p>Questions to answer</p>
+<ol>
+<li>
+<p>How does screen layout work when you're running more than one test?</p>
+</li>
+<li>
+<p>How does the caller of test specify how many tests to run in parallel?</p>
+</li>
+<li>
+<p>How do setup/teardown tests identify themselves?</p>
+</li>
+</ol>
+<p>Pugs already does parallel testing - can their approach be re-used?</p>
+<p>
+</p>
+<h2><a name="make_schwern_poorer">Make Schwern poorer</a></h2>
+<p>We should have tests for everything. When all the core's modules are tested,
+Schwern has promised to donate to $500 to TPF. We may need volunteers to
+hold him upside down and shake vigorously in order to actually extract the
+cash.</p>
+<p>
+</p>
+<h2><a name="improve_the_coverage_of_the_core_tests">Improve the coverage of the core tests</a></h2>
+<p>Use Devel::Cover to ascertain the core modules's test coverage, then add
+tests that are currently missing.</p>
+<p>
+</p>
+<h2><a name="test_b">test B</a></h2>
+<p>A full test suite for the B module would be nice.</p>
+<p>
+</p>
+<h2><a name="deparse_inlined_constants">Deparse inlined constants</a></h2>
+<p>Code such as this</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">constant</span> <span class="string">PI</span> <span class="operator">=&gt;</span> <span class="number">4</span><span class="operator">;</span>
+    <span class="keyword">warn</span> <span class="variable">PI</span>
+</pre>
+<p>will currently deparse as</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">constant</span> <span class="operator">(</span><span class="string">'PI'</span><span class="operator">,</span> <span class="number">4</span><span class="operator">);</span>
+    <span class="keyword">warn</span> <span class="number">4</span><span class="operator">;</span>
+</pre>
+<p>because the tokenizer inlines the value of the constant subroutine <code>PI</code>.
+This allows various compile time optimisations, such as constant folding
+and dead code elimination. Where these haven't happened (such as the example
+above) it ought be possible to make B::Deparse work out the name of the
+original constant, because just enough information survives in the symbol
+table to do this. Specifically, the same scalar is used for the constant in
+the optree as is used for the constant subroutine, so by iterating over all
+symbol tables and generating a mapping of SV address to constant name, it
+would be possible to provide B::Deparse with this functionality.</p>
+<p>
+</p>
+<h2><a name="a_decent_benchmark">A decent benchmark</a></h2>
+<p><code>perlbench</code> seems impervious to any recent changes made to the perl core. It
+would be useful to have a reasonable general benchmarking suite that roughly
+represented what current perl programs do, and measurably reported whether
+tweaks to the core improve, degrade or don't really affect performance, to
+guide people attempting to optimise the guts of perl. Gisle would welcome
+new tests for perlbench.</p>
+<p>
+</p>
+<h2><a name="fix_tainting_bugs">fix tainting bugs</a></h2>
+<p>Fix the bugs revealed by running the test suite with the <a href="../../lib/pods/perlrun.html#t"><code>-t</code></a> switch (via
+<code>make test.taintwarn</code>).</p>
+<p>
+</p>
+<h2><a name="dual_life_everything">Dual life everything</a></h2>
+<p>As part of the &quot;dists&quot; plan, anything that doesn't belong in the smallest perl
+distribution needs to be dual lifed. Anything else can be too. Figure out what
+changes would be needed to package that module and its tests up for CPAN, and
+do so. Test it with older perl releases, and fix the problems you find.</p>
+<p>To make a minimal perl distribution, it's useful to look at
+<em class="file">t/lib/commonsense.t</em>.</p>
+<p>
+</p>
+<h2><a name="improving_threads__shared">Improving <code>threads::shared</code></a></h2>
+<p>Investigate whether <code>threads::shared</code> could share aggregates properly with
+only Perl level changes to shared.pm</p>
+<p>
+</p>
+<h2><a name="posix_memory_footprint">POSIX memory footprint</a></h2>
+<p>Ilya observed that use POSIX; eats memory like there's no tomorrow, and at
+various times worked to cut it down. There is probably still fat to cut out -
+for example POSIX passes Exporter some very memory hungry data structures.</p>
+<p>
+</p>
+<h2><a name="embed_pl_makedef_pl">embed.pl/makedef.pl</a></h2>
+<p>There is a script <em class="file">embed.pl</em> that generates several header files to prefix
+all of Perl's symbols in a consistent way, to provide some semblance of
+namespace support in <code>C</code>. Functions are declared in <em class="file">embed.fnc</em>, variables
+in <em class="file">interpvar.h</em>. Quite a few of the functions and variables
+are conditionally declared there, using <code>#ifdef</code>. However, <em class="file">embed.pl</em>
+doesn't understand the C macros, so the rules about which symbols are present
+when is duplicated in <em class="file">makedef.pl</em>. Writing things twice is bad, m'kay.
+It would be good to teach <code>embed.pl</code> to understand the conditional
+compilation, and hence remove the duplication, and the mistakes it has caused.</p>
+<p>
+</p>
+<h2><a name="use_strict__and_autoload">use strict; and AutoLoad</a></h2>
+<p>Currently if you write</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Whack</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">AutoLoader</span> <span class="string">'AUTOLOAD'</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="number">1</span><span class="operator">;</span>
+    <span class="comment">__END__
+    sub bloop {
+        print join (' ', No, strict, here), "!\n";
+    }
+    </span>
+</pre>
+<p>then <code>use strict;</code> isn't in force within the autoloaded subroutines. It would
+be more consistent (and less surprising) to arrange for all lexical pragmas
+in force at the __END__ block to be in force within each autoloaded subroutine.</p>
+<p>There's a similar problem with SelfLoader.</p>
+<p>
+</p>
+<hr />
+<h1><a name="tasks_that_need_a_little_sysadmin_type_knowledge">Tasks that need a little sysadmin-type knowledge</a></h1>
+<p>Or if you prefer, tasks that you would learn from, and broaden your skills
+base...</p>
+<p>
+</p>
+<h2><a name="make_html_install_work">make HTML install work</a></h2>
+<p>There is an <code>installhtml</code> target in the Makefile. It's marked as
+&quot;experimental&quot;. It would be good to get this tested, make it work reliably, and
+remove the &quot;experimental&quot; tag. This would include</p>
+<ol>
+<li>
+<p>Checking that cross linking between various parts of the documentation works.
+In particular that links work between the modules (files with POD in <em class="file">lib/</em>)
+and the core documentation (files in <em class="file">pod/</em>)</p>
+</li>
+<li>
+<p>Work out how to split <code>perlfunc</code> into chunks, preferably one per function
+group, preferably with general case code that could be used elsewhere.
+Challenges here are correctly identifying the groups of functions that go
+together, and making the right named external cross-links point to the right
+page. Things to be aware of are <a href="../../lib/pods/perlrun.html#x"><code>-X</code></a>, groups such as <a href="../../lib/pods/perlfunc.html#getpwnam"><code>getpwnam</code></a> to
+<a href="../../lib/pods/perlfunc.html#endservent"><code>endservent</code></a>, two or more <code>=items</code> giving the different parameter lists, such
+as</p>
+<pre>
+    =item substr EXPR,OFFSET,LENGTH,REPLACEMENT
+    =item substr EXPR,OFFSET,LENGTH
+    =item substr EXPR,OFFSET</pre>
+<p>and different parameter lists having different meanings. (eg <a href="../../lib/pods/perlfunc.html#select"><code>select</code></a>)</p>
+</li>
+</ol>
+<p>
+</p>
+<h2><a name="compressed_man_pages">compressed man pages</a></h2>
+<p>Be able to install them. This would probably need a configure test to see how
+the system does compressed man pages (same directory/different directory?
+same filename/different filename), as well as tweaking the <em class="file">installman</em> script
+to compress as necessary.</p>
+<p>
+</p>
+<h2><a name="add_a_code_coverage_target_to_the_makefile">Add a code coverage target to the Makefile</a></h2>
+<p>Make it easy for anyone to run Devel::Cover on the core's tests. The steps
+to do this manually are roughly</p>
+<ul>
+<li>
+<p>do a normal <code>Configure</code>, but include Devel::Cover as a module to install
+(see <em class="file">INSTALL</em> for how to do this)</p>
+</li>
+<li>
+<pre>
+    make perl</pre>
+<li>
+<pre>
+    <span class="variable">cd</span> <span class="variable">t</span><span class="operator">;</span> <span class="variable">HARNESS_PERL_SWITCHES</span><span class="operator">=-</span><span class="variable">MDevel::Cover</span> <span class="operator">.</span><span class="regex">/perl -I../lib</span> <span class="variable">harness</span>
+</pre>
+<li>
+<p>Process the resulting Devel::Cover database</p>
+</li>
+</ul>
+<p>This just give you the coverage of the <em class="file">.pm</em>s. To also get the C level
+coverage you need to</p>
+<ul>
+<li>
+<p>Additionally tell <code>Configure</code> to use the appropriate C compiler flags for
+<code>gcov</code></p>
+</li>
+<li>
+<pre>
+    make perl.gcov</pre>
+<p>(instead of <code>make perl</code>)</p>
+<li>
+<p>After running the tests run <code>gcov</code> to generate all the <em class="file">.gcov</em> files.
+(Including down in the subdirectories of <em class="file">ext/</em></p>
+</li>
+<li>
+<p>(From the top level perl directory) run <code>gcov2perl</code> on all the <code>.gcov</code> files
+to get their stats into the cover_db directory.</p>
+</li>
+<li>
+<p>Then process the Devel::Cover database</p>
+</li>
+</ul>
+<p>It would be good to add a single switch to <code>Configure</code> to specify that you
+wanted to perform perl level coverage, and another to specify C level
+coverage, and have <code>Configure</code> and the <em class="file">Makefile</em> do all the right things
+automatically.</p>
+<p>
+</p>
+<h2><a name="make_config_pm_cope_with_differences_between_built_and_installed_perl">Make Config.pm cope with differences between built and installed perl</a></h2>
+<p>Quite often vendors ship a perl binary compiled with their (pay-for)
+compilers.  People install a free compiler, such as gcc. To work out how to
+build extensions, Perl interrogates <code>%Config</code>, so in this situation
+<code>%Config</code> describes compilers that aren't there, and extension building
+fails. This forces people into choosing between re-compiling perl themselves
+using the compiler they have, or only using modules that the vendor ships.</p>
+<p>It would be good to find a way teach <code>Config.pm</code> about the installation setup,
+possibly involving probing at install time or later, so that the <code>%Config</code> in
+a binary distribution better describes the installed machine, when the
+installed machine differs from the build machine in some significant way.</p>
+<p>
+</p>
+<h2><a name="linker_specification_files">linker specification files</a></h2>
+<p>Some platforms mandate that you provide a list of a shared library's external
+symbols to the linker, so the core already has the infrastructure in place to
+do this for generating shared perl libraries. My understanding is that the
+GNU toolchain can accept an optional linker specification file, and restrict
+visibility just to symbols declared in that file. It would be good to extend
+<em class="file">makedef.pl</em> to support this format, and to provide a means within
+<code>Configure</code> to enable it. This would allow Unix users to test that the
+export list is correct, and to build a perl that does not pollute the global
+namespace with private symbols.</p>
+<p>
+</p>
+<h2><a name="cross_compile_support">Cross-compile support</a></h2>
+<p>Currently <code>Configure</code> understands <code>-Dusecrosscompile</code> option. This option
+arranges for building <code>miniperl</code> for TARGET machine, so this <code>miniperl</code> is
+assumed then to be copied to TARGET machine and used as a replacement of full
+<code>perl</code> executable.</p>
+<p>This could be done little differently. Namely <code>miniperl</code> should be built for
+HOST and then full <code>perl</code> with extensions should be compiled for TARGET.
+This, however, might require extra trickery for %Config: we have one config
+first for HOST and then another for TARGET.  Tools like MakeMaker will be
+mightily confused.  Having around two different types of executables and
+libraries (HOST and TARGET) makes life interesting for Makefiles and
+shell (and Perl) scripts.  There is $Config{run}, normally empty, which
+can be used as an execution wrapper.  Also note that in some
+cross-compilation/execution environments the HOST and the TARGET do
+not see the same filesystem(s), the $Config{run} may need to do some
+file/directory copying back and forth.</p>
+<p>
+</p>
+<h2><a name="roffitall">roffitall</a></h2>
+<p>Make <em class="file">pod/roffitall</em> be updated by <em class="file">pod/buildtoc</em>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="tasks_that_need_a_little_c_knowledge">Tasks that need a little C knowledge</a></h1>
+<p>These tasks would need a little C knowledge, but don't need any specific
+background or experience with XS, or how the Perl interpreter works</p>
+<p>
+</p>
+<h2><a name="exterminate_pl_na_">Exterminate PL_na!</a></h2>
+<p><code>PL_na</code> festers still in the darkest corners of various typemap files.
+It needs to be exterminated, replaced by a local variable of type <code>STRLEN</code>.</p>
+<p>
+</p>
+<h2><a name="modernize_the_order_of_directories_in__inc">Modernize the order of directories in @INC</a></h2>
+<p>The way @INC is laid out by default, one cannot upgrade core (dual-life)
+modules without overwriting files. This causes problems for binary
+package builders.  One possible proposal is laid out in this
+message:
+<a href="http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2002-04/msg02380.html">http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2002-04/msg02380.html</a>.</p>
+<p>
+</p>
+<h2><a name="_duse32bit_">-Duse32bit*</a></h2>
+<p>Natively 64-bit systems need neither -Duse64bitint nor -Duse64bitall.
+On these systems, it might be the default compilation mode, and there
+is currently no guarantee that passing no use64bitall option to the
+Configure process will build a 32bit perl. Implementing -Duse32bit*
+options would be nice for perl 5.12.</p>
+<p>
+</p>
+<h2><a name="make_it_clear_from__v_if_this_is_the_exact_official_release">Make it clear from -v if this is the exact official release</a></h2>
+<p>Currently perl from <code>p4</code>/<code>rsync</code> ships with a <em class="file">patchlevel.h</em> file that
+usually defines one local patch, of the form &quot;MAINT12345&quot; or &quot;RC1&quot;. The output
+of perl -v doesn't report that a perl isn't an official release, and this
+information can get lost in bugs reports. Because of this, the minor version
+isn't bumped up until RC time, to minimise the possibility of versions of perl
+escaping that believe themselves to be newer than they actually are.</p>
+<p>It would be useful to find an elegant way to have the &quot;this is an interim
+maintenance release&quot; or &quot;this is a release candidate&quot; in the terse -v output,
+and have it so that it's easy for the pumpking to remove this just as the
+release tarball is rolled up. This way the version pulled out of rsync would
+always say &quot;I'm a development release&quot; and it would be safe to bump the
+reported minor version as soon as a release ships, which would aid perl
+developers.</p>
+<p>This task is really about thinking of an elegant way to arrange the C source
+such that it's trivial for the Pumpking to flag &quot;this is an official release&quot;
+when making a tarball, yet leave the default source saying &quot;I'm not the
+official release&quot;.</p>
+<p>
+</p>
+<h2><a name="profile_perl___am_i_hot_or_not">Profile Perl - am I hot or not?</a></h2>
+<p>The Perl source code is stable enough that it makes sense to profile it,
+identify and optimise the hotspots. It would be good to measure the
+performance of the Perl interpreter using free tools such as cachegrind,
+gprof, and dtrace, and work to reduce the bottlenecks they reveal.</p>
+<p>As part of this, the idea of <em class="file">pp_hot.c</em> is that it contains the <em>hot</em> ops,
+the ops that are most commonly used. The idea is that by grouping them, their
+object code will be adjacent in the executable, so they have a greater chance
+of already being in the CPU cache (or swapped in) due to being near another op
+already in use.</p>
+<p>Except that it's not clear if these really are the most commonly used ops. So
+as part of exercising your skills with coverage and profiling tools you might
+want to determine what ops <em>really</em> are the most commonly used. And in turn
+suggest evictions and promotions to achieve a better <em class="file">pp_hot.c</em>.</p>
+<p>
+</p>
+<h2><a name="allocate_ops_from_arenas">Allocate OPs from arenas</a></h2>
+<p>Currently all new OP structures are individually malloc()ed and free()d.
+All <code>malloc</code> implementations have space overheads, and are now as fast as
+custom allocates so it would both use less memory and less CPU to allocate
+the various OP structures from arenas. The SV arena code can probably be
+re-used for this.</p>
+<p>Note that Configuring perl with <code>-Accflags=-DPL_OP_SLAB_ALLOC</code> will use
+<code>Perl_Slab_alloc()</code> to pack optrees into a contiguous block, which is
+probably superior to the use of OP arenas, esp. from a cache locality
+standpoint.  See <a href="#profile_perl___am_i_hot_or_not">Profile Perl - am I hot or not?</a>.</p>
+<p>
+</p>
+<h2><a name="improve_win32_wince_c">Improve win32/wince.c</a></h2>
+<p>Currently, numerous functions look virtually, if not completely,
+identical in both <code>win32/wince.c</code> and <code>win32/win32.c</code> files, which can't
+be good.</p>
+<p>
+</p>
+<h2><a name="use_secure_crt_functions_when_building_with_vc8_on_win32">Use secure CRT functions when building with VC8 on Win32</a></h2>
+<p>Visual C++ 2005 (VC++ 8.x) deprecated a number of CRT functions on the basis
+that they were &quot;unsafe&quot; and introduced differently named secure versions of
+them as replacements, e.g. instead of writing</p>
+<pre>
+    <span class="variable">FILE</span><span class="operator">*</span> <span class="variable">f</span> <span class="operator">=</span> <span class="variable">fopen</span><span class="operator">(</span><span class="keyword">__FILE__</span><span class="operator">,</span> <span class="string">"r"</span><span class="operator">);</span>
+</pre>
+<p>one should now write</p>
+<pre>
+    <span class="variable">FILE</span><span class="operator">*</span> <span class="variable">f</span><span class="operator">;</span>
+    <span class="variable">errno_t</span> <span class="variable">err</span> <span class="operator">=</span> <span class="variable">fopen_s</span><span class="operator">(&amp;</span><span class="variable">f</span><span class="operator">,</span> <span class="keyword">__FILE__</span><span class="operator">,</span> <span class="string">"r"</span><span class="operator">);</span>
+</pre>
+<p>Currently, the warnings about these deprecations have been disabled by adding
+-D_CRT_SECURE_NO_DEPRECATE to the CFLAGS. It would be nice to remove that
+warning suppressant and actually make use of the new secure CRT functions.</p>
+<p>There is also a similar issue with POSIX CRT function names like fileno having
+been deprecated in favour of ISO C++ conformant names like _fileno. These
+warnings are also currently suppressed by adding -D_CRT_NONSTDC_NO_DEPRECATE. It
+might be nice to do as Microsoft suggest here too, although, unlike the secure
+functions issue, there is presumably little or no benefit in this case.</p>
+<p>
+</p>
+<h2><a name="strcat____strcpy____strncat____strncpy____sprintf____vsprintf__"><code>strcat()</code>, <code>strcpy()</code>, <code>strncat()</code>, <code>strncpy()</code>, <a href="../../lib/pods/perlfunc.html#sprintf"><code>sprintf()</code></a>, <code>vsprintf()</code></a></h2>
+<p>Maybe create a utility that checks after each libperl.a creation that
+none of the above (nor <a href="../../lib/pods/perlfunc.html#sprintf"><code>sprintf()</code></a>, <code>vsprintf()</code>, or *SHUDDER* gets())
+ever creep back to libperl.a.</p>
+<pre>
+  <span class="variable">nm</span> <span class="variable">libperl</span><span class="operator">.</span><span class="variable">a</span> <span class="operator">|</span> <span class="operator">.</span><span class="regex">/miniperl -alne '</span><span class="variable">$o</span><span class="regex"> = </span><span class="variable">$F</span><span class="regex">[0] if /</span><span class="operator">:</span><span class="variable">$/</span><span class="operator">;</span> <span class="keyword">print</span> <span class="string">"</span><span class="variable">$o</span><span class="string"> </span><span class="variable">$F</span><span class="string">[1]"</span> <span class="keyword">if</span> <span class="variable">$F</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span> <span class="keyword">eq</span> <span class="string">"U"</span> <span class="operator">&amp;&amp;</span> <span class="variable">$F</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">=~</span> <span class="regex">/^(?:strn?c(?:at|py)|v?sprintf|gets)$/</span><span class="string">'
+  </span>
+</pre>
+<p>Note, of course, that this will only tell whether <strong>your</strong> platform
+is using those naughty interfaces.</p>
+<p>
+</p>
+<h2><a name="_d_fortify_source_2___fstack_protector">-D_FORTIFY_SOURCE=2, -fstack-protector</a></h2>
+<p>Recent glibcs support <code>-D_FORTIFY_SOURCE=2</code> and recent gcc
+(4.1 onwards?) supports <code>-fstack-protector</code>, both of which give
+protection against various kinds of buffer overflow problems.
+These should probably be used for compiling Perl whenever available,
+Configure and/or hints files should be adjusted to probe for the
+availability of these features and enable them as appropriate.</p>
+<p>
+</p>
+<hr />
+<h1><a name="tasks_that_need_a_knowledge_of_xs">Tasks that need a knowledge of XS</a></h1>
+<p>These tasks would need C knowledge, and roughly the level of knowledge of
+the perl API that comes from writing modules that use XS to interface to
+C.</p>
+<p>
+</p>
+<h2><a name="autovivification">autovivification</a></h2>
+<p>Make all autovivification consistent w.r.t LVALUE/RVALUE and strict/no strict;</p>
+<p>This task is incremental - even a little bit of work on it will help.</p>
+<p>
+</p>
+<h2><a name="unicode_in_filenames">Unicode in Filenames</a></h2>
+<p>chdir, chmod, chown, chroot, exec, glob, link, lstat, mkdir, open,
+opendir, qx, readdir, readlink, rename, rmdir, stat, symlink, sysopen,
+system, truncate, unlink, utime, -X.  All these could potentially accept
+Unicode filenames either as input or output (and in the case of system
+and qx Unicode in general, as input or output to/from the shell).
+Whether a filesystem - an operating system pair understands Unicode in
+filenames varies.</p>
+<p>Known combinations that have some level of understanding include
+Microsoft NTFS, Apple HFS+ (In Mac OS 9 and X) and Apple UFS (in Mac
+OS X), NFS v4 is rumored to be Unicode, and of course Plan 9.  How to
+create Unicode filenames, what forms of Unicode are accepted and used
+(UCS-2, UTF-16, UTF-8), what (if any) is the normalization form used,
+and so on, varies.  Finding the right level of interfacing to Perl
+requires some thought.  Remember that an OS does not implicate a
+filesystem.</p>
+<p>(The Windows -C command flag &quot;wide API support&quot; has been at least
+temporarily retired in 5.8.1, and the -C has been repurposed, see
+<a href="../../lib/pods/perlrun.html">the perlrun manpage</a>.)</p>
+<p>Most probably the right way to do this would be this:
+<a href="#virtualize_operating_system_access">Virtualize operating system access</a>.</p>
+<p>
+</p>
+<h2><a name="unicode_in__env">Unicode in %ENV</a></h2>
+<p>Currently the %ENV entries are always byte strings.
+See <a href="#virtualize_operating_system_access">Virtualize operating system access</a>.</p>
+<p>
+</p>
+<h2><a name="unicode_and_glob__">Unicode and <a href="../../lib/pods/perlfunc.html#glob"><code>glob()</code></a></a></h2>
+<p>Currently glob patterns and filenames returned from File::Glob::glob()
+are always byte strings.  See <a href="#virtualize_operating_system_access">Virtualize operating system access</a>.</p>
+<p>
+</p>
+<h2><a name="unicode_and_lc_uc_operators">Unicode and lc/uc operators</a></h2>
+<p>Some built-in operators (<a href="../../lib/pods/perlfunc.html#lc"><code>lc</code></a>, <a href="../../lib/pods/perlfunc.html#uc"><code>uc</code></a>, etc.) behave differently, based on
+what the internal encoding of their argument is. That should not be the
+case. Maybe add a pragma to switch behaviour.</p>
+<p>
+</p>
+<h2><a name="use_less__memory_">use less 'memory'</a></h2>
+<p>Investigate trade offs to switch out perl's choices on memory usage.
+Particularly perl should be able to give memory back.</p>
+<p>This task is incremental - even a little bit of work on it will help.</p>
+<p>
+</p>
+<h2><a name="re_implement__unique_in_a_way_that_is_actually_thread_safe">Re-implement <code>:unique</code> in a way that is actually thread-safe</a></h2>
+<p>The old implementation made bad assumptions on several levels. A good 90%
+solution might be just to make <code>:unique</code> work to share the string buffer
+of SvPVs. That way large constant strings can be shared between ithreads,
+such as the configuration information in <em class="file">Config</em>.</p>
+<p>
+</p>
+<h2><a name="make_tainting_consistent">Make tainting consistent</a></h2>
+<p>Tainting would be easier to use if it didn't take documented shortcuts and
+allow taint to &quot;leak&quot; everywhere within an expression.</p>
+<p>
+</p>
+<h2><a name="readpipe_list_">readpipe(LIST)</a></h2>
+<p><a href="../../lib/pods/perlfunc.html#system"><code>system()</code></a> accepts a LIST syntax (and a PROGRAM LIST syntax) to avoid
+running a shell. <a href="../../lib/pods/perlfunc.html#readpipe"><code>readpipe()</code></a> (the function behind qx//) could be similarly
+extended.</p>
+<p>
+</p>
+<h2><a name="audit_the_code_for_destruction_ordering_assumptions">Audit the code for destruction ordering assumptions</a></h2>
+<p>Change 25773 notes</p>
+<pre>
+    /* Need to check SvMAGICAL, as during global destruction it may be that
+       AvARYLEN(av) has been freed before av, and hence the SvANY() pointer
+       is now part of the linked list of SV heads, rather than pointing to
+       the original body.  */
+    /* FIXME - audit the code for other bugs like this one.  */</pre>
+<p>adding the <code>SvMAGICAL</code> check to</p>
+<pre>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">AvARYLEN</span><span class="operator">(</span><span class="variable">av</span><span class="operator">)</span> <span class="operator">&amp;&amp;</span> <span class="variable">SvMAGICAL</span><span class="operator">(</span><span class="variable">AvARYLEN</span><span class="operator">(</span><span class="variable">av</span><span class="operator">)))</span> <span class="operator">{</span>
+        <span class="variable">MAGIC</span> <span class="variable">*mg</span> <span class="operator">=</span> <span class="variable">mg_find</span> <span class="operator">(</span><span class="variable">AvARYLEN</span><span class="operator">(</span><span class="variable">av</span><span class="operator">),</span> <span class="variable">PERL_MAGIC_arylen</span><span class="operator">);</span>
+</pre>
+<p>Go through the core and look for similar assumptions that SVs have particular
+types, as all bets are off during global destruction.</p>
+<p>
+</p>
+<h2><a name="extend_perlio_and_perlio__scalar">Extend PerlIO and PerlIO::Scalar</a></h2>
+<p>PerlIO::Scalar doesn't know how to <a href="../../lib/pods/perlfunc.html#truncate"><code>truncate()</code></a>.  Implementing this
+would require extending the PerlIO vtable.</p>
+<p>Similarly the PerlIO vtable doesn't know about formats (write()), or
+about <a href="../../lib/pods/perlfunc.html#stat"><code>stat()</code></a>, or chmod()/chown(), <a href="../../lib/pods/perlfunc.html#utime"><code>utime()</code></a>, or <a href="../../lib/pods/perlfunc.html#flock"><code>flock()</code></a>.</p>
+<p>(For PerlIO::Scalar it's hard to see what e.g. mode bits or ownership
+would mean.)</p>
+<p>PerlIO doesn't do directories or symlinks, either: <a href="../../lib/pods/perlfunc.html#mkdir"><code>mkdir()</code></a>, <a href="../../lib/pods/perlfunc.html#rmdir"><code>rmdir()</code></a>,
+<a href="../../lib/pods/perlfunc.html#opendir"><code>opendir()</code></a>, <a href="../../lib/pods/perlfunc.html#closedir"><code>closedir()</code></a>, <a href="../../lib/pods/perlfunc.html#seekdir"><code>seekdir()</code></a>, <a href="../../lib/pods/perlfunc.html#rewinddir"><code>rewinddir()</code></a>, <a href="../../lib/pods/perlfunc.html#glob"><code>glob()</code></a>; <a href="../../lib/pods/perlfunc.html#symlink"><code>symlink()</code></a>,
+<a href="../../lib/pods/perlfunc.html#readlink"><code>readlink()</code></a>.</p>
+<p>See also <a href="#virtualize_operating_system_access">Virtualize operating system access</a>.</p>
+<p>
+</p>
+<h2><a name="_c_on_the____line">-C on the #! line</a></h2>
+<p>It should be possible to make -C work correctly if found on the #! line,
+given that all perl command line options are strict ASCII, and -C changes
+only the interpretation of non-ASCII characters, and not for the script file
+handle. To make it work needs some investigation of the ordering of function
+calls during startup, and (by implication) a bit of tweaking of that order.</p>
+<p>
+</p>
+<h2><a name="propagate_const_outwards_from_perl_moreswitches__">Propagate const outwards from <code>Perl_moreswitches()</code></a></h2>
+<p>Change 32057 changed the parameter and return value of <code>Perl_moreswitches()</code>
+from &lt;char *&gt; to &lt;const char *&gt;. It should now be possible to propagate
+const-correctness outwards to <code>S_parse_body()</code>, <code>Perl_moreswitches()</code>
+and <code>Perl_yylex()</code>.</p>
+<p>
+</p>
+<h2><a name="duplicate_logic_in_s_method_common___and_perl_gv_fetchmethod_autoload__">Duplicate logic in <code>S_method_common()</code> and <code>Perl_gv_fetchmethod_autoload()</code></a></h2>
+<p>A comment in <code>S_method_common</code> notes</p>
+<pre>
+        /* This code tries to figure out just what went wrong with
+           gv_fetchmethod.  It therefore needs to duplicate a lot of
+           the internals of that function.  We can't move it inside
+           Perl_gv_fetchmethod_autoload(), however, since that would
+           cause UNIVERSAL-&gt;can(&quot;NoSuchPackage::foo&quot;) to croak, and we
+           don't want that.
+        */</pre>
+<p>If <code>Perl_gv_fetchmethod_autoload</code> gets rewritten to take (more) flag bits,
+then it ought to be possible to move the logic from <code>S_method_common</code> to
+the &quot;right&quot; place. When making this change it would probably be good to also
+pass in at least the method name length, if not also pre-computed hash values
+when known. (I'm contemplating a plan to pre-compute hash values for common
+fixed strings such as <code>ISA</code> and pass them in to functions.)</p>
+<p>
+</p>
+<h2><a name="organize_error_messages">Organize error messages</a></h2>
+<p>Perl's diagnostics (error messages, see <a href="../../lib/pods/perldiag.html">the perldiag manpage</a>) could use
+reorganizing and formalizing so that each error message has its
+stable-for-all-eternity unique id, categorized by severity, type, and
+subsystem.  (The error messages would be listed in a datafile outside
+of the Perl source code, and the source code would only refer to the
+messages by the id.)  This clean-up and regularizing should apply
+for all <code>croak()</code> messages.</p>
+<p>This would enable all sorts of things: easier translation/localization
+of the messages (though please do keep in mind the caveats of
+<a href="../../lib/Locale/Maketext.html">the Locale::Maketext manpage</a> about too straightforward approaches to
+translation), filtering by severity, and instead of grepping for a
+particular error message one could look for a stable error id.  (Of
+course, changing the error messages by default would break all the
+existing software depending on some particular error message...)</p>
+<p>This kind of functionality is known as <em>message catalogs</em>.  Look for
+inspiration for example in the <code>catgets()</code> system, possibly even use it
+if available-- but <strong>only</strong> if available, all platforms will <strong>not</strong>
+have <code>catgets()</code>.</p>
+<p>For the really pure at heart, consider extending this item to cover
+also the warning messages (see <a href="../../lib/pods/perllexwarn.html">the perllexwarn manpage</a>, <code>warnings.pl</code>).</p>
+<p>
+</p>
+<hr />
+<h1><a name="tasks_that_need_a_knowledge_of_the_interpreter">Tasks that need a knowledge of the interpreter</a></h1>
+<p>These tasks would need C knowledge, and knowledge of how the interpreter works,
+or a willingness to learn.</p>
+<p>
+</p>
+<h2><a name="utf_8_revamp">UTF-8 revamp</a></h2>
+<p>The handling of Unicode is unclean in many places. For example, the regexp
+engine matches in Unicode semantics whenever the string or the pattern is
+flagged as UTF-8, but that should not be dependent on an internal storage
+detail of the string. Likewise, case folding behaviour is dependent on the
+UTF8 internal flag being on or off.</p>
+<p>
+</p>
+<h2><a name="properly_unicode_safe_tokeniser_and_pads_">Properly Unicode safe tokeniser and pads.</a></h2>
+<p>The tokeniser isn't actually very UTF-8 clean. <code>use utf8;</code> is a hack -
+variable names are stored in stashes as raw bytes, without the utf-8 flag
+set. The pad API only takes a <code>char *</code> pointer, so that's all bytes too. The
+tokeniser ignores the UTF-8-ness of <code>PL_rsfp</code>, or any SVs returned from
+source filters.  All this could be fixed.</p>
+<p>
+</p>
+<h2><a name="state_variable_initialization_in_list_context">state variable initialization in list context</a></h2>
+<p>Currently this is illegal:</p>
+<pre>
+    <span class="keyword">state</span> <span class="operator">(</span><span class="variable">$a</span><span class="operator">,</span> <span class="variable">$b</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">foo</span><span class="operator">();</span>
+</pre>
+<p>In Perl 6, <a href="../../lib/pods/perlfunc.html#state"><code>state ($a) = foo();</code></a> and <code>(state $a) = foo();</code> have different
+semantics, which is tricky to implement in Perl 5 as currently they produce
+the same opcode trees. The Perl 6 design is firm, so it would be good to
+implement the necessary code in Perl 5. There are comments in
+<code>Perl_newASSIGNOP()</code> that show the code paths taken by various assignment
+constructions involving state variables.</p>
+<p>
+</p>
+<h2><a name="implement__value____0_____range">Implement $value ~~ 0 .. $range</a></h2>
+<p>It would be nice to extend the syntax of the <code>~~</code> operator to also
+understand numeric (and maybe alphanumeric) ranges.</p>
+<p>
+</p>
+<h2><a name="a_does___built_in">A <code>does()</code> built-in</a></h2>
+<p>Like <a href="../../lib/pods/perlfunc.html#ref"><code>ref()</code></a>, only useful. It would call the <code>DOES</code> method on objects; it
+would also tell whether something can be dereferenced as an
+array/hash/etc., or used as a regexp, etc.
+<a href="http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2007-03/msg00481.html">http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2007-03/msg00481.html</a></p>
+<p>
+</p>
+<h2><a name="tied_filehandles_and_write___don_t_mix">Tied filehandles and <a href="../../lib/pods/perlfunc.html#write"><code>write()</code></a> don't mix</a></h2>
+<p>There is no method on tied filehandles to allow them to be called back by
+formats.</p>
+<p>
+</p>
+<h2><a name="attach_detach_debugger_from_running_program">Attach/detach debugger from running program</a></h2>
+<p>The old perltodo notes &quot;With <code>gdb</code>, you can attach the debugger to a running
+program if you pass the process ID. It would be good to do this with the Perl
+debugger on a running Perl program, although I'm not sure how it would be
+done.&quot; ssh and screen do this with named pipes in /tmp. Maybe we can too.</p>
+<p>
+</p>
+<h2><a name="optimize_away_empty_destructors">Optimize away empty destructors</a></h2>
+<p>Defining an empty DESTROY method might be useful (notably in
+AUTOLOAD-enabled classes), but it's still a bit expensive to call. That
+could probably be optimized.</p>
+<p>
+</p>
+<h2><a name="lvalue_functions_for_lists">LVALUE functions for lists</a></h2>
+<p>The old perltodo notes that lvalue functions don't work for list or hash
+slices. This would be good to fix.</p>
+<p>
+</p>
+<h2><a name="lvalue_functions_in_the_debugger">LVALUE functions in the debugger</a></h2>
+<p>The old perltodo notes that lvalue functions don't work in the debugger. This
+would be good to fix.</p>
+<p>
+</p>
+<h2><a name="regexp_optimiser_optional">regexp optimiser optional</a></h2>
+<p>The regexp optimiser is not optional. It should configurable to be, to allow
+its performance to be measured, and its bugs to be easily demonstrated.</p>
+<p>
+</p>
+<h2><a name="delete__function">delete &amp;function</a></h2>
+<p>Allow to delete functions. One can already undef them, but they're still
+in the stash.</p>
+<p>
+</p>
+<h2><a name="_w_regex_modifier"><a href="../../lib/pods/perlrun.html#w"><code>/w</code></a> regex modifier</a></h2>
+<p>That flag would enable to match whole words, and also to interpolate
+arrays as alternations. With it, <code>/P/w</code> would be roughly equivalent to:</p>
+<pre>
+    <span class="keyword">do</span> <span class="operator">{</span> <span class="keyword">local</span> <span class="variable">$"</span><span class="operator">=</span><span class="string">'|'</span><span class="operator">;</span> <span class="regex">/\b(?:P)\b/</span> <span class="operator">}</span>
+</pre>
+<p>See <a href="http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2007-01/msg00400.html">http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2007-01/msg00400.html</a>
+for the discussion.</p>
+<p>
+</p>
+<h2><a name="optional_optimizer">optional optimizer</a></h2>
+<p>Make the peephole optimizer optional. Currently it performs two tasks as
+it walks the optree - genuine peephole optimisations, and necessary fixups of
+ops. It would be good to find an efficient way to switch out the
+optimisations whilst keeping the fixups.</p>
+<p>
+</p>
+<h2><a name="you_want__how__many">You WANT *how* many</a></h2>
+<p>Currently contexts are void, scalar and list. split has a special mechanism in
+place to pass in the number of return values wanted. It would be useful to
+have a general mechanism for this, backwards compatible and little speed hit.
+This would allow proposals such as short circuiting sort to be implemented
+as a module on CPAN.</p>
+<p>
+</p>
+<h2><a name="lexical_aliases">lexical aliases</a></h2>
+<p>Allow lexical aliases (maybe via the syntax <code>my \$alias = \$foo</code>.</p>
+<p>
+</p>
+<h2><a name="entersub_xs_vs_perl">entersub XS vs Perl</a></h2>
+<p>At the moment pp_entersub is huge, and has code to deal with entering both
+perl and XS subroutines. Subroutine implementations rarely change between 
+perl and XS at run time, so investigate using 2 ops to enter subs (one for
+XS, one for perl) and swap between if a sub is redefined.</p>
+<p>
+</p>
+<h2><a name="self_ties">Self-ties</a></h2>
+<p>Self-ties are currently illegal because they caused too many segfaults. Maybe
+the causes of these could be tracked down and self-ties on all types
+reinstated.</p>
+<p>
+</p>
+<h2><a name="optimize_away___">Optimize away @_</a></h2>
+<p>The old perltodo notes &quot;Look at the &quot;reification&quot; code in <code>av.c</code>&quot;.</p>
+<p>
+</p>
+<h2><a name="the_yada_yada_yada_operators">The yada yada yada operators</a></h2>
+<p>Perl 6's Synopsis 3 says:</p>
+<p><em>The ... operator is the &quot;yada, yada, yada&quot; list operator, which is used as
+the body in function prototypes. It complains bitterly (by calling fail)
+if it is ever executed. Variant ??? calls warn, and !!! calls die.</em></p>
+<p>Those would be nice to add to Perl 5. That could be done without new ops.</p>
+<p>
+</p>
+<h2><a name="virtualize_operating_system_access">Virtualize operating system access</a></h2>
+<p>Implement a set of &quot;vtables&quot; that virtualizes operating system access
+(open(), <a href="../../lib/pods/perlfunc.html#mkdir"><code>mkdir()</code></a>, <a href="../../lib/pods/perlfunc.html#unlink"><code>unlink()</code></a>, <a href="../../lib/pods/perlfunc.html#readdir"><code>readdir()</code></a>, <code>getenv()</code>, etc.)  At the very
+least these interfaces should take SVs as &quot;name&quot; arguments instead of
+bare char pointers; probably the most flexible and extensible way
+would be for the Perl-facing interfaces to accept HVs.  The system
+needs to be per-operating-system and per-file-system
+hookable/filterable, preferably both from XS and Perl level
+(<a href="../../lib/pods/perlport.html#files_and_filesystems">Files and Filesystems in the perlport manpage</a> is good reading at this point,
+in fact, all of <a href="../../lib/pods/perlport.html">the perlport manpage</a> is.)</p>
+<p>This has actually already been implemented (but only for Win32),
+take a look at <em class="file">iperlsys.h</em> and <em class="file">win32/perlhost.h</em>.  While all Win32
+variants go through a set of &quot;vtables&quot; for operating system access,
+non-Win32 systems currently go straight for the POSIX/UNIX-style
+system/library call.  Similar system as for Win32 should be
+implemented for all platforms.  The existing Win32 implementation
+probably does not need to survive alongside this proposed new
+implementation, the approaches could be merged.</p>
+<p>What would this give us?  One often-asked-for feature this would
+enable is using Unicode for filenames, and other &quot;names&quot; like %ENV,
+usernames, hostnames, and so forth.
+(See <a href="../../lib/pods/perlunicode.html#when_unicode_does_not_happen">When Unicode Does Not Happen in the perlunicode manpage</a>.)</p>
+<p>But this kind of virtualization would also allow for things like
+virtual filesystems, virtual networks, and &quot;sandboxes&quot; (though as long
+as dynamic loading of random object code is allowed, not very safe
+sandboxes since external code of course know not of Perl's vtables).
+An example of a smaller &quot;sandbox&quot; is that this feature can be used to
+implement per-thread working directories: Win32 already does this.</p>
+<p>See also <a href="#extend_perlio_and_perlio__scalar">Extend PerlIO and PerlIO::Scalar</a>.</p>
+<p>
+</p>
+<h2><a name="investigate_padtmp_hash_pessimisation">Investigate PADTMP hash pessimisation</a></h2>
+<p>The peephole optimier converts constants used for hash key lookups to shared
+hash key scalars. Under ithreads, something is undoing this work. See
+See <a href="http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2007-09/msg00793.html">http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2007-09/msg00793.html</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="big_projects">Big projects</a></h1>
+<p>Tasks that will get your name mentioned in the description of the &quot;Highlights
+of 5.12&quot;</p>
+<p>
+</p>
+<h2><a name="make_ithreads_more_robust">make ithreads more robust</a></h2>
+<p>Generally make ithreads more robust. See also <a href="#icow">iCOW</a></p>
+<p>This task is incremental - even a little bit of work on it will help, and
+will be greatly appreciated.</p>
+<p>One bit would be to write the missing code in sv.c:Perl_dirp_dup.</p>
+<p>Fix Perl_sv_dup, et al so that threads can return objects.</p>
+<p>
+</p>
+<h2><a name="icow">iCOW</a></h2>
+<p>Sarathy and Arthur have a proposal for an improved Copy On Write which
+specifically will be able to COW new ithreads. If this can be implemented
+it would be a good thing.</p>
+<p>
+</p>
+<h2><a name="________closures_in_regexps">(?{...}) closures in regexps</a></h2>
+<p>Fix (or rewrite) the implementation of the <code>/(?{...})/</code> closures.</p>
+<p>
+</p>
+<h2><a name="a_re_entrant_regexp_engine">A re-entrant regexp engine</a></h2>
+<p>This will allow the use of a regex from inside (?{ }), (??{ }) and
+(?(?{ })|) constructs.</p>
+<p>
+</p>
+<h2><a name="add_class_set_operations_to_regexp_engine">Add class set operations to regexp engine</a></h2>
+<p>Apparently these are quite useful. Anyway, Jeffery Friedl wants them.</p>
+<p>demerphq has this on his todo list, but right at the bottom.</p>
+
+</body>
+
+</html>

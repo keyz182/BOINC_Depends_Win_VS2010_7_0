@@ -1,0 +1,631 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>File::Path - Create or remove directory trees</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>File::Path - Create or remove directory trees</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#functions">FUNCTIONS</a></li>
+		<ul>
+
+			<li><a href="#mkpath"><code>mkpath</code></a></li>
+			<li><a href="#rmtree"><code>rmtree</code></a></li>
+		</ul>
+
+		<li><a href="#traditional_interface">TRADITIONAL INTERFACE</a></li>
+		<li><a href="#error_handling">ERROR HANDLING</a></li>
+		<li><a href="#notes">NOTES</a></li>
+		<ul>
+
+			<li><a href="#heuristics">HEURISTICS</a></li>
+			<li><a href="#security_considerations">SECURITY CONSIDERATIONS</a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>File::Path - Create or remove directory trees</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>This document describes version 2.04 of File::Path, released
+2007-11-13.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">File::Path</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># modern</span>
+    <span class="variable">mkpath</span><span class="operator">(</span> <span class="string">'foo/bar/baz'</span><span class="operator">,</span> <span class="string">'/zug/zwang'</span><span class="operator">,</span> <span class="operator">{</span><span class="string">verbose</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">}</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">rmtree</span><span class="operator">(</span>
+        <span class="string">'foo/bar/baz'</span><span class="operator">,</span> <span class="string">'/zug/zwang'</span><span class="operator">,</span>
+        <span class="operator">{</span> <span class="string">verbose</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">error</span>  <span class="operator">=&gt;</span> <span class="operator">\</span><span class="keyword">my</span> <span class="variable">$err_list</span> <span class="operator">}</span>
+    <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># traditional</span>
+    <span class="variable">mkpath</span><span class="operator">(</span><span class="operator">[</span><span class="string">'/foo/bar/baz'</span><span class="operator">,</span> <span class="string">'blurfl/quux'</span><span class="operator">]</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0711</span><span class="operator">);</span>
+    <span class="variable">rmtree</span><span class="operator">(</span><span class="operator">[</span><span class="string">'foo/bar/baz'</span><span class="operator">,</span> <span class="string">'blurfl/quux'</span><span class="operator">]</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <code>mkpath</code> function provides a convenient way to create directories
+of arbitrary depth. Similarly, the <code>rmtree</code> function provides a
+convenient way to delete an entire directory subtree from the
+filesystem, much like the Unix command <code>rm -r</code>.</p>
+<p>Both functions may be called in one of two ways, the traditional,
+compatible with code written since the dawn of time, and modern,
+that offers a more flexible and readable idiom. New code should use
+the modern interface.</p>
+<p>
+</p>
+<h2><a name="functions">FUNCTIONS</a></h2>
+<p>The modern way of calling <code>mkpath</code> and <code>rmtree</code> is with a list
+of directories to create, or remove, respectively, followed by an
+optional hash reference containing keys to control the
+function's behaviour.</p>
+<p>
+</p>
+<h3><a name="mkpath"><code>mkpath</code></a></h3>
+<p>The following keys are recognised as parameters to <code>mkpath</code>.
+The function returns the list of files actually created during the
+call.</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">@created</span> <span class="operator">=</span> <span class="variable">mkpath</span><span class="operator">(</span>
+    <span class="string">qw(/tmp /flub /home/nobody)</span><span class="operator">,</span>
+    <span class="operator">{</span><span class="string">verbose</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">mode</span> <span class="operator">=&gt;</span> <span class="number">0750</span><span class="operator">}</span><span class="operator">,</span>
+  <span class="operator">);</span>
+  <span class="keyword">print</span> <span class="string">"created </span><span class="variable">$_</span><span class="string">\n"</span> <span class="keyword">for</span> <span class="variable">@created</span><span class="operator">;</span>
+</pre>
+<dl>
+<dt><strong><a name="mode" class="item">mode</a></strong>
+
+<dd>
+<p>The numeric permissions mode to apply to each created directory
+(defaults to 0777), to be modified by the current <a href="../../lib/pods/perlfunc.html#umask"><code>umask</code></a>. If the
+directory already exists (and thus does not need to be created),
+the permissions will not be modified.</p>
+</dd>
+<dd>
+<p><code>mask</code> is recognised as an alias for this parameter.</p>
+</dd>
+</li>
+<dt><strong><a name="verbose" class="item">verbose</a></strong>
+
+<dd>
+<p>If present, will cause <code>mkpath</code> to print the name of each directory
+as it is created. By default nothing is printed.</p>
+</dd>
+</li>
+<dt><strong><a name="error" class="item">error</a></strong>
+
+<dd>
+<p>If present, will be interpreted as a reference to a list, and will
+be used to store any errors that are encountered.  See the ERROR
+HANDLING section for more information.</p>
+</dd>
+<dd>
+<p>If this parameter is not used, certain error conditions may raise
+a fatal error that will cause the program will halt, unless trapped
+in an <a href="../../lib/pods/perlfunc.html#eval"><code>eval</code></a> block.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h3><a name="rmtree"><code>rmtree</code></a></h3>
+<dl>
+<dt><strong>verbose</strong>
+
+<dd>
+<p>If present, will cause <code>rmtree</code> to print the name of each file as
+it is unlinked. By default nothing is printed.</p>
+</dd>
+</li>
+<dt><strong><a name="safe" class="item">safe</a></strong>
+
+<dd>
+<p>When set to a true value, will cause <code>rmtree</code> to skip the files
+for which the process lacks the required privileges needed to delete
+files, such as delete privileges on VMS. In other words, the code
+will make no attempt to alter file permissions. Thus, if the process
+is interrupted, no filesystem object will be left in a more
+permissive mode.</p>
+</dd>
+</li>
+<dt><strong><a name="keep_root" class="item">keep_root</a></strong>
+
+<dd>
+<p>When set to a true value, will cause all files and subdirectories
+to be removed, except the initially specified directories. This comes
+in handy when cleaning out an application's scratch directory.</p>
+</dd>
+<dd>
+<pre>
+  <span class="variable">rmtree</span><span class="operator">(</span> <span class="string">'/tmp'</span><span class="operator">,</span> <span class="operator">{</span><span class="string">keep_root</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">}</span> <span class="operator">);</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="result" class="item">result</a></strong>
+
+<dd>
+<p>If present, will be interpreted as a reference to a list, and will
+be used to store the list of all files and directories unlinked
+during the call. If nothing is unlinked, a reference to an empty
+list is returned (rather than <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a>).</p>
+</dd>
+<dd>
+<pre>
+  <span class="variable">rmtree</span><span class="operator">(</span> <span class="string">'/tmp'</span><span class="operator">,</span> <span class="operator">{</span><span class="string">result</span> <span class="operator">=&gt;</span> <span class="operator">\</span><span class="keyword">my</span> <span class="variable">$list</span><span class="operator">}</span> <span class="operator">);</span>
+  <span class="keyword">print</span> <span class="string">"unlinked </span><span class="variable">$_</span><span class="string">\n"</span> <span class="keyword">for</span> <span class="variable">@$list</span><span class="operator">;</span>
+</pre>
+</dd>
+<dd>
+<p>This is a useful alternative to the <a href="#verbose"><code>verbose</code></a> key.</p>
+</dd>
+</li>
+<dt><strong>error</strong>
+
+<dd>
+<p>If present, will be interpreted as a reference to a list,
+and will be used to store any errors that are encountered.
+See the ERROR HANDLING section for more information.</p>
+</dd>
+<dd>
+<p>Removing things is a much more dangerous proposition than
+creating things. As such, there are certain conditions that
+<code>rmtree</code> may encounter that are so dangerous that the only
+sane action left is to kill the program.</p>
+</dd>
+<dd>
+<p>Use <a href="#error"><code>error</code></a> to trap all that is reasonable (problems with
+permissions and the like), and let it die if things get out
+of hand. This is the safest course of action.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="traditional_interface">TRADITIONAL INTERFACE</a></h2>
+<p>The old interfaces of <code>mkpath</code> and <code>rmtree</code> take a reference to
+a list of directories (to create or remove), followed by a series
+of positional, numeric, modal parameters that control their behaviour.</p>
+<p>This design made it difficult to add additional functionality, as
+well as posed the problem of what to do when the calling code only
+needs to set the last parameter. Even though the code doesn't care
+how the initial positional parameters are set, the programmer is
+forced to learn what the defaults are, and specify them.</p>
+<p>Worse, if it turns out in the future that it would make more sense
+to change the default behaviour of the first parameter (for example,
+to avoid a security vulnerability), all existing code will remain
+hard-wired to the wrong defaults.</p>
+<p>Finally, a series of numeric parameters are much less self-documenting
+in terms of communicating to the reader what the code is doing. Named
+parameters do not have this problem.</p>
+<p>In the traditional API, <code>mkpath</code> takes three arguments:</p>
+<ul>
+<li>
+<p>The name of the path to create, or a reference to a list of paths
+to create,</p>
+</li>
+<li>
+<p>a boolean value, which if TRUE will cause <code>mkpath</code> to print the
+name of each directory as it is created (defaults to FALSE), and</p>
+</li>
+<li>
+<p>the numeric mode to use when creating the directories (defaults to
+0777), to be modified by the current umask.</p>
+</li>
+</ul>
+<p>It returns a list of all directories (including intermediates, determined
+using the Unix '/' separator) created.  In scalar context it returns
+the number of directories created.</p>
+<p>If a system error prevents a directory from being created, then the
+<code>mkpath</code> function throws a fatal error with <code>Carp::croak</code>. This error
+can be trapped with an <a href="../../lib/pods/perlfunc.html#eval"><code>eval</code></a> block:</p>
+<pre>
+  <span class="keyword">eval</span> <span class="operator">{</span> <span class="variable">mkpath</span><span class="operator">(</span><span class="variable">$dir</span><span class="operator">)</span> <span class="operator">};</span>
+  <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$@</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="keyword">print</span> <span class="string">"Couldn't create </span><span class="variable">$dir</span><span class="string">: $@"</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>In the traditional API, <code>rmtree</code> takes three arguments:</p>
+<ul>
+<li>
+<p>the root of the subtree to delete, or a reference to a list of
+roots. All of the files and directories below each root, as well
+as the roots themselves, will be deleted. If you want to keep
+the roots themselves, you must use the modern API.</p>
+</li>
+<li>
+<p>a boolean value, which if TRUE will cause <code>rmtree</code> to print a
+message each time it examines a file, giving the name of the file,
+and indicating whether it's using <a href="../../lib/pods/perlfunc.html#rmdir"><code>rmdir</code></a> or <a href="../../lib/pods/perlfunc.html#unlink"><code>unlink</code></a> to remove
+it, or that it's skipping it.  (defaults to FALSE)</p>
+</li>
+<li>
+<p>a boolean value, which if TRUE will cause <code>rmtree</code> to skip any
+files to which you do not have delete access (if running under VMS)
+or write access (if running under another OS). This will change
+in the future when a criterion for 'delete permission' under OSs
+other than VMS is settled.  (defaults to FALSE)</p>
+</li>
+</ul>
+<p>It returns the number of files, directories and symlinks successfully
+deleted.  Symlinks are simply deleted and not followed.</p>
+<p>Note also that the occurrence of errors in <code>rmtree</code> using the
+traditional interface can be determined <em>only</em> by trapping diagnostic
+messages using <code>$SIG{__WARN__}</code>; it is not apparent from the return
+value. (The modern interface may use the <a href="#error"><code>error</code></a> parameter to
+record any problems encountered).</p>
+<p>
+</p>
+<h2><a name="error_handling">ERROR HANDLING</a></h2>
+<p>If <code>mkpath</code> or <code>rmtree</code> encounter an error, a diagnostic message
+will be printed to <code>STDERR</code> via <code>carp</code> (for non-fatal errors),
+or via <code>croak</code> (for fatal errors).</p>
+<p>If this behaviour is not desirable, the <a href="#error"><code>error</code></a> attribute may be
+used to hold a reference to a variable, which will be used to store
+the diagnostics. The result is a reference to a list of hash
+references. For each hash reference, the key is the name of the
+file, and the value is the error message (usually the contents of
+<a href="../../lib/pods/perlvar.html#__"><code>$!</code></a>). An example usage looks like:</p>
+<pre>
+  <span class="variable">rmpath</span><span class="operator">(</span> <span class="string">'foo/bar'</span><span class="operator">,</span> <span class="string">'bar/rat'</span><span class="operator">,</span> <span class="operator">{</span><span class="string">error</span> <span class="operator">=&gt;</span> <span class="operator">\</span><span class="keyword">my</span> <span class="variable">$err</span><span class="operator">}</span> <span class="operator">);</span>
+  <span class="keyword">for</span> <span class="keyword">my</span> <span class="variable">$diag</span> <span class="operator">(</span><span class="variable">@$err</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$file</span><span class="operator">,</span> <span class="variable">$message</span><span class="operator">)</span> <span class="operator">=</span> <span class="keyword">each</span> <span class="variable">%$diag</span><span class="operator">;</span>
+    <span class="keyword">print</span> <span class="string">"problem unlinking </span><span class="variable">$file</span><span class="string">: </span><span class="variable">$message</span><span class="string">\n"</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>If no errors are encountered, <code>$err</code> will point to an empty list
+(thus there is no need to test for <a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a>). If a general error
+is encountered (for instance, <code>rmtree</code> attempts to remove a directory
+tree that does not exist), the diagnostic key will be empty, only
+the value will be set:</p>
+<pre>
+  <span class="variable">rmpath</span><span class="operator">(</span> <span class="string">'/no/such/path'</span><span class="operator">,</span> <span class="operator">{</span><span class="string">error</span> <span class="operator">=&gt;</span> <span class="operator">\</span><span class="keyword">my</span> <span class="variable">$err</span><span class="operator">}</span> <span class="operator">);</span>
+  <span class="keyword">for</span> <span class="keyword">my</span> <span class="variable">$diag</span> <span class="operator">(</span><span class="variable">@$err</span><span class="operator">)</span> <span class="operator">{</span>
+    <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$file</span><span class="operator">,</span> <span class="variable">$message</span><span class="operator">)</span> <span class="operator">=</span> <span class="keyword">each</span> <span class="variable">%$diag</span><span class="operator">;</span>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$file</span> <span class="keyword">eq</span> <span class="string">''</span><span class="operator">)</span> <span class="operator">{</span>
+      <span class="keyword">print</span> <span class="string">"general error: </span><span class="variable">$message</span><span class="string">\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+  <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<h2><a name="notes">NOTES</a></h2>
+<p><code>File::Path</code> blindly exports <code>mkpath</code> and <code>rmtree</code> into the
+current namespace. These days, this is considered bad style, but
+to change it now would break too much code. Nonetheless, you are
+invited to specify what it is you are expecting to use:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">File::Path</span> <span class="string">'rmtree'</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h3><a name="heuristics">HEURISTICS</a></h3>
+<p>The functions detect (as far as possible) which way they are being
+called and will act appropriately. It is important to remember that
+the heuristic for detecting the old style is either the presence
+of an array reference, or two or three parameters total and second
+and third parameters are numeric. Hence...</p>
+<pre>
+    <span class="variable">mkpath</span> <span class="number">486</span><span class="operator">,</span> <span class="number">487</span><span class="operator">,</span> <span class="number">488</span><span class="operator">;</span>
+</pre>
+<p>... will not assume the modern style and create three directories, rather
+it will create one directory verbosely, setting the permission to
+0750 (488 being the decimal equivalent of octal 750). Here, old
+style trumps new. It must, for backwards compatibility reasons.</p>
+<p>If you want to ensure there is absolutely no ambiguity about which
+way the function will behave, make sure the first parameter is a
+reference to a one-element list, to force the old style interpretation:</p>
+<pre>
+    <span class="variable">mkpath</span> <span class="operator">[</span><span class="number">486</span><span class="operator">]</span><span class="operator">,</span> <span class="number">487</span><span class="operator">,</span> <span class="number">488</span><span class="operator">;</span>
+</pre>
+<p>and get only one directory created. Or add a reference to an empty
+parameter hash, to force the new style:</p>
+<pre>
+    <span class="variable">mkpath</span> <span class="number">486</span><span class="operator">,</span> <span class="number">487</span><span class="operator">,</span> <span class="number">488</span><span class="operator">,</span> <span class="operator">{}</span><span class="operator">;</span>
+</pre>
+<p>... and hence create the three directories. If the empty hash
+reference seems a little strange to your eyes, or you suspect a
+subsequent programmer might <em>helpfully</em> optimise it away, you
+can add a parameter set to a default value:</p>
+<pre>
+    <span class="variable">mkpath</span> <span class="number">486</span><span class="operator">,</span> <span class="number">487</span><span class="operator">,</span> <span class="number">488</span><span class="operator">,</span> <span class="operator">{</span><span class="string">verbose</span> <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h3><a name="security_considerations">SECURITY CONSIDERATIONS</a></h3>
+<p>There were race conditions 1.x implementations of File::Path's
+<code>rmtree</code> function (although sometimes patched depending on the OS
+distribution or platform). The 2.0 version contains code to avoid the
+problem mentioned in CVE-2002-0435.</p>
+<p>See the following pages for more information:</p>
+<pre>
+  <a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286905">http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=286905</a>
+  <a href="http://www.nntp.perl.org/group/perl.perl5.porters/2005/01/msg97623.html">http://www.nntp.perl.org/group/perl.perl5.porters/2005/01/msg97623.html</a>
+  <a href="http://www.debian.org/security/2005/dsa-696">http://www.debian.org/security/2005/dsa-696</a></pre>
+<p>Additionally, unless the <a href="#safe"><code>safe</code></a> parameter is set (or the
+third parameter in the traditional interface is TRUE), should a
+<code>rmtree</code> be interrupted, files that were originally in read-only
+mode may now have their permissions set to a read-write (or &quot;delete
+OK&quot;) mode.</p>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<p>FATAL errors will cause the program to halt (<code>croak</code>), since the
+problem is so severe that it would be dangerous to continue. (This
+can always be trapped with <a href="../../lib/pods/perlfunc.html#eval"><code>eval</code></a>, but it's not a good idea. Under
+the circumstances, dying is the best thing to do).</p>
+<p>SEVERE errors may be trapped using the modern interface. If the
+they are not trapped, or the old interface is used, such an error
+will cause the program will halt.</p>
+<p>All other errors may be trapped using the modern interface, otherwise
+they will be <code>carp</code>ed about. Program execution will not be halted.</p>
+<dl>
+<dt><strong><a name="mkdir_path_errmsg_severe" class="item">mkdir [path]: [errmsg] (SEVERE)</a></strong>
+
+<dd>
+<p><code>mkpath</code> was unable to create the path. Probably some sort of
+permissions error at the point of departure, or insufficient resources
+(such as free inodes on Unix).</p>
+</dd>
+</li>
+<dt><strong><a name="path" class="item">No root path(s) specified</a></strong>
+
+<dd>
+<p><code>mkpath</code> was not given any paths to create. This message is only
+emitted if the routine is called with the traditional interface.
+The modern interface will remain silent if given nothing to do.</p>
+</dd>
+</li>
+<dt><strong><a name="no_such_file_or_directory" class="item">No such file or directory</a></strong>
+
+<dd>
+<p>On Windows, if <code>mkpath</code> gives you this warning, it may mean that
+you have exceeded your filesystem's maximum path length.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_fetch_initial_working_directory_errmsg" class="item">cannot fetch initial working directory: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> attempted to determine the initial directory by calling
+<code>Cwd::getcwd</code>, but the call failed for some reason. No attempt
+will be made to delete anything.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_stat_initial_working_directory_errmsg" class="item">cannot stat initial working directory: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> attempted to stat the initial directory (after having
+successfully obtained its name via <code>getcwd</code>), however, the call
+failed for some reason. No attempt will be made to delete anything.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_chdir_to_dir_errmsg" class="item">cannot chdir to [dir]: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> attempted to set the working directory in order to
+begin deleting the objects therein, but was unsuccessful. This is
+usually a permissions issue. The routine will continue to delete
+other things, but this directory will be left intact.</p>
+</dd>
+</li>
+<dt><strong><a name="directory_dir_changed_before_chdir_expected_dev_n_inode_n_actual_dev_n_ino_n_aborting_fatal" class="item">directory [dir] changed before chdir, expected dev=[n] inode=[n], actual dev=[n] ino=[n], aborting. (FATAL)</a></strong>
+
+<dd>
+<p><code>rmtree</code> recorded the device and inode of a directory, and then
+moved into it. It then performed a <a href="../../lib/pods/perlfunc.html#stat"><code>stat</code></a> on the current directory
+and detected that the device and inode were no longer the same. As
+this is at the heart of the race condition problem, the program
+will die at this point.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_make_directory_dir_read_writeable_errmsg" class="item">cannot make directory [dir] read+writeable: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> attempted to change the permissions on the current directory
+to ensure that subsequent unlinkings would not run into problems,
+but was unable to do so. The permissions remain as they were, and
+the program will carry on, doing the best it can.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_read_dir_errmsg" class="item">cannot read [dir]: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> tried to read the contents of the directory in order
+to acquire the names of the directory entries to be unlinked, but
+was unsuccessful. This is usually a permissions issue. The
+program will continue, but the files in this directory will remain
+after the call.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_reset_chmod_dir_errmsg" class="item">cannot reset chmod [dir]: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code>, after having deleted everything in a directory, attempted
+to restore its permissions to the original state but failed. The
+directory may wind up being left behind.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_chdir_to_parent_dir_from_child_dir_errmsg_aborting_fatal" class="item">cannot chdir to [parent-dir] from [child-dir]: [errmsg], aborting. (FATAL)</a></strong>
+
+<dd>
+<p><code>rmtree</code>, after having deleted everything and restored the permissions
+of a directory, was unable to chdir back to the parent. This is usually
+a sign that something evil this way comes.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_stat_prior_working_directory_dir_errmsg_aborting_fatal" class="item">cannot stat prior working directory [dir]: [errmsg], aborting. (FATAL)</a></strong>
+
+<dd>
+<p><code>rmtree</code> was unable to stat the parent directory after have returned
+from the child. Since there is no way of knowing if we returned to
+where we think we should be (by comparing device and inode) the only
+way out is to <code>croak</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="previous_directory_parent_dir_changed_before_entering_child_dir_expected_dev_n_inode_n_actual_dev_n_ino_n_aborting_fatal" class="item">previous directory [parent-dir] changed before entering [child-dir], expected dev=[n] inode=[n], actual dev=[n] ino=[n], aborting. (FATAL)</a></strong>
+
+<dd>
+<p>When <code>rmtree</code> returned from deleting files in a child directory, a
+check revealed that the parent directory it returned to wasn't the one
+it started out from. This is considered a sign of malicious activity.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_make_directory_dir_writeable_errmsg" class="item">cannot make directory [dir] writeable: [errmsg]</a></strong>
+
+<dd>
+<p>Just before removing a directory (after having successfully removed
+everything it contained), <code>rmtree</code> attempted to set the permissions
+on the directory to ensure it could be removed and failed. Program
+execution continues, but the directory may possibly not be deleted.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_remove_directory_dir_errmsg" class="item">cannot remove directory [dir]: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> attempted to remove a directory, but failed. This may because
+some objects that were unable to be removed remain in the directory, or
+a permissions issue. The directory will be left behind.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_restore_permissions_of_dir_to_0nnn_errmsg" class="item">cannot restore permissions of [dir] to [0nnn]: [errmsg]</a></strong>
+
+<dd>
+<p>After having failed to remove a directory, <code>rmtree</code> was unable to
+restore its permissions from a permissive state back to a possibly
+more restrictive setting. (Permissions given in octal).</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_make_file_file_writeable_errmsg" class="item">cannot make file [file] writeable: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> attempted to force the permissions of a file to ensure it
+could be deleted, but failed to do so. It will, however, still attempt
+to unlink the file.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_unlink_file_file_errmsg" class="item">cannot unlink file [file]: [errmsg]</a></strong>
+
+<dd>
+<p><code>rmtree</code> failed to remove a file. Probably a permissions issue.</p>
+</dd>
+</li>
+<dt><strong><a name="cannot_restore_permissions_of_file_to_0nnn_errmsg" class="item">cannot restore permissions of [file] to [0nnn]: [errmsg]</a></strong>
+
+<dd>
+<p>After having failed to remove a file, <code>rmtree</code> was also unable
+to restore the permissions on the file to a possibly less permissive
+setting. (Permissions given in octal).</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<ul>
+<li>
+<p><a href="../../File/Remove.html">the File::Remove manpage</a></p>
+<p>Allows files and directories to be moved to the Trashcan/Recycle
+Bin (where they may later be restored if necessary) if the operating
+system supports such functionality. This feature may one day be
+made available directly in <code>File::Path</code>.</p>
+</li>
+<li>
+<p><a href="../../File/Find/Rule.html">the File::Find::Rule manpage</a></p>
+<p>When removing directory trees, if you want to examine each file to
+decide whether to delete it (and possibly leaving large swathes
+alone), <em class="file">File::Find::Rule</em> offers a convenient and flexible approach
+to examining directory trees.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Please report all bugs on the RT queue:</p>
+<p><a href="http://rt.cpan.org/NoAuth/Bugs.html?Dist=File-Path">http://rt.cpan.org/NoAuth/Bugs.html</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Paul Szabo identified the race condition originally, and Brendan
+O'Dea wrote an implementation for Debian that addressed the problem.
+That code was used as a basis for the current code. Their efforts
+are greatly appreciated.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Tim Bunce &lt;<em class="file"><a href="mailto:Tim.Bunce@ig.co.uk">Tim.Bunce@ig.co.uk</a></em>&gt; and Charles Bailey
+&lt;<em class="file"><a href="mailto:bailey@newman.upenn.edu">bailey@newman.upenn.edu</a></em>&gt;. Currently maintained by David Landgren
+&lt;<em class="file"><a href="mailto:david@landgren.net">david@landgren.net</a></em>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>This module is copyright (C) Charles Bailey, Tim Bunce and
+David Landgren 1995-2007.  All rights reserved.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

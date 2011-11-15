@@ -1,0 +1,271 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Net::SSL - support for Secure Sockets Layer</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Net::SSL - support for Secure Sockets Layer</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#diagnostics">DIAGNOSTICS</a></li>
+	<ul>
+
+		<li><a href="#see_also">SEE ALSO</a></li>
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Net::SSL - support for Secure Sockets Layer</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="new" class="item">new</a></strong>
+
+<dd>
+<p>Creates a new <code>Net::SSL</code> object.</p>
+</dd>
+</li>
+<dt><strong><a name="configure" class="item">configure</a></strong>
+
+<dd>
+<p>Configures a <code>Net::SSL</code> socket for operation.</p>
+</dd>
+</li>
+<dt><strong><a name="configure_certs" class="item">configure_certs</a></strong>
+
+<dd>
+<p>Sets up a certificate file to use for communicating with on
+the socket.</p>
+</dd>
+</li>
+<dt><strong><a name="connect" class="item">connect</a></strong>
+
+<dt><strong><a name="die_with_error" class="item">die_with_error</a></strong>
+
+<dt><strong><a name="get_cipher" class="item">get_cipher</a></strong>
+
+<dt><strong><a name="get_lwp_object" class="item">get_lwp_object</a></strong>
+
+<dd>
+<p>Walks up the caller stack and looks for something blessed into
+the <code>LWP::UserAgent</code> namespace and returns it. Vaguely deprecated.</p>
+</dd>
+</li>
+<dt><strong><a name="get_peer_certificate" class="item">get_peer_certificate</a></strong>
+
+<dd>
+<p>Gets the peer certificate from the underlying <code>Crypt::SSLeay::Conn</code>
+object.</p>
+</dd>
+</li>
+<dt><strong><a name="get_peer_verify" class="item">get_peer_verify</a></strong>
+
+<dt><strong><a name="get_shared_ciphers" class="item">get_shared_ciphers</a></strong>
+
+<dt><strong><a name="getchunk" class="item">getchunk</a></strong>
+
+<dd>
+<p>Attempts to read up to 32KiB of data from the socket. Returns
+<a href="../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if nothing was read, otherwise returns the data as
+a scalar.</p>
+</dd>
+</li>
+<dt><strong><a name="getline" class="item">getline</a></strong>
+
+<dd>
+<p>Reads one character at a time until a newline is encountered,
+and returns the line, including the newline. Grossly
+inefficient.</p>
+</dd>
+</li>
+<dt><strong><a name="print" class="item">print</a></strong>
+
+<dd>
+<p>Concatenates the input parameters and writes them to the socket.
+Does not honour <a href="../../lib/pods/perlvar.html#__"><code>$,</code></a> nor <a href="../../lib/pods/perlvar.html#__"><code>$/</code></a>. Returns the number of bytes written.</p>
+</dd>
+</li>
+<dt><strong><a name="printf" class="item">printf</a></strong>
+
+<dd>
+<p>Performs a <a href="../../lib/pods/perlfunc.html#sprintf"><code>sprintf</code></a> of the input parameters (thus, the first
+parameter must be the format), and writes the result to the socket.
+Returns the number of bytes written.</p>
+</dd>
+</li>
+<dt><strong><a name="proxy" class="item">proxy</a></strong>
+
+<dd>
+<p>Returns the hostname of an https proxy server, as specified by the
+<code>HTTPS_PROXY</code> environment variable.</p>
+</dd>
+</li>
+<dt><strong><a name="proxy_connect_helper" class="item">proxy_connect_helper</a></strong>
+
+<dd>
+<p>Helps set up a connection through a proxy.</p>
+</dd>
+</li>
+<dt><strong><a name="read" class="item">read</a></strong>
+
+<dd>
+<p>Performs a read on the socket and returns the result.</p>
+</dd>
+</li>
+<dt><strong><a name="ssl_context" class="item">ssl_context</a></strong>
+
+<dt><strong><a name="sysread" class="item">sysread</a></strong>
+
+<dd>
+<p>Is an alias of <a href="#read"><code>read</code></a>.</p>
+</dd>
+</li>
+<dt><strong><a name="timeout" class="item">timeout</a></strong>
+
+<dd>
+<p>Returns the timeout value of the socket as defined by the implementing
+class or 60 seconds by default.</p>
+</dd>
+</li>
+<dt><strong><a name="blocking" class="item">blocking</a></strong>
+
+<dd>
+<p>Returns a boolean indicating whether the underlying socket is in
+blocking mode. By default, Net::SSL sockets are in blocking mode.</p>
+</dd>
+<dd>
+<pre>
+    <span class="variable">$sock</span><span class="operator">-&gt;</span><span class="variable">blocking</span><span class="operator">(</span><span class="number">0</span><span class="operator">);</span> <span class="comment"># set to non-blocking mode</span>
+</pre>
+</dd>
+<dd>
+<p>This method simply calls the underlying <a href="#blocking"><code>blocking</code></a> method of the
+IO::Socket object.</p>
+</dd>
+</li>
+<dt><strong><a name="write" class="item">write</a></strong>
+
+<dd>
+<p>Writes the parameters passed in (thus, a list) to the socket. Returns
+the number of bytes written.</p>
+</dd>
+</li>
+<dt><strong><a name="syswrite" class="item">syswrite</a></strong>
+
+<dd>
+<p>Is an alias of <a href="#write"><code>write</code></a>.</p>
+</dd>
+</li>
+<dt><strong><a name="accept" class="item">accept</a></strong>
+
+<dd>
+<p>Not yet implemented. Will die if called.</p>
+</dd>
+</li>
+<dt><strong><a name="getc" class="item">getc</a></strong>
+
+<dd>
+<p>Not yet implemented. Will die if called.</p>
+</dd>
+</li>
+<dt><strong><a name="getlines" class="item">getlines</a></strong>
+
+<dd>
+<p>Not yet implemented. Will die if called.</p>
+</dd>
+</li>
+<dt><strong><a name="ungetc" class="item">ungetc</a></strong>
+
+<dd>
+<p>Not yet implemented. Will die if called.</p>
+</dd>
+</li>
+<dt><strong><a name="send_useragent_to_proxy" class="item">send_useragent_to_proxy</a></strong>
+
+<dd>
+<p>By default (as of version 2.80 of <code>Net::SSL</code> in the 0.54 distribution
+of Crypt::SSLeay), the user agent string is no longer sent to the
+proxy (but will continue to be sent to the remote host).</p>
+</dd>
+<dd>
+<p>The previous behaviour was of marginal benefit, and could cause
+fatal errors in certain scenarios (see CPAN bug #4759) and so no
+longer happens by default.</p>
+</dd>
+<dd>
+<p>To reinstate the old behaviour, call <code>Net::SSL::send_useragent_to_proxy</code>
+with a true value (usually 1).</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="diagnostics">DIAGNOSTICS</a></h1>
+<pre>
+  &quot;no port given for proxy server &lt;proxy&gt;&quot;</pre>
+<p>A proxy was specified for configuring a socket, but no port number
+was given. Ensure that the proxy is specified as a host:port pair,
+such as <code>proxy.example.com:8086</code>.</p>
+<pre>
+  <span class="string">"configure certs failed: &lt;contents of $@&gt;; &lt;contents of $!&gt;"</span>
+</pre>
+<pre>
+  <span class="string">"proxy connect failed: &lt;contents of $@&gt;; &lt;contents of $!&gt;"</span>
+</pre>
+<pre>
+  <span class="string">"Connect failed: &lt;contents of $@&gt;; &lt;contents of $!&gt;"</span>
+</pre>
+<p>During <a href="#connect"><code>connect()</code></a>.</p>
+<p>
+</p>
+<h2><a name="see_also">SEE ALSO</a></h2>
+<dl>
+<dt><strong><a name="io_socket_inet" class="item">IO::Socket::INET</a></strong>
+
+<dd>
+<p><code>Net::SSL</code> is implemented by subclassing <a href="#io_socket_inet"><code>IO::Socket::INET</code></a>, hence
+methods not specifically overridden are defined by that package.</p>
+</dd>
+</li>
+<dt><strong><a name="net_ssleay2" class="item">Net::SSLeay</a></strong>
+
+<dd>
+<p>A package that provides a Perl-level interface to the <code>openssl</code>
+secure sockets layer library.</p>
+</dd>
+</li>
+</dl>
+
+</body>
+
+</html>

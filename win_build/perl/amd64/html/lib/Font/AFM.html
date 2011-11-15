@@ -1,0 +1,265 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>Font::AFM - Interface to Adobe Font Metrics files</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>Font::AFM - Interface to Adobe Font Metrics files</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#environment">ENVIRONMENT</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Font::AFM - Interface to Adobe Font Metrics files</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Font::AFM</span><span class="operator">;</span>
+ <span class="variable">$h</span> <span class="operator">=</span> <span class="variable">new</span> <span class="variable">Font::AFM</span> <span class="string">"Helvetica"</span><span class="operator">;</span>
+ <span class="variable">$copyright</span> <span class="operator">=</span> <span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">Notice</span><span class="operator">;</span>
+ <span class="variable">$w</span> <span class="operator">=</span> <span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">Wx</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">"aring"</span><span class="operator">}</span><span class="operator">;</span>
+ <span class="variable">$w</span> <span class="operator">=</span> <span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">stringwidth</span><span class="operator">(</span><span class="string">"Gisle"</span><span class="operator">,</span> <span class="number">10</span><span class="operator">);</span>
+ <span class="variable">$h</span><span class="operator">-&gt;</span><span class="variable">dump</span><span class="operator">;</span>  <span class="comment"># for debugging</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module implements the Font::AFM class. Objects of this class are
+initialised from an AFM (Adobe Font Metrics) file and allow you to obtain information
+about the font and the metrics of the various glyphs in the font.</p>
+<p>All measurements in AFM files are given in terms of units equal to
+1/1000 of the scale factor of the font being used. To compute actual
+sizes in a document, these amounts should be multiplied by (scale
+factor of font)/1000.</p>
+<p>The following methods are available:</p>
+<dl>
+<dt><strong><a name="new" class="item">$afm = Font::AFM-&gt;<code>new($fontname)</code></a></strong>
+
+<dd>
+<p>Object constructor. Takes the name of the font as argument.
+Croaks if the font can not be found.</p>
+</dd>
+</li>
+<dt><strong><a name="latin1_wx_table" class="item">$afm-&gt;latin1_wx_table()</a></strong>
+
+<dd>
+<p>Returns a 256-element array, where each element contains the width
+of the corresponding character in the iso-8859-1 character set.</p>
+</dd>
+</li>
+<dt><strong><a name="stringwidth" class="item">$afm-&gt;stringwidth($string, [$fontsize])</a></strong>
+
+<dd>
+<p>Returns the width of the argument string. The string is
+assumed to be encoded in the iso-8859-1 character set.  A second
+argument can be used to scale the width according to the font size.</p>
+</dd>
+</li>
+<dt><strong><a name="fontname" class="item">$afm-&gt;FontName</a></strong>
+
+<dd>
+<p>The name of the font as presented to the PostScript language
+<code>findfont</code> operator, for instance &quot;Times-Roman&quot;.</p>
+</dd>
+</li>
+<dt><strong><a name="fullname" class="item">$afm-&gt;FullName</a></strong>
+
+<dd>
+<p>Unique, human-readable name for an individual font, for instance
+&quot;Times Roman&quot;.</p>
+</dd>
+</li>
+<dt><strong><a name="familyname" class="item">$afm-&gt;FamilyName</a></strong>
+
+<dd>
+<p>Human-readable name for a group of fonts that are stylistic variants
+of a single design. All fonts that are members of such a group should
+have exactly the same <a href="#familyname"><code>FamilyName</code></a>. Example of a family name is
+&quot;Times&quot;.</p>
+</dd>
+</li>
+<dt><strong><a name="weight" class="item">$afm-&gt;Weight</a></strong>
+
+<dd>
+<p>Human-readable name for the weight, or &quot;boldness&quot;, attribute of a font.
+Examples are <code>Roman</code>, <code>Bold</code>, <code>Light</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="italicangle" class="item">$afm-&gt;ItalicAngle</a></strong>
+
+<dd>
+<p>Angle in degrees counterclockwise from the vertical of the dominant
+vertical strokes of the font.</p>
+</dd>
+</li>
+<dt><strong><a name="isfixedpitch" class="item">$afm-&gt;IsFixedPitch</a></strong>
+
+<dd>
+<p>If <code>true</code>, the font is a fixed-pitch
+(monospaced) font.</p>
+</dd>
+</li>
+<dt><strong><a name="fontbbox" class="item">$afm-&gt;FontBBox</a></strong>
+
+<dd>
+<p>A string of four numbers giving the lower-left x, lower-left y,
+upper-right x, and upper-right y of the font bounding box. The font
+bounding box is the smallest rectangle enclosing the shape that would
+result if all the characters of the font were placed with their
+origins coincident, and then painted.</p>
+</dd>
+</li>
+<dt><strong><a name="underlineposition" class="item">$afm-&gt;UnderlinePosition</a></strong>
+
+<dd>
+<p>Recommended distance from the baseline for positioning underline
+strokes. This number is the y coordinate of the center of the stroke.</p>
+</dd>
+</li>
+<dt><strong><a name="underlinethickness" class="item">$afm-&gt;UnderlineThickness</a></strong>
+
+<dd>
+<p>Recommended stroke width for underlining.</p>
+</dd>
+</li>
+<dt><strong><a name="version" class="item">$afm-&gt;Version</a></strong>
+
+<dd>
+<p>Version number of the font.</p>
+</dd>
+</li>
+<dt><strong><a name="notice" class="item">$afm-&gt;Notice</a></strong>
+
+<dd>
+<p>Trademark or copyright notice, if applicable.</p>
+</dd>
+</li>
+<dt><strong><a name="comment" class="item">$afm-&gt;Comment</a></strong>
+
+<dd>
+<p>Comments found in the AFM file.</p>
+</dd>
+</li>
+<dt><strong><a name="encodingscheme" class="item">$afm-&gt;EncodingScheme</a></strong>
+
+<dd>
+<p>The name of the standard encoding scheme for the font. Most Adobe
+fonts use the <code>AdobeStandardEncoding</code>. Special fonts might state
+<code>FontSpecific</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="capheight" class="item">$afm-&gt;CapHeight</a></strong>
+
+<dd>
+<p>Usually the y-value of the top of the capital H.</p>
+</dd>
+</li>
+<dt><strong><a name="xheight" class="item">$afm-&gt;XHeight</a></strong>
+
+<dd>
+<p>Typically the y-value of the top of the lowercase x.</p>
+</dd>
+</li>
+<dt><strong><a name="ascender" class="item">$afm-&gt;Ascender</a></strong>
+
+<dd>
+<p>Typically the y-value of the top of the lowercase d.</p>
+</dd>
+</li>
+<dt><strong><a name="descender" class="item">$afm-&gt;Descender</a></strong>
+
+<dd>
+<p>Typically the y-value of the bottom of the lowercase p.</p>
+</dd>
+</li>
+<dt><strong><a name="wx" class="item">$afm-&gt;Wx</a></strong>
+
+<dd>
+<p>Returns a hash table that maps from glyph names to the width of that glyph.</p>
+</dd>
+</li>
+<dt><strong><a name="bbox" class="item">$afm-&gt;BBox</a></strong>
+
+<dd>
+<p>Returns a hash table that maps from glyph names to bounding box information.
+The bounding box consist of four numbers: llx, lly, urx, ury.</p>
+</dd>
+</li>
+<dt><strong><a name="dump" class="item">$afm-&gt;dump</a></strong>
+
+<dd>
+<p>Dumps the content of the Font::AFM object to STDOUT.  Might sometimes
+be useful for debugging.</p>
+</dd>
+</li>
+</dl>
+<p>The AFM specification can be found at:</p>
+<pre>
+   <a href="http://partners.adobe.com/asn/developer/pdfs/tn/5004.AFM_Spec.pdf">http://partners.adobe.com/asn/developer/pdfs/tn/5004.AFM_Spec.pdf</a></pre>
+<p>
+</p>
+<hr />
+<h1><a name="environment">ENVIRONMENT</a></h1>
+<dl>
+<dt><strong><a name="metrics" class="item">METRICS</a></strong>
+
+<dd>
+<p>Contains the path to search for AFM-files.  Format is as for the PATH
+environment variable. The default path built into this library is:</p>
+</dd>
+<dd>
+<pre>
+ /usr/lib/afm:/usr/local/lib/afm:/usr/openwin/lib/fonts/afm/:.</pre>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Kerning data and composite character data are not yet parsed.
+Ligature data is not parsed.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright 1995-1998 Gisle Aas. All rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

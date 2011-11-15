@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Test::Harness::Straps - detailed analysis of test results</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Test::Harness::Straps - detailed analysis of test results</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#construction">CONSTRUCTION</a></li>
+	<ul>
+
+		<li><a href="#new__"><code>new()</code></a></li>
+	</ul>
+
+	<li><a href="#analysis">ANALYSIS</a></li>
+	<ul>
+
+		<li><a href="#_strap__analyze___name____output_lines__">$strap-&gt;analyze( $name, \@output_lines )</a></li>
+		<li><a href="#_strap__analyze_file___test_file__">$strap-&gt;analyze_file( $test_file )</a></li>
+	</ul>
+
+	<li><a href="#parsing">Parsing</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Test::Harness::Straps - detailed analysis of test results</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Harness::Straps</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$strap</span> <span class="operator">=</span> <span class="variable">Test::Harness::Straps</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Various ways to interpret a test</span>
+  <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">analyze</span><span class="operator">(</span><span class="variable">$name</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@test_output</span><span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">analyze_fh</span><span class="operator">(</span><span class="variable">$name</span><span class="operator">,</span> <span class="variable">$test_filehandle</span><span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">analyze_file</span><span class="operator">(</span><span class="variable">$test_file</span><span class="operator">);</span>
+</pre>
+<pre>
+  <span class="comment"># UNIMPLEMENTED</span>
+  <span class="keyword">my</span> <span class="variable">%total</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">total_results</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Altering the behavior of the strap  UNIMPLEMENTED</span>
+  <span class="keyword">my</span> <span class="variable">$verbose_output</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">dump_verbose</span><span class="operator">();</span>
+  <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">dump_verbose_fh</span><span class="operator">(</span><span class="variable">$output_filehandle</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>THIS IS ALPHA SOFTWARE</strong> in that the interface is subject to change
+in incompatible ways.  It is otherwise stable.</p>
+<p>Test::Harness is limited to printing out its results.  This makes
+analysis of the test results difficult for anything but a human.  To
+make it easier for programs to work with test results, we provide
+Test::Harness::Straps.  Instead of printing the results, straps
+provide them as raw data.  You can also configure how the tests are to
+be run.</p>
+<p>The interface is currently incomplete.  <em>Please</em> contact the author
+if you'd like a feature added or something change or just have
+comments.</p>
+<p>
+</p>
+<hr />
+<h1><a name="construction">CONSTRUCTION</a></h1>
+<p>
+</p>
+<h2><a name="new__"><code>new()</code></a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$strap</span> <span class="operator">=</span> <span class="variable">Test::Harness::Straps</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<p>Initialize a new strap.</p>
+<pre>
+  <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">_init</span><span class="operator">;</span>
+</pre>
+<p>Initialize the internal state of a strap to make it ready for parsing.</p>
+<p>
+</p>
+<hr />
+<h1><a name="analysis">ANALYSIS</a></h1>
+<p>
+</p>
+<h2><a name="_strap__analyze___name____output_lines__">$strap-&gt;analyze( $name, \@output_lines )</a></h2>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">analyze</span><span class="operator">(</span><span class="variable">$name</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@test_output</span><span class="operator">);</span>
+</pre>
+<p>Analyzes the output of a single test, assigning it the given <code>$name</code>
+for use in the total report.  Returns the <code>$results</code> of the test.
+See <a href="../../../lib/Test/Harness/Results.html">the Results manpage</a>.</p>
+<p><code>@test_output</code> should be the raw output from the test, including
+newlines.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">analyze_fh</span><span class="operator">(</span><span class="variable">$name</span><span class="operator">,</span> <span class="variable">$test_filehandle</span><span class="operator">);</span>
+</pre>
+<p>Like <code>analyze</code>, but it reads from the given filehandle.</p>
+<p>
+</p>
+<h2><a name="_strap__analyze_file___test_file__">$strap-&gt;analyze_file( $test_file )</a></h2>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$results</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">analyze_file</span><span class="operator">(</span><span class="variable">$test_file</span><span class="operator">);</span>
+</pre>
+<p>Like <code>analyze</code>, but it runs the given <code>$test_file</code> and parses its
+results.  It will also use that name for the total report.</p>
+<p>Returns the full command line that will be run to test <em>$file</em>.</p>
+<p>Returns the command that runs the test.  Combine this with <code>_switches()</code>
+to build a command line.</p>
+<p>Typically this is <a href="../../../lib/pods/perlvar.html#__x"><code>$^X</code></a>, but you can set <code>$ENV{HARNESS_PERL}</code>
+to use a different Perl than what you're running the harness under.
+This might be to run a threaded Perl, for example.</p>
+<p>You can also overload this method if you've built your own strap subclass,
+such as a PHP interpreter for a PHP-based strap.</p>
+<p>Formats and returns the switches necessary to run the test.</p>
+<p>Returns only defined, non-blank, trimmed switches from the parms passed.</p>
+<pre>
+  <span class="keyword">local</span> <span class="variable">$ENV</span><span class="operator">{</span><span class="string">PERL5LIB</span><span class="operator">}</span> <span class="operator">=</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">_INC2PERL5LIB</span><span class="operator">;</span>
+</pre>
+<p>Takes the current value of <a href="../../../lib/pods/perlvar.html#_inc"><code>@INC</code></a> and turns it into something suitable
+for putting onto <a href="../../../lib/pods/perlrun.html#perl5lib"><code>PERL5LIB</code></a>.</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">@filtered_inc</span> <span class="operator">=</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">_filtered_INC</span><span class="operator">;</span>
+</pre>
+<p>Shortens <a href="../../../lib/pods/perlvar.html#_inc"><code>@INC</code></a> by removing redundant and unnecessary entries.
+Necessary for OSes with limited command line lengths, like VMS.</p>
+<pre>
+  <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">_restore_PERL5LIB</span><span class="operator">;</span>
+</pre>
+<p>This restores the original value of the <a href="../../../lib/pods/perlrun.html#perl5lib"><code>PERL5LIB</code></a> environment variable.
+Necessary on VMS, otherwise a no-op.</p>
+<p>
+</p>
+<hr />
+<h1><a name="parsing">Parsing</a></h1>
+<p>Methods for identifying what sort of line you're looking at.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$is_diagnostic</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">_is_diagnostic</span><span class="operator">(</span><span class="variable">$line</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$comment</span><span class="operator">);</span>
+</pre>
+<p>Checks if the given line is a comment.  If so, it will place it into
+<code>$comment</code> (sans #).</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$is_header</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">_is_header</span><span class="operator">(</span><span class="variable">$line</span><span class="operator">);</span>
+</pre>
+<p>Checks if the given line is a header (1..M) line.  If so, it places how
+many tests there will be in <code>$strap-&gt;{max}</code>, a list of which tests
+are todo in <code>$strap-&gt;{todo}</code> and if the whole test was skipped
+<code>$strap-&gt;{skip_all}</code> contains the reason.</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$is_bail_out</span> <span class="operator">=</span> <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">_is_bail_out</span><span class="operator">(</span><span class="variable">$line</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$reason</span><span class="operator">);</span>
+</pre>
+<p>Checks if the line is a &quot;Bail out!&quot;.  Places the reason for bailing
+(if any) in $reason.</p>
+<pre>
+  <span class="variable">$strap</span><span class="operator">-&gt;</span><span class="variable">_reset_file_state</span><span class="operator">;</span>
+</pre>
+<p>Resets things like <code>$strap-&gt;{max}</code> , <code>$strap-&gt;{skip_all}</code>,
+etc. so it's ready to parse the next file.</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<p>See <em class="file">examples/mini_harness.plx</em> for an example of use.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Michael G Schwern <code>&lt;schwern at pobox.com&gt;</code>, currently maintained by
+Andy Lester <code>&lt;andy at petdance.com&gt;</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/Test/Harness.html">the Test::Harness manpage</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>lib/CPANPLUS/Config.pm</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>lib/CPANPLUS/Config.pm</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#configuration">CONFIGURATION</a></li>
+	<ul>
+
+		<li><a href="#section__conf_">Section 'conf'</a></li>
+	</ul>
+
+	<li><a href="#bug_reports">BUG REPORTS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>CPANPLUS::Config</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module contains defaults and heuristics for configuration 
+information for CPANPLUS. To change any of these values, please
+see the documentation in <code>CPANPLUS::Configure</code>.</p>
+<p>Below you'll find a list of configuration types and keys, and
+their meaning.</p>
+<p>
+</p>
+<hr />
+<h1><a name="configuration">CONFIGURATION</a></h1>
+<p>
+</p>
+<h2><a name="section__conf_">Section 'conf'</a></h2>
+<dl>
+<dt><strong><a name="hosts" class="item">hosts</a></strong>
+
+<dd>
+<p>An array ref containing hosts entries to be queried for packages.</p>
+</dd>
+<dd>
+<p>An example entry would like this:</p>
+</dd>
+<dd>
+<pre>
+    <span class="operator">{</span>   <span class="string">'scheme'</span> <span class="operator">=&gt;</span> <span class="string">'ftp'</span><span class="operator">,</span>
+        <span class="string">'path'</span> <span class="operator">=&gt;</span> <span class="string">'/pub/CPAN/'</span><span class="operator">,</span>
+        <span class="string">'host'</span> <span class="operator">=&gt;</span> <span class="string">'ftp.cpan.org'</span>
+    <span class="operator">},</span>
+</pre>
+</dd>
+</li>
+<dt><strong><a name="base" class="item">base</a></strong>
+
+<dd>
+<p>The directory CPANPLUS keeps all it's build and state information in.
+Defaults to ~/.cpanplus.</p>
+</dd>
+</li>
+<dt><strong><a name="buildflags" class="item">buildflags</a></strong>
+
+<dd>
+<p>Any flags to be passed to 'perl Build.PL'. See <code>perldoc Module::Build</code>
+for details. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="cpantest" class="item">cpantest</a></strong>
+
+<dd>
+<p>Boolean flag to indicate whether or not to mail test results of module
+installations to <code>http://testers.cpan.org</code>. Defaults to 'false'.</p>
+</dd>
+</li>
+<dt><strong><a name="cpantest_mx" class="item">cpantest_mx</a></strong>
+
+<dd>
+<p>String holding an explicit mailserver to use when sending out emails
+for <code>http://testers.cpan.org</code>. An empty string will use your system
+settings. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="debug" class="item">debug</a></strong>
+
+<dd>
+<p>Boolean flag to enable or disable extensive debuggging information.
+Defaults to 'false'.</p>
+</dd>
+</li>
+<dt><strong><a name="dist_type" class="item">dist_type</a></strong>
+
+<dd>
+<p>Default distribution type to use when building packages. See <code>cpan2dist</code>
+or <code>CPANPLUS::Dist</code> for details. An empty string will not use any 
+package building software. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="email" class="item">email</a></strong>
+
+<dd>
+<p>Email address to use for anonymous ftp access and as <code>from</code> address
+when sending emails. Defaults to an <code>example.com</code> address.</p>
+</dd>
+</li>
+<dt><strong><a name="extractdir" class="item">extractdir</a></strong>
+
+<dd>
+<p>String containing the directory where fetched archives should be 
+extracted. An empty string will use a directory under your <a href="#base"><code>base</code></a>
+directory. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="fetchdir" class="item">fetchdir</a></strong>
+
+<dd>
+<p>String containing the directory where fetched archives should be 
+stored. An empty string will use a directory under your <a href="#base"><code>base</code></a>
+directory. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="flush" class="item">flush</a></strong>
+
+<dd>
+<p>Boolean indicating whether build failures, cache dirs etc should
+be flushed after every operation or not. Defaults to 'true'.</p>
+</dd>
+</li>
+<dt><strong><a name="force" class="item">force</a></strong>
+
+<dd>
+<p>Boolean indicating whether files should be forcefully overwritten
+if they exist, modules should be installed when they fail tests,
+etc. Defaults to 'false'.</p>
+</dd>
+</li>
+<dt><strong><a name="lib" class="item">lib</a></strong>
+
+<dd>
+<p>An array ref holding directories to be added to <a href="../../lib/pods/perlvar.html#_inc"><code>@INC</code></a> when CPANPLUS
+starts up. Defaults to an empty array reference.</p>
+</dd>
+</li>
+<dt><strong><a name="makeflags" class="item">makeflags</a></strong>
+
+<dd>
+<p>A string holding flags that will be passed to the <a href="#make"><code>make</code></a> program
+when invoked. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="makemakerflags" class="item">makemakerflags</a></strong>
+
+<dd>
+<p>A string holding flags that will be passed to <code>perl Makefile.PL</code>
+when invoked. Defaults to an empty string.</p>
+</dd>
+</li>
+<dt><strong><a name="md5" class="item">md5</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not md5 checks should be done when
+an archive is fetched. Defaults to 'true' if you have <code>Digest::MD5</code>
+installed, 'false' otherwise.</p>
+</dd>
+</li>
+<dt><strong><a name="no_update" class="item">no_update</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not <code>CPANPLUS</code>' source files should be
+updated or not. Defaults to 'false'.</p>
+</dd>
+</li>
+<dt><strong><a name="passive" class="item">passive</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not to use passive ftp connections.
+Defaults to 'true'.</p>
+</dd>
+</li>
+<dt><strong><a name="prefer_bin" class="item">prefer_bin</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not to prefer command line programs 
+over perl modules. Defaults to 'false' unless you do not have 
+<code>Compress::Zlib</code> installed (as that would mean we could not extract
+<code>.tar.gz</code> files)</p>
+</dd>
+</li>
+<dt><strong><a name="prefer_makefile" class="item">prefer_makefile</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not prefer a <code>Makefile.PL</code> over a 
+<code>Build.PL</code> file if both are present. Defaults to 'true'.</p>
+</dd>
+</li>
+<dt><strong><a name="prereqs" class="item">prereqs</a></strong>
+
+<dd>
+<p>A digit indicating what to do when a package you are installing has a
+prerequisite. Options are:</p>
+</dd>
+<dd>
+<pre>
+    0   Do not install
+    1   Install
+    2   Ask
+    3   Ignore  (dangerous, install will probably fail!)</pre>
+</dd>
+<dd>
+<p>The default is to ask.</p>
+</dd>
+</li>
+<dt><strong><a name="shell" class="item">shell</a></strong>
+
+<dd>
+<p>A string holding the shell class you wish to start up when starting
+<code>CPANPLUS</code> in interactive mode.</p>
+</dd>
+<dd>
+<p>Defaults to <code>CPANPLUS::Shell::Default</code>, the default CPANPLUS shell.</p>
+</dd>
+</li>
+<dt><strong><a name="show_startup_tip" class="item">show_startup_tip</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not to show start up tips in the 
+interactive shell. Defaults to 'true'.</p>
+</dd>
+</li>
+<dt><strong><a name="signature" class="item">signature</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not check signatures if packages are
+signed. Defaults to 'true' if you have <code>gpg</code> or <code>Crypt::OpenPGP</code> 
+installed, 'false' otherwise.</p>
+</dd>
+</li>
+<dt><strong><a name="skiptest" class="item">skiptest</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not to skip tests when installing modules.
+Defaults to 'false'.</p>
+</dd>
+</li>
+<dt><strong><a name="storable" class="item">storable</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not to use <code>Storable</code> to write compiled
+source file information to disk. This makes for faster startup and look
+up times, but takes extra diskspace. Defaults to 'true' if you have 
+<code>Storable</code> installed and 'false' if you don't.</p>
+</dd>
+</li>
+<dt><strong><a name="timeout" class="item">timeout</a></strong>
+
+<dd>
+<p>Digit indicating the time before a fetch request times out (in seconds).
+Defaults to 300.</p>
+</dd>
+</li>
+<dt><strong><a name="verbose" class="item">verbose</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not <code>CPANPLUS</code> runs in verbose mode.
+Defaults to 'true' if you have the environment variable 
+<code>PERL5_CPANPLUS_VERBOSE</code> set to true, 'false' otherwise.</p>
+</dd>
+<dd>
+<p>It is recommended you run with verbose enabled, but it is disabled
+for historical reasons.</p>
+</dd>
+</li>
+<dt><strong><a name="write_install_log" class="item">write_install_log</a></strong>
+
+<dd>
+<p>A boolean indicating whether or not to write install logs after installing
+a module using the interactive shell. Defaults to 'true'.</p>
+</dd>
+</li>
+</dl>
+<pre>
+
+=head2 Section 'program'</pre>
+<dl>
+<dt><strong><a name="editor" class="item">editor</a></strong>
+
+<dd>
+<p>A string holding the path to your editor of choice. Defaults to your
+$ENV{EDITOR}, $ENV{VISIUAL}, 'vi' or 'pico' programs, in that order.</p>
+</dd>
+</li>
+<dt><strong><a name="make" class="item">make</a></strong>
+
+<dd>
+<p>A string holding the path to your <a href="#make"><code>make</code></a> binary. Looks for the <a href="#make"><code>make</code></a>
+program used to build perl or failing that, a <a href="#make"><code>make</code></a> in your path.</p>
+</dd>
+</li>
+<dt><strong><a name="pager" class="item">pager</a></strong>
+
+<dd>
+<p>A string holding the path to your pager of choice. Defaults to your
+$ENV{PAGER}, 'less' or 'more' programs, in that order.</p>
+</dd>
+</li>
+<dt><strong>shell</strong>
+
+<dd>
+<p>A string holding the path to your login shell of choice. Defaults to your
+$ENV{SHELL} setting, or $ENV{COMSPEC} on Windows.</p>
+</dd>
+</li>
+<dt><strong><a name="sudo" class="item">sudo</a></strong>
+
+<dd>
+<p>A string holding the path to your <a href="#sudo"><code>sudo</code></a> binary if your install path
+requires super user permissions. Looks for <a href="#sudo"><code>sudo</code></a> in your path, or 
+remains empty if you do not require super user permissiosn to install.</p>
+</dd>
+</li>
+<dt><strong><a name="perlwrapper" class="item">perlwrapper</a></strong>
+
+<dd>
+<p>A string holding the path to the <code>cpanp-run-perl</code> utility bundled
+with CPANPLUS, which is used to enable autoflushing in spawned processes.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="bug_reports">BUG REPORTS</a></h1>
+<p>Please report bugs or other issues to &lt;<a href="mailto:bug-cpanplus@rt.cpan.org<gt>">bug-cpanplus@rt.cpan.org<gt></a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>This module by Jos Boumans &lt;<a href="mailto:kane@cpan.org">kane@cpan.org</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>The CPAN++ interface (of which this module is a part of) is copyright (c) 
+2001 - 2007, Jos Boumans &lt;<a href="mailto:kane@cpan.org">kane@cpan.org</a>&gt;. All rights reserved.</p>
+<p>This library is free software; you may redistribute and/or modify it 
+under the same terms as Perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../lib/CPANPLUS/Backend.html">the CPANPLUS::Backend manpage</a>, <a href="../../lib/CPANPLUS/Configure/Setup.html">the CPANPLUS::Configure::Setup manpage</a>, <a href="../../lib/CPANPLUS/Configure.html">the CPANPLUS::Configure manpage</a></p>
+
+</body>
+
+</html>

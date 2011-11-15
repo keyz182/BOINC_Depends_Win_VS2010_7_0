@@ -1,0 +1,2332 @@
+=head2 Sun May 24 12:27:46 2009: C<Module> L<HTML::Tagset|HTML::Tagset>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.20>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:28:01 2009: C<Module> L<URI|URI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.37>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:28:11 2009: C<Module> L<HTML::Parser|HTML::Parser>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.60>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:28:45 2009: C<Module> L<Sub::Uplevel|Sub::Uplevel>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.2002>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:28:49 2009: C<Module> L<Win32::Job|Win32::Job>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:28:58 2009: C<Module> L<version|version>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.76>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:29:32 2009: C<Module> L<LWP|LWP>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.826>
+
+=item *
+
+C<EXE_FILES: bin/lwp-request bin/lwp-mirror bin/lwp-rget bin/lwp-download>
+
+=back
+
+=head2 Sun May 24 12:29:42 2009: C<Module> L<Archive::Zip|Archive::Zip>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.20>
+
+=item *
+
+C<EXE_FILES: bin/crc32>
+
+=back
+
+=head2 Sun May 24 12:29:58 2009: C<Module> L<Test::Exception|Test::Exception>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.27>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:31:08 2009: C<Module> L<ActiveState::Utils|ActiveState::Utils>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.05>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:31:58 2009: C<Module> L<threads|threads>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.72>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:32:02 2009: C<Module> L<Algorithm::Diff|Algorithm::Diff>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.1902>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:32:17 2009: C<Module> L<GD|GD>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.41>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:32:20 2009: C<Module> L<Carp::Clan|Carp::Clan>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.00>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:32:30 2009: C<Module> L<Compress::Raw::Zlib|Compress::Raw::Zlib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.019>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:32:44 2009: C<Module> L<Compress::Raw::Bzip2|Compress::Raw::Bzip2>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.019>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:32:50 2009: C<Module> L<Tcl|Tcl>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.97>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:34:09 2009: C<Module> L<DBI|DBI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.607>
+
+=item *
+
+C<EXE_FILES: dbiproxy dbiprof dbilogstrip>
+
+=back
+
+=head2 Sun May 24 12:34:16 2009: C<Module> L<HTML::Template|HTML::Template>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.9>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:34:22 2009: C<Module> L<ActiveState::RelocateTree|ActiveState::RelocateTree>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: bin/reloc_perl>
+
+=back
+
+=head2 Sun May 24 12:34:29 2009: C<Module> L<ActivePerl::DocTools|ActivePerl::DocTools>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.02>
+
+=item *
+
+C<EXE_FILES: bin/ap-update-html bin/ap-user-guide>
+
+=back
+
+=head2 Sun May 24 12:34:39 2009: C<Module> L<Win32API::Registry|Win32API::Registry>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.30>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:35:16 2009: C<Module> L<threads::shared|threads::shared>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.28>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:35:29 2009: C<Module> L<XML::Parser|XML::Parser>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.36>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:35:33 2009: C<Module> L<Text::Reform|Text::Reform>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:35:36 2009: C<Module> L<Text::Diff|Text::Diff>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.35>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:35:40 2009: C<Module> L<GD::Text|GD::Text>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.86>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:35:45 2009: C<Module> L<Digest::SHA1|Digest::SHA1>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:36:00 2009: C<Module> L<Bit::Vector|Bit::Vector>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.4>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:36:15 2009: C<Module> L<Text::CSV_XS|Text::CSV_XS>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.64>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:36:21 2009: C<Module> L<SQL::Statement|SQL::Statement>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:41:46 2009: C<Module> L<IO::String|IO::String>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:43:30 2009: C<Module> L<IO::Compress|IO::Compress>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.019>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:43:37 2009: C<Module> L<Tkx|Tkx>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.07>
+
+=item *
+
+C<EXE_FILES: tkx-ed tkx-prove>
+
+=back
+
+=head2 Sun May 24 12:43:43 2009: C<Module> L<Term::ReadKey|Term::ReadKey>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.30>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:44:48 2009: C<Module> L<DBD::SQLite|DBD::SQLite>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.25>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:00 2009: C<Module> L<Win32API::Net|Win32API::Net>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.12>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:06 2009: C<Module> L<Win32::WinError|Win32::WinError>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:09 2009: C<Module> L<Win32::TieRegistry|Win32::TieRegistry>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.25>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:14 2009: C<Module> L<Win32::Sound|Win32::Sound>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.49>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:19 2009: C<Module> L<Win32::Shortcut|Win32::Shortcut>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.07>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:25 2009: C<Module> L<Win32::Service|Win32::Service>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:31 2009: C<Module> L<Win32::Registry|Win32::Registry>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.10>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:35 2009: C<Module> L<Win32::Process|Win32::Process>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.14>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:41 2009: C<Module> L<Win32::Pipe|Win32::Pipe>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.024>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:46 2009: C<Module> L<Win32::PerfLib|Win32::PerfLib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:45:53 2009: C<Module> L<Win32::OLE|Win32::OLE>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.1709>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:01 2009: C<Module> L<Win32::ODBC|Win32::ODBC>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.034>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:06 2009: C<Module> L<Win32::NetResource|Win32::NetResource>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.056>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:12 2009: C<Module> L<Win32::NetAdmin|Win32::NetAdmin>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:17 2009: C<Module> L<Win32::Internet|Win32::Internet>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.084>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:29 2009: C<Module> L<Win32::FileSecurity|Win32::FileSecurity>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:34 2009: C<Module> L<Win32::File|Win32::File>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:39 2009: C<Module> L<Win32::EventLog|Win32::EventLog>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.076>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:45 2009: C<Module> L<Win32::Console|Win32::Console>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:50 2009: C<Module> L<Win32::Clipboard|Win32::Clipboard>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.55>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:46:54 2009: C<Module> L<Win32::AuthenticateUser|Win32::AuthenticateUser>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:47:01 2009: C<Module> L<Win32|Win32>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.39>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:47:10 2009: C<Module> L<Time::Piece|Time::Piece>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.14>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:47:20 2009: C<Module> L<Time::HiRes|Time::HiRes>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.9715>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:47:24 2009: C<Module> L<Thread::Semaphore|Thread::Semaphore>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:47:43 2009: C<Module> L<Thread::Queue|Thread::Queue>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:47:58 2009: C<Module> L<Pod::Simple|Pod::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.07>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:48:02 2009: C<Module> L<Math::Complex|Math::Complex>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.56>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:48:12 2009: C<Module> L<Math::BigRat|Math::BigRat>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.22>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:48:22 2009: C<Module> L<Math::BigInt::FastCalc|Math::BigInt::FastCalc>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.19>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:48:54 2009: C<Module> L<Math::BigInt|Math::BigInt>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.89>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:48:59 2009: C<Module> L<IO::Zlib|IO::Zlib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:49:06 2009: C<Module> L<Digest::SHA|Digest::SHA>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.47>
+
+=item *
+
+C<EXE_FILES: shasum>
+
+=back
+
+=head2 Sun May 24 12:49:12 2009: C<Module> L<CGI|CGI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.43>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:49:18 2009: C<Module> L<bignum|bignum>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.23>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:49:22 2009: C<Module> L<mylib|mylib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:49:39 2009: C<Module> L<YAML::LibYAML|YAML::LibYAML>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.32>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:49:56 2009: C<Module> L<XML::Simple|XML::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.18>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:29 2009: C<Module> L<WWW::Mechanize|WWW::Mechanize>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.5401>
+
+=item *
+
+C<EXE_FILES: bin/mech-dump>
+
+=back
+
+=head2 Sun May 24 12:50:35 2009: C<Module> L<Unicode::String|Unicode::String>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:38 2009: C<Module> L<Text::Glob|Text::Glob>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:41 2009: C<Module> L<Text::Autoformat|Text::Autoformat>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.666.0>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:45 2009: C<Module> L<Test::Differences|Test::Differences>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.4801>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:48 2009: C<Module> L<Term::ReadLine::Perl|Term::ReadLine::Perl>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.0302>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:51 2009: C<Module> L<PPM::Repositories|PPM::Repositories>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:50:54 2009: C<Module> L<Net::Telnet|Net::Telnet>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:51:00 2009: C<Module> L<MIME-Base64-Scripts|MIME-Base64-Scripts>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.00>
+
+=item *
+
+C<EXE_FILES: encode-base64 decode-base64 encode-qp decode-qp>
+
+=back
+
+=head2 Sun May 24 12:51:03 2009: C<Module> L<MD5|MD5>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:51:21 2009: C<Module> L<JSON::XS|JSON::XS>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.232>
+
+=item *
+
+C<EXE_FILES: bin/json_xs>
+
+=back
+
+=head2 Sun May 24 12:51:38 2009: C<Module> L<JSON|JSON>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.14>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:51:44 2009: C<Module> L<HTML-Tree|HTML-Tree>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.23>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:51:48 2009: C<Module> L<GD::Graph|GD::Graph>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.44>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:51:52 2009: C<Module> L<Font::AFM|Font::AFM>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.20>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:51:56 2009: C<Module> L<File::Which|File::Which>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.05>
+
+=item *
+
+C<EXE_FILES: bin/pwhich>
+
+=back
+
+=head2 Sun May 24 12:52:00 2009: C<Module> L<File::Next|File::Next>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:04 2009: C<Module> L<File::HomeDir|File::HomeDir>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.86>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:14 2009: C<Module> L<File::CounterFile|File::CounterFile>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:19 2009: C<Module> L<Digest::MD4|Digest::MD4>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.5>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:24 2009: C<Module> L<Digest::MD2|Digest::MD2>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:27 2009: C<Module> L<Digest::HMAC|Digest::HMAC>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:38 2009: C<Module> L<Date::Calc|Date::Calc>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.4>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:42 2009: C<Module> L<Data::Dump|Data::Dump>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.14>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:52 2009: C<Module> L<DBD::ODBC|DBD::ODBC>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.16>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:52:58 2009: C<Module> L<DBD::CSV|DBD::CSV>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.22>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:53:18 2009: C<Module> L<Crypt::SSLeay|Crypt::SSLeay>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.57>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:53:21 2009: C<Module> L<Class::Accessor|Class::Accessor>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.33>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:53:29 2009: C<Module> L<Archive::Tar|Archive::Tar>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.48>
+
+=item *
+
+C<EXE_FILES: bin/ptar bin/ptardiff>
+
+=back
+
+=head2 Sun May 24 12:53:38 2009: C<Module> L<ActiveState::Scineplex|ActiveState::Scineplex>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sun May 24 12:54:08 2009: C<Module> L<ActivePerl::PPM|ActivePerl::PPM>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.05>
+
+=item *
+
+C<EXE_FILES: bin/ppm bin/ppm-shell>
+
+=back
+
+=head2 Sun May 24 12:54:12 2009: C<Module> L<ActivePerl::Config|ActivePerl::Config>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Progra~1\Perl64\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

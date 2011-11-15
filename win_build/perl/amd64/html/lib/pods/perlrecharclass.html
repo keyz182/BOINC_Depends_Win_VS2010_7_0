@@ -1,0 +1,578 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>perlrecharclass - Perl Regular Expression Character Classes</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>perlrecharclass - Perl Regular Expression Character Classes</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#the_dot">The dot</a></li>
+		<li><a href="#backslashed_sequences">Backslashed sequences</a></li>
+		<ul>
+
+			<li><a href="#digits">Digits</a></li>
+			<li><a href="#word_characters">Word characters</a></li>
+			<li><a href="#white_space">White space</a></li>
+			<li><a href="#unicode_properties">Unicode Properties</a></li>
+			<ul>
+
+				<li><a href="#examples">Examples</a></li>
+			</ul>
+
+		</ul>
+
+		<li><a href="#bracketed_character_classes">Bracketed Character Classes</a></li>
+		<ul>
+
+			<li><a href="#special_characters_inside_a_bracketed_character_class">Special Characters Inside a Bracketed Character Class</a></li>
+			<li><a href="#character_ranges">Character Ranges</a></li>
+			<li><a href="#negation">Negation</a></li>
+			<li><a href="#backslash_sequences">Backslash Sequences</a></li>
+			<li><a href="#posix_character_classes">Posix Character Classes</a></li>
+			<ul>
+
+				<li><a href="#negation">Negation</a></li>
+				<li><a href="#______and______">[= =] and [. .]</a></li>
+				<li><a href="#examples">Examples</a></li>
+			</ul>
+
+		</ul>
+
+		<li><a href="#locale__unicode_and_utf_8">Locale, Unicode and UTF-8</a></li>
+		<ul>
+
+			<ul>
+
+				<li><a href="#examples">Examples</a></li>
+			</ul>
+
+		</ul>
+
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>perlrecharclass - Perl Regular Expression Character Classes</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The top level documentation about Perl regular expressions
+is found in <a href="../../lib/pods/perlre.html">the perlre manpage</a>.</p>
+<p>This manual page discusses the syntax and use of character
+classes in Perl Regular Expressions.</p>
+<p>A character class is a way of denoting a set of characters,
+in such a way that one character of the set is matched.
+It's important to remember that matching a character class
+consumes exactly one character in the source string. (The source
+string is the string the regular expression is matched against.)</p>
+<p>There are three types of character classes in Perl regular
+expressions: the dot, backslashed sequences, and the bracketed form.</p>
+<p>
+</p>
+<h2><a name="the_dot">The dot</a></h2>
+<p>The dot (or period), <code>.</code> is probably the most used, and certainly
+the most well-known character class. By default, a dot matches any
+character, except for the newline. The default can be changed to
+add matching the newline with the <em>single line</em> modifier: either
+for the entire regular expression using the <a href="../../lib/pods/perlrun.html#s"><code>/s</code></a> modifier, or
+locally using <a href="../../lib/pods/perlrun.html#s"><code>(?s)</code></a>.</p>
+<p>Here are some examples:</p>
+<pre>
+ &quot;a&quot;  =~  /./       # Match
+ &quot;.&quot;  =~  /./       # Match
+ &quot;&quot;   =~  /./       # No match (dot has to match a character)
+ &quot;\n&quot; =~  /./       # No match (dot does not match a newline)
+ &quot;\n&quot; =~  /./s      # Match (global 'single line' modifier)
+ &quot;\n&quot; =~  /(?s:.)/  # Match (local 'single line' modifier)
+ &quot;ab&quot; =~  /^.$/     # No match (dot matches one character)</pre>
+<p>
+</p>
+<h2><a name="backslashed_sequences">Backslashed sequences</a></h2>
+<p>Perl regular expressions contain many backslashed sequences that
+constitute a character class. That is, they will match a single
+character, if that character belongs to a specific set of characters
+(defined by the sequence). A backslashed sequence is a sequence of
+characters starting with a backslash. Not all backslashed sequences
+are character class; for a full list, see <a href="../../lib/pods/perlrebackslash.html">the perlrebackslash manpage</a>.</p>
+<p>Here's a list of the backslashed sequences, which are discussed in
+more detail below.</p>
+<pre>
+ <span class="operator">\</span><span class="variable">d</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">digit</span> <span class="variable">character</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">D</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">non</span><span class="operator">-</span><span class="variable">digit</span> <span class="variable">character</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">w</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="string">"word"</span> <span class="variable">character</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">W</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">non</span><span class="operator">-</span><span class="string">"word"</span> <span class="variable">character</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="regex">s             Match a white space character.
+ \S             Match a non-white space character.
+ \h             Match</span> <span class="variable">a</span> <span class="variable">horizontal</span> <span class="variable">white</span> <span class="variable">space</span> <span class="variable">character</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">H</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">character</span> <span class="variable">that</span> <span class="variable">isn't</span> <span class="variable">horizontal</span> <span class="variable">white</span> <span class="variable">space</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">v</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">vertical</span> <span class="variable">white</span> <span class="variable">space</span> <span class="variable">character</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">V</span>             <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">character</span> <span class="variable">that</span> <span class="variable">isn't</span> <span class="variable">vertical</span> <span class="variable">white</span> <span class="variable">space</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">pP</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">p</span><span class="operator">{</span><span class="variable">Prop</span><span class="operator">}</span>  <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">character</span> <span class="variable">matching</span> <span class="variable">a</span> <span class="variable">Unicode</span> <span class="variable">property</span><span class="operator">.</span>
+ <span class="operator">\</span><span class="variable">PP</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">P</span><span class="operator">{</span><span class="variable">Prop</span><span class="operator">}</span>  <span class="variable">Match</span> <span class="variable">a</span> <span class="variable">character</span> <span class="variable">that</span> <span class="variable">doesn't</span> <span class="variable">match</span> <span class="variable">a</span> <span class="variable">Unicode</span> <span class="variable">property</span><span class="operator">.</span>
+</pre>
+<p>
+</p>
+<h3><a name="digits">Digits</a></h3>
+<p><a href="../../lib/pods/perlrun.html#d"><code>\d</code></a> matches a single character that is considered to be a <em>digit</em>.
+What is considered a digit depends on the internal encoding of
+the source string. If the source string is in UTF-8 format, <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a>
+not only matches the digits '0' - '9', but also Arabic, Devanagari and
+digits from other languages. Otherwise, if there is a locale in effect,
+it will match whatever characters the locale considers digits. Without
+a locale, <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a> matches the digits '0' to '9'.
+See <a href="#locale__unicode_and_utf_8">Locale, Unicode and UTF-8</a>.</p>
+<p>Any character that isn't matched by <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a> will be matched by <code>\D</code>.</p>
+<p>
+</p>
+<h3><a name="word_characters">Word characters</a></h3>
+<p><a href="../../lib/pods/perlrun.html#w"><code>\w</code></a> matches a single <em>word</em> character: an alphanumeric character
+(that is, an alphabetic character, or a digit), or the underscore (<code>_</code>).
+What is considered a word character depends on the internal encoding
+of the string. If it's in UTF-8 format, <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a> matches those characters
+that are considered word characters in the Unicode database. That is, it
+not only matches ASCII letters, but also Thai letters, Greek letters, etc.
+If the source string isn't in UTF-8 format, <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a> matches those characters
+that are considered word characters by the current locale. Without
+a locale in effect, <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a> matches the ASCII letters, digits and the
+underscore.</p>
+<p>Any character that isn't matched by <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a> will be matched by <a href="../../lib/pods/perlrun.html#w"><code>\W</code></a>.</p>
+<p>
+</p>
+<h3><a name="white_space">White space</a></h3>
+<p><a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> matches any single character that is consider white space. In the
+ASCII range, <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> matches the horizontal tab (<a href="../../lib/pods/perlrun.html#t"><code>\t</code></a>), the new line
+(<a href="../../lib/pods/perlrun.html#n"><code>\n</code></a>), the form feed (<a href="../../lib/pods/perlrun.html#f"><code>\f</code></a>), the carriage return (<a href="../../lib/pods/perlguts.html#r"><code>\r</code></a>), and the
+space (the vertical tab, <code>\cK</code> is not matched by <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>).  The exact set
+of characters matched by <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> depends on whether the source string is
+in UTF-8 format. If it is, <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> matches what is considered white space
+in the Unicode database. Otherwise, if there is a locale in effect, <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>
+matches whatever is considered white space by the current locale. Without
+a locale, <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> matches the five characters mentioned in the beginning
+of this paragraph.  Perhaps the most notable difference is that <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>
+matches a non-breaking space only if the non-breaking space is in a
+UTF-8 encoded string.</p>
+<p>Any character that isn't matched by <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> will be matched by <a href="../../lib/pods/perlrun.html#s"><code>\S</code></a>.</p>
+<p><a href="../../lib/pods/perlrun.html#h"><code>\h</code></a> will match any character that is considered horizontal white space;
+this includes the space and the tab characters. <code>\H</code> will match any character
+that is not considered horizontal white space.</p>
+<p><a href="../../lib/pods/perlrun.html#v"><code>\v</code></a> will match any character that is considered vertical white space;
+this includes the carriage return and line feed characters (newline).
+<a href="../../lib/pods/perlrun.html#v"><code>\V</code></a> will match any character that is not considered vertical white space.</p>
+<p><code>\R</code> matches anything that can be considered a newline under Unicode
+rules. It's not a character class, as it can match a multi-character
+sequence. Therefore, it cannot be used inside a bracketed character
+class. Details are discussed in <a href="../../lib/pods/perlrebackslash.html">the perlrebackslash manpage</a>.</p>
+<p><a href="../../lib/pods/perlrun.html#h"><code>\h</code></a>, <code>\H</code>, <a href="../../lib/pods/perlrun.html#v"><code>\v</code></a>, <a href="../../lib/pods/perlrun.html#v"><code>\V</code></a>, and <code>\R</code> are new in perl 5.10.0.</p>
+<p>Note that unlike <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>, <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a> and <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a>, <a href="../../lib/pods/perlrun.html#h"><code>\h</code></a> and <a href="../../lib/pods/perlrun.html#v"><code>\v</code></a> always match
+the same characters, regardless whether the source string is in UTF-8
+format or not. The set of characters they match is also not influenced
+by locale.</p>
+<p>One might think that <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> is equivalent with <code>[\h\v]</code>. This is not true.
+The vertical tab (<code>&quot;\x0b&quot;</code>) is not matched by <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>, it is however
+considered vertical white space. Furthermore, if the source string is
+not in UTF-8 format, the next line (<code>&quot;\x85&quot;</code>) and the no-break space
+(<code>&quot;\xA0&quot;</code>) are not matched by <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>, but are by <a href="../../lib/pods/perlrun.html#v"><code>\v</code></a> and <a href="../../lib/pods/perlrun.html#h"><code>\h</code></a> respectively.
+If the source string is in UTF-8 format, both the next line and the
+no-break space are matched by <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>.</p>
+<p>The following table is a complete listing of characters matched by
+<a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>, <a href="../../lib/pods/perlrun.html#h"><code>\h</code></a> and <a href="../../lib/pods/perlrun.html#v"><code>\v</code></a>.</p>
+<p>The first column gives the code point of the character (in hex format),
+the second column gives the (Unicode) name. The third column indicates
+by which class(es) the character is matched.</p>
+<pre>
+ 0x00009        CHARACTER TABULATION   h s
+ 0x0000a              LINE FEED (LF)    vs
+ 0x0000b             LINE TABULATION    v
+ 0x0000c              FORM FEED (FF)    vs
+ 0x0000d        CARRIAGE RETURN (CR)    vs
+ 0x00020                       SPACE   h s
+ 0x00085             NEXT LINE (NEL)    vs  [1]
+ 0x000a0              NO-BREAK SPACE   h s  [1]
+ 0x01680            OGHAM SPACE MARK   h s
+ 0x0180e   MONGOLIAN VOWEL SEPARATOR   h s
+ 0x02000                     EN QUAD   h s
+ 0x02001                     EM QUAD   h s
+ 0x02002                    EN SPACE   h s
+ 0x02003                    EM SPACE   h s
+ 0x02004          THREE-PER-EM SPACE   h s
+ 0x02005           FOUR-PER-EM SPACE   h s
+ 0x02006            SIX-PER-EM SPACE   h s
+ 0x02007                FIGURE SPACE   h s
+ 0x02008           PUNCTUATION SPACE   h s
+ 0x02009                  THIN SPACE   h s
+ 0x0200a                  HAIR SPACE   h s
+ 0x02028              LINE SEPARATOR    vs
+ 0x02029         PARAGRAPH SEPARATOR    vs
+ 0x0202f       NARROW NO-BREAK SPACE   h s
+ 0x0205f   MEDIUM MATHEMATICAL SPACE   h s
+ 0x03000           IDEOGRAPHIC SPACE   h s</pre>
+<dl>
+<dt><strong><a name="115" class="item">[1]</a></strong>
+
+<dd>
+<p>NEXT LINE and NO-BREAK SPACE only match <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> if the source string is in
+UTF-8 format.</p>
+</dd>
+</li>
+</dl>
+<p>It is worth noting that <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a>, <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a>, etc, match single characters, not
+complete numbers or words. To match a number (that consists of integers),
+use <a href="../../lib/pods/perlrun.html#d"><code>\d+</code></a>; to match a word, use <a href="../../lib/pods/perlrun.html#w"><code>\w+</code></a>.</p>
+<p>
+</p>
+<h3><a name="unicode_properties">Unicode Properties</a></h3>
+<p><code>\pP</code> and <code>\p{Prop}</code> are character classes to match characters that
+fit given Unicode classes. One letter classes can be used in the <code>\pP</code>
+form, with the class name following the <a href="../../lib/pods/perlrun.html#p"><code>\p</code></a>, otherwise, the property
+name is enclosed in braces, and follows the <a href="../../lib/pods/perlrun.html#p"><code>\p</code></a>. For instance, a
+match for a number can be written as <code>/\pN/</code> or as <code>/\p{Number}/</code>.
+Lowercase letters are matched by the property <em>LowercaseLetter</em> which
+has as short form <em>Ll</em>. They have to be written as <code>/\p{Ll}/</code> or
+<code>/\p{LowercaseLetter}/</code>. <code>/\pLl/</code> is valid, but means something different.
+It matches a two character string: a letter (Unicode property <code>\pL</code>),
+followed by a lowercase <code>l</code>.</p>
+<p>For a list of possible properties, see
+<a href="../../lib/pods/perlunicode.html#unicode_character_properties">Unicode Character Properties in the perlunicode manpage</a>. It is also possible to
+defined your own properties. This is discussed in
+<a href="../../lib/pods/perlunicode.html#user_defined_character_properties">User-Defined Character Properties in the perlunicode manpage</a>.</p>
+<p>
+</p>
+<h4><a name="examples">Examples</a></h4>
+<pre>
+ &quot;a&quot;  =~  /\w/      # Match, &quot;a&quot; is a 'word' character.
+ &quot;7&quot;  =~  /\w/      # Match, &quot;7&quot; is a 'word' character as well.
+ &quot;a&quot;  =~  /\d/      # No match, &quot;a&quot; isn't a digit.
+ &quot;7&quot;  =~  /\d/      # Match, &quot;7&quot; is a digit.
+ &quot; &quot;  =~  /\s/      # Match, a space is white space.
+ &quot;a&quot;  =~  /\D/      # Match, &quot;a&quot; is a non-digit.
+ &quot;7&quot;  =~  /\D/      # No match, &quot;7&quot; is not a non-digit.
+ &quot; &quot;  =~  /\S/      # No match, a space is not non-white space.</pre>
+<pre>
+ &quot; &quot;  =~  /\h/      # Match, space is horizontal white space.
+ &quot; &quot;  =~  /\v/      # No match, space is not vertical white space.
+ &quot;\r&quot; =~  /\v/      # Match, a return is vertical white space.</pre>
+<pre>
+ <span class="string">"a"</span>  <span class="operator">=~</span>  <span class="regex">/\pL/</span>     <span class="comment"># Match, "a" is a letter.</span>
+ <span class="string">"a"</span>  <span class="operator">=~</span>  <span class="regex">/\p{Lu}/</span>  <span class="comment"># No match, /\p{Lu}/ matches upper case letters.</span>
+</pre>
+<pre>
+ <span class="string">"\x{0e0b}"</span> <span class="operator">=~</span> <span class="regex">/\p{Thai}/</span>  <span class="comment"># Match, \x{0e0b} is the character</span>
+                           <span class="comment"># 'THAI CHARACTER SO SO', and that's in</span>
+                           <span class="comment"># Thai Unicode class.</span>
+ <span class="string">"a"</span>  <span class="operator">=~</span>  <span class="regex">/\P{Lao}/</span> <span class="comment"># Match, as "a" is not a Laoian character.</span>
+</pre>
+<p>
+</p>
+<h2><a name="bracketed_character_classes">Bracketed Character Classes</a></h2>
+<p>The third form of character class you can use in Perl regular expressions
+is the bracketed form. In its simplest form, it lists the characters
+that may be matched inside square brackets, like this: <code>[aeiou]</code>.
+This matches one of <a href="../../lib/pods/perlrun.html#a"><code>a</code></a>, <code>e</code>, <code>i</code>, <a href="../../lib/pods/perlguts.html#o"><code>o</code></a> or <a href="../../lib/pods/perlrun.html#u"><code>u</code></a>. Just as the other
+character classes, exactly one character will be matched. To match
+a longer string consisting of characters mentioned in the characters
+class, follow the character class with a quantifier. For instance,
+<code>[aeiou]+</code> matches a string of one or more lowercase ASCII vowels.</p>
+<p>Repeating a character in a character class has no
+effect; it's considered to be in the set only once.</p>
+<p>Examples:</p>
+<pre>
+ &quot;e&quot;  =~  /[aeiou]/        # Match, as &quot;e&quot; is listed in the class.
+ &quot;p&quot;  =~  /[aeiou]/        # No match, &quot;p&quot; is not listed in the class.
+ &quot;ae&quot; =~  /^[aeiou]$/      # No match, a character class only matches
+                           # a single character.
+ &quot;ae&quot; =~  /^[aeiou]+$/     # Match, due to the quantifier.</pre>
+<p>
+</p>
+<h3><a name="special_characters_inside_a_bracketed_character_class">Special Characters Inside a Bracketed Character Class</a></h3>
+<p>Most characters that are meta characters in regular expressions (that
+is, characters that carry a special meaning like <code>*</code> or <code>(</code>) lose
+their special meaning and can be used inside a character class without
+the need to escape them. For instance, <code>[()]</code> matches either an opening
+parenthesis, or a closing parenthesis, and the parens inside the character
+class don't group or capture.</p>
+<p>Characters that may carry a special meaning inside a character class are:
+<code>\</code>, <code>^</code>, <code>-</code>, <code>[</code> and <code>]</code>, and are discussed below. They can be
+escaped with a backslash, although this is sometimes not needed, in which
+case the backslash may be omitted.</p>
+<p>The sequence <a href="../../lib/pods/perlguts.html#b"><code>\b</code></a> is special inside a bracketed character class. While
+outside the character class <a href="../../lib/pods/perlguts.html#b"><code>\b</code></a> is an assertion indicating a point
+that does not have either two word characters or two non-word characters
+on either side, inside a bracketed character class, <a href="../../lib/pods/perlguts.html#b"><code>\b</code></a> matches a
+backspace character.</p>
+<p>A <code>[</code> is not special inside a character class, unless it's the start
+of a POSIX character class (see below). It normally does not need escaping.</p>
+<p>A <code>]</code> is either the end of a POSIX character class (see below), or it
+signals the end of the bracketed character class. Normally it needs
+escaping if you want to include a <code>]</code> in the set of characters.
+However, if the <code>]</code> is the <em>first</em> (or the second if the first
+character is a caret) character of a bracketed character class, it
+does not denote the end of the class (as you cannot have an empty class)
+and is considered part of the set of characters that can be matched without
+escaping.</p>
+<p>Examples:</p>
+<pre>
+ &quot;+&quot;   =~ /[+?*]/     #  Match, &quot;+&quot; in a character class is not special.
+ &quot;\cH&quot; =~ /[\b]/      #  Match, \b inside in a character class
+                      #  is equivalent with a backspace.
+ &quot;]&quot;   =~ /[][]/      #  Match, as the character class contains.
+                      #  both [ and ].
+ &quot;[]&quot;  =~ /[[]]/      #  Match, the pattern contains a character class
+                      #  containing just ], and the character class is
+                      #  followed by a ].</pre>
+<p>
+</p>
+<h3><a name="character_ranges">Character Ranges</a></h3>
+<p>It is not uncommon to want to match a range of characters. Luckily, instead
+of listing all the characters in the range, one may use the hyphen (<code>-</code>).
+If inside a bracketed character class you have two characters separated
+by a hyphen, it's treated as if all the characters between the two are in
+the class. For instance, <code>[0-9]</code> matches any ASCII digit, and <code>[a-m]</code>
+matches any lowercase letter from the first half of the ASCII alphabet.</p>
+<p>Note that the two characters on either side of the hyphen are not
+necessary both letters or both digits. Any character is possible,
+although not advisable.  <code>['-?]</code> contains a range of characters, but
+most people will not know which characters that will be. Furthermore,
+such ranges may lead to portability problems if the code has to run on
+a platform that uses a different character set, such as EBCDIC.</p>
+<p>If a hyphen in a character class cannot be part of a range, for instance
+because it is the first or the last character of the character class,
+or if it immediately follows a range, the hyphen isn't special, and will be
+considered a character that may be matched. You have to escape the hyphen
+with a backslash if you want to have a hyphen in your set of characters to
+be matched, and its position in the class is such that it can be considered
+part of a range.</p>
+<p>Examples:</p>
+<pre>
+ <span class="operator">[</span><span class="variable">a</span><span class="keyword">-z</span><span class="operator">]</span>       <span class="comment">#  Matches a character that is a lower case ASCII letter.</span>
+ <span class="operator">[</span><span class="variable">a</span><span class="operator">-</span><span class="variable">fz</span><span class="operator">]</span>      <span class="comment">#  Matches any letter between 'a' and 'f' (inclusive) or the</span>
+             <span class="comment">#  letter 'z'.</span>
+ <span class="operator">[</span><span class="keyword">-z</span><span class="operator">]</span>        <span class="comment">#  Matches either a hyphen ('-') or the letter 'z'.</span>
+ <span class="operator">[</span><span class="variable">a</span><span class="keyword">-f</span><span class="operator">-</span><span class="regex">m]     #  Matches any letter between 'a' and 'f' (inclusive), the
+             #  hyphen ('-'), or the letter 'm'.
+ ['-?]</span>       <span class="comment">#  Matches any of the characters  '()*+,-./0123456789:;&lt;=&gt;?</span>
+             <span class="comment">#  (But not on an EBCDIC platform).</span>
+</pre>
+<p>
+</p>
+<h3><a name="negation">Negation</a></h3>
+<p>It is also possible to instead list the characters you do not want to
+match. You can do so by using a caret (<code>^</code>) as the first character in the
+character class. For instance, <code>[^a-z]</code> matches a character that is not a
+lowercase ASCII letter.</p>
+<p>This syntax make the caret a special character inside a bracketed character
+class, but only if it is the first character of the class. So if you want
+to have the caret as one of the characters you want to match, you either
+have to escape the caret, or not list it first.</p>
+<p>Examples:</p>
+<pre>
+ &quot;e&quot;  =~  /[^aeiou]/   #  No match, the 'e' is listed.
+ &quot;x&quot;  =~  /[^aeiou]/   #  Match, as 'x' isn't a lowercase vowel.
+ &quot;^&quot;  =~  /[^^]/       #  No match, matches anything that isn't a caret.
+ &quot;^&quot;  =~  /[x^]/       #  Match, caret is not special here.</pre>
+<p>
+</p>
+<h3><a name="backslash_sequences">Backslash Sequences</a></h3>
+<p>You can put a backslash sequence character class inside a bracketed character
+class, and it will act just as if you put all the characters matched by
+the backslash sequence inside the character class. For instance,
+<code>[a-f\d]</code> will match any digit, or any of the lowercase letters between
+'a' and 'f' inclusive.</p>
+<p>Examples:</p>
+<pre>
+ <span class="regex">/[\p{Thai}\d]/</span>     <span class="comment"># Matches a character that is either a Thai</span>
+                    <span class="comment"># character, or a digit.</span>
+ <span class="operator">/</span><span class="operator">[</span><span class="operator">^\</span><span class="variable">p</span><span class="operator">{</span><span class="variable">Arabic</span><span class="operator">}()</span><span class="operator">]</span><span class="operator">/</span>  <span class="comment"># Matches a character that is neither an Arabic</span>
+                    <span class="comment"># character, nor a parenthesis.</span>
+</pre>
+<p>Backslash sequence character classes cannot form one of the endpoints
+of a range.</p>
+<p>
+</p>
+<h3><a name="posix_character_classes">Posix Character Classes</a></h3>
+<p>Posix character classes have the form <code>[:class:]</code>, where <em>class</em> is
+name, and the <code>[:</code> and <code>:]</code> delimiters. Posix character classes appear
+<em>inside</em> bracketed character classes, and are a convenient and descriptive
+way of listing a group of characters. Be careful about the syntax,</p>
+<pre>
+ # Correct:
+ $string =~ /[[:alpha:]]/</pre>
+<pre>
+ # Incorrect (will warn):
+ $string =~ /[:alpha:]/</pre>
+<p>The latter pattern would be a character class consisting of a colon,
+and the letters <a href="../../lib/pods/perlrun.html#a"><code>a</code></a>, <code>l</code>, <a href="../../lib/pods/perlrun.html#p"><code>p</code></a> and <a href="../../lib/pods/perlrun.html#h"><code>h</code></a>.</p>
+<p>Perl recognizes the following POSIX character classes:</p>
+<pre>
+ alpha  Any alphabetical character.
+ alnum  Any alphanumerical character.
+ ascii  Any ASCII character.
+ blank  A GNU extension, equal to a space or a horizontal tab (C&lt;\t&gt;).
+ cntrl  Any control character.
+ digit  Any digit, equivalent to C&lt;\d&gt;.
+ graph  Any printable character, excluding a space.
+ lower  Any lowercase character.
+ print  Any printable character, including a space.
+ punct  Any punctuation character.
+ space  Any white space character. C&lt;\s&gt; plus the vertical tab (C&lt;\cK&gt;).
+ upper  Any uppercase character.
+ word   Any &quot;word&quot; character, equivalent to C&lt;\w&gt;.
+ xdigit Any hexadecimal digit, '0' - '9', 'a' - 'f', 'A' - 'F'.</pre>
+<p>The exact set of characters matched depends on whether the source string
+is internally in UTF-8 format or not. See <a href="#locale__unicode_and_utf_8">Locale, Unicode and UTF-8</a>.</p>
+<p>Most POSIX character classes have <a href="../../lib/pods/perlrun.html#p"><code>\p</code></a> counterparts. The difference
+is that the <a href="../../lib/pods/perlrun.html#p"><code>\p</code></a> classes will always match according to the Unicode
+properties, regardless whether the string is in UTF-8 format or not.</p>
+<p>The following table shows the relation between POSIX character classes
+and the Unicode properties:</p>
+<pre>
+ <span class="operator">[[</span><span class="operator">:...:</span><span class="operator">]]</span>   <span class="operator">\</span><span class="variable">p</span><span class="operator">{...}</span>      <span class="variable">backslash</span>
+</pre>
+<pre>
+ alpha       IsAlpha
+ alnum       IsAlnum
+ ascii       IsASCII
+ blank
+ cntrl       IsCntrl
+ digit       IsDigit      \d
+ graph       IsGraph
+ lower       IsLower
+ print       IsPrint
+ punct       IsPunct
+ space       IsSpace
+             IsSpacePerl  \s
+ upper       IsUpper
+ word        IsWord
+ xdigit      IsXDigit</pre>
+<p>Some character classes may have a non-obvious name:</p>
+<dl>
+<dt><strong><a name="cntrl" class="item">cntrl</a></strong>
+
+<dd>
+<p>Any control character. Usually, control characters don't produce output
+as such, but instead control the terminal somehow: for example newline
+and backspace are control characters. All characters with <a href="../../lib/pods/perlfunc.html#ord"><code>ord()</code></a> less
+than 32 are usually classified as control characters (in ASCII, the ISO
+Latin character sets, and Unicode), as is the character <a href="../../lib/pods/perlfunc.html#ord"><code>ord()</code></a> value
+of 127 (<code>DEL</code>).</p>
+</dd>
+</li>
+<dt><strong><a name="graph" class="item">graph</a></strong>
+
+<dd>
+<p>Any character that is <em>graphical</em>, that is, visible. This class consists
+of all the alphanumerical characters and all punctuation characters.</p>
+</dd>
+</li>
+<dt><strong><a name="print" class="item">print</a></strong>
+
+<dd>
+<p>All printable characters, which is the set of all the graphical characters
+plus the space.</p>
+</dd>
+</li>
+<dt><strong><a name="punct" class="item">punct</a></strong>
+
+<dd>
+<p>Any punctuation (special) character.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h4><a name="negation">Negation</a></h4>
+<p>A Perl extension to the POSIX character class is the ability to
+negate it. This is done by prefixing the class name with a caret (<code>^</code>).
+Some examples:</p>
+<pre>
+ <span class="variable">POSIX</span>         <span class="variable">Unicode</span>       <span class="variable">Backslash</span>
+ <span class="operator">[[</span><span class="operator">:^</span><span class="variable">digit</span><span class="operator">:</span><span class="operator">]]</span>  <span class="operator">\</span><span class="variable">P</span><span class="operator">{</span><span class="variable">IsDigit</span><span class="operator">}</span>   <span class="operator">\</span><span class="variable">D</span>
+ <span class="operator">[[</span><span class="operator">:^</span><span class="variable">space</span><span class="operator">:</span><span class="operator">]]</span>  <span class="operator">\</span><span class="variable">P</span><span class="operator">{</span><span class="variable">IsSpace</span><span class="operator">}</span>   <span class="operator">\</span><span class="variable">S</span>
+ <span class="operator">[[</span><span class="operator">:^</span><span class="variable">word</span><span class="operator">:</span><span class="operator">]]</span>   <span class="operator">\</span><span class="variable">P</span><span class="operator">{</span><span class="variable">IsWord</span><span class="operator">}</span>    <span class="operator">\</span><span class="variable">W</span>
+</pre>
+<p>
+</p>
+<h4><a name="______and______">[= =] and [. .]</a></h4>
+<p>Perl will recognize the POSIX character classes <code>[=class=]</code>, and
+<code>[.class.]</code>, but does not (yet?) support this construct. Use of
+such a constructs will lead to an error.</p>
+<p>
+</p>
+<h4><a name="examples">Examples</a></h4>
+<pre>
+ /[[:digit:]]/            # Matches a character that is a digit.
+ /[01[:lower:]]/          # Matches a character that is either a
+                          # lowercase letter, or '0' or '1'.
+ /[[:digit:][:^xdigit:]]/ # Matches a character that can be anything,
+                          # but the letters 'a' to 'f' in either case.
+                          # This is because the character class contains
+                          # all digits, and anything that isn't a
+                          # hex digit, resulting in a class containing
+                          # all characters, but the letters 'a' to 'f'
+                          # and 'A' to 'F'.</pre>
+<p>
+</p>
+<h2><a name="locale__unicode_and_utf_8">Locale, Unicode and UTF-8</a></h2>
+<p>Some of the character classes have a somewhat different behaviour depending
+on the internal encoding of the source string, and the locale that is
+in effect.</p>
+<p><a href="../../lib/pods/perlrun.html#w"><code>\w</code></a>, <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a>, <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a> and the POSIX character classes (and their negations,
+including <a href="../../lib/pods/perlrun.html#w"><code>\W</code></a>, <code>\D</code>, <a href="../../lib/pods/perlrun.html#s"><code>\S</code></a>) suffer from this behaviour.</p>
+<p>The rule is that if the source string is in UTF-8 format, the character
+classes match according to the Unicode properties. If the source string
+isn't, then the character classes match according to whatever locale is
+in effect. If there is no locale, they match the ASCII defaults
+(52 letters, 10 digits and underscore for <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a>, 0 to 9 for <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a>, etc).</p>
+<p>This usually means that if you are matching against characters whose <a href="../../lib/pods/perlfunc.html#ord"><code>ord()</code></a>
+values are between 128 and 255 inclusive, your character class may match
+or not depending on the current locale, and whether the source string is
+in UTF-8 format. The string will be in UTF-8 format if it contains
+characters whose <a href="../../lib/pods/perlfunc.html#ord"><code>ord()</code></a> value exceeds 255. But a string may be in UTF-8
+format without it having such characters.</p>
+<p>For portability reasons, it may be better to not use <a href="../../lib/pods/perlrun.html#w"><code>\w</code></a>, <a href="../../lib/pods/perlrun.html#d"><code>\d</code></a>, <a href="../../lib/pods/perlrun.html#s"><code>\s</code></a>
+or the POSIX character classes, and use the Unicode properties instead.</p>
+<p>
+</p>
+<h4><a name="examples">Examples</a></h4>
+<pre>
+ <span class="variable">$str</span> <span class="operator">=</span>  <span class="string">"\xDF"</span><span class="operator">;</span>      <span class="comment"># $str is not in UTF-8 format.</span>
+ <span class="variable">$str</span> <span class="operator">=~</span> <span class="regex">/^\w/</span><span class="operator">;</span>       <span class="comment"># No match, as $str isn't in UTF-8 format.</span>
+ <span class="variable">$str</span> <span class="operator">.=</span> <span class="string">"\x{0e0b}"</span><span class="operator">;</span>  <span class="comment"># Now $str is in UTF-8 format.</span>
+ <span class="variable">$str</span> <span class="operator">=~</span> <span class="regex">/^\w/</span><span class="operator">;</span>       <span class="comment"># Match! $str is now in UTF-8 format.</span>
+ <span class="keyword">chop</span> <span class="variable">$str</span><span class="operator">;</span>
+ <span class="variable">$str</span> <span class="operator">=~</span> <span class="regex">/^\w/</span><span class="operator">;</span>       <span class="comment"># Still a match! $str remains in UTF-8 format.</span>
+</pre>
+
+</body>
+
+</html>
